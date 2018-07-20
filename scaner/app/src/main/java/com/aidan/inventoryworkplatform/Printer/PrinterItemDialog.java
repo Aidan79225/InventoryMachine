@@ -71,11 +71,10 @@ public class PrinterItemDialog extends Dialog {
     }
 
     private void setContent() {
-        int width = 1080;
-        int height = 462;
-        Bitmap bitmap = TagCreator.transStringToImage(item.getTagContentString(), width, height, height / 10 - dpToPix(2) * 2, dpToPix(2));
+        Bitmap bitmap = TagCreator.transStringToImage(item.getTagContentString(), TagCreator.height / 10 - dpToPix(2) * 2, dpToPix(2));
         try {
-            bitmap = TagCreator.mergeBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.CODE_128, width, height / 5), dpToPix(2));
+            bitmap = TagCreator.mergeBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.CODE_128, TagCreator.width, TagCreator.height / 4), dpToPix(2));
+            bitmap = TagCreator.mergeQRBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.QR_CODE, TagCreator.height / 3,TagCreator.height / 3),dpToPix(2));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -98,12 +97,10 @@ public class PrinterItemDialog extends Dialog {
                 if (!dirFile.exists()) {
                     dirFile.mkdirs();
                 }
-
-                int width = 1080;
-                int height = 462;
-                Bitmap bitmap = TagCreator.transStringToImage(item.getTagContentString(), width, height, height / 10 - dpToPix(2) * 2, dpToPix(2));
+                Bitmap bitmap = TagCreator.transStringToImage(item.getTagContentString(), TagCreator.height / 10 - dpToPix(2) * 2, dpToPix(2));
                 try {
-                    bitmap = TagCreator.mergeBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.CODE_128, width, height / 5), dpToPix(2));
+                    bitmap = TagCreator.mergeBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.CODE_128, TagCreator.width, TagCreator.height / 4), dpToPix(2));
+                    bitmap = TagCreator.mergeQRBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.QR_CODE, TagCreator.height / 3,TagCreator.height / 3),dpToPix(2));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
