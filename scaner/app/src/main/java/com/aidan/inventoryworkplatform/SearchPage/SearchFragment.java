@@ -41,7 +41,7 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
     EditText c1EditText, c2EditText, c3EditText, c4EditText, c5EditText;
     BaseFragmentManager baseFragmentManager;
     TextView tagContentTextView, sortTextView, minDateTextView, maxDateTextView;
-    EditText nameEditText;
+    EditText nameEditText, nicknameEditText;
     ProgressDialog mProgressDialog;
 
     public static SearchFragment newInstance(BaseFragmentManager baseFragmentManager) {
@@ -80,6 +80,7 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
         minDateTextView = (TextView) rootView.findViewById(R.id.minDateTextView);
         maxDateTextView = (TextView) rootView.findViewById(R.id.maxDateTextView);
         nameEditText = (EditText) rootView.findViewById(R.id.nameEditText);
+        nicknameEditText = (EditText) rootView.findViewById(R.id.nicknameEditText);
     }
 
     @Override
@@ -154,7 +155,8 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
                 id += c4EditText.getText().toString();
                 id += c5EditText.getText().toString();
                 String name = nameEditText.getText().toString();
-                presenter.searchTextViewClick(name, id, serialMinNumberEditText.getText().toString(), serialMaxNumberEditText.getText().toString());
+                String nickname = nicknameEditText.getText().toString();
+                presenter.searchTextViewClick(name, nickname, id, serialMinNumberEditText.getText().toString(), serialMaxNumberEditText.getText().toString());
             }
         });
 
@@ -168,7 +170,8 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
                 id += c4EditText.getText().toString();
                 id += c5EditText.getText().toString();
                 String name = nameEditText.getText().toString();
-                presenter.printTextViewClick(rootView.getContext(), name, id, serialMinNumberEditText.getText().toString(), serialMaxNumberEditText.getText().toString());
+                String nickname = nicknameEditText.getText().toString();
+                presenter.printTextViewClick(rootView.getContext(), name, nickname, id, serialMinNumberEditText.getText().toString(), serialMaxNumberEditText.getText().toString());
             }
         });
         c1EditText.addTextChangedListener(getNextTextWatcher(1, c2EditText));
@@ -218,6 +221,7 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
         minDateTextView.setText("請點選起始日期");
         maxDateTextView.setText("請點選最後日期");
         nameEditText.setText("");
+        nicknameEditText.setText("");
     }
 
     @Override
@@ -225,7 +229,7 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
         rootView.post(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(rootView.getContext(),msg,Toast.LENGTH_SHORT).show();
+                Toast.makeText(rootView.getContext(), msg, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -282,12 +286,12 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
 
     @Override
     public void setMinDateTextView(Calendar c) {
-        minDateTextView.setText(String.valueOf(c.get(Calendar.YEAR) - 1911) + "/" + String.valueOf(c.get(Calendar.MONTH)+1) + "/" + String.valueOf(c.get(Calendar.DAY_OF_MONTH)));
+        minDateTextView.setText(String.valueOf(c.get(Calendar.YEAR) - 1911) + "/" + String.valueOf(c.get(Calendar.MONTH) + 1) + "/" + String.valueOf(c.get(Calendar.DAY_OF_MONTH)));
     }
 
     @Override
     public void setMaxDateTextView(Calendar c) {
-        maxDateTextView.setText(String.valueOf(c.get(Calendar.YEAR) - 1911) + "/" + String.valueOf(c.get(Calendar.MONTH)+1) + "/" + String.valueOf(c.get(Calendar.DAY_OF_MONTH)));
+        maxDateTextView.setText(String.valueOf(c.get(Calendar.YEAR) - 1911) + "/" + String.valueOf(c.get(Calendar.MONTH) + 1) + "/" + String.valueOf(c.get(Calendar.DAY_OF_MONTH)));
     }
 
 

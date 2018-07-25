@@ -249,18 +249,18 @@ public class SearchPresenter implements SearchContract.presenter {
     }
 
     @Override
-    public void searchTextViewClick(String name, String number, String serialMinNumber, String serialMaxNumber) {
+    public void searchTextViewClick(String name, String nickname, String number, String serialMinNumber, String serialMaxNumber) {
         int minSerialNumber = serialMinNumber.length() > 0 ? Integer.valueOf(serialMinNumber) : 0;
         int maxSerialNumber = serialMaxNumber.length() > 0 ? Integer.valueOf(serialMaxNumber) : Integer.MAX_VALUE;
-        List<Item> itemList = getItemListWithCondition(name, number, minSerialNumber, maxSerialNumber);
+        List<Item> itemList = getItemListWithCondition(name, nickname, number, minSerialNumber, maxSerialNumber);
         view.showFragmentWithResult(itemList);
     }
 
     @Override
-    public void printTextViewClick(Context context, String name, String number, String serialMinNumber, String serialMaxNumber) {
+    public void printTextViewClick(Context context, String name,String nickname, String number, String serialMinNumber, String serialMaxNumber) {
         int minSerialNumber = serialMinNumber.length() > 0 ? Integer.valueOf(serialMinNumber) : 0;
         int maxSerialNumber = serialMaxNumber.length() > 0 ? Integer.valueOf(serialMaxNumber) : Integer.MAX_VALUE;
-        final List<Item> itemList = getItemListWithCondition(name, number, minSerialNumber, maxSerialNumber);
+        final List<Item> itemList = getItemListWithCondition(name,nickname, number, minSerialNumber, maxSerialNumber);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("列印").
                 setMessage("將會列印 " + itemList.size() + " 個項目，您確定要列印嗎？").
@@ -279,10 +279,13 @@ public class SearchPresenter implements SearchContract.presenter {
         }).show();
     }
 
-    public List<Item> getItemListWithCondition(String name, String number, int minSerialNumber, int maxSerialNumber) {
+    public List<Item> getItemListWithCondition(String name, String nickname, String number, int minSerialNumber, int maxSerialNumber) {
         List<Item> itemList = new ArrayList<>();
         for (Item item : ItemSingleton.getInstance().getItemList()) {
             if (!item.getName().contains(name)) {
+                continue;
+            }
+            if (!item.getNickName().contains(nickname)) {
                 continue;
             }
             if (location != null && !item.getLocation().number.equals(location.number)) {

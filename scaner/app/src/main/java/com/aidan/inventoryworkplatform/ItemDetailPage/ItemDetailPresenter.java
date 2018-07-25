@@ -183,6 +183,11 @@ public class ItemDetailPresenter implements ItemDetailContract.presenter {
     }
 
     @Override
+    public void printLittleButtonClick() {
+        view.showLittlePrintDialog(model.getItem());
+    }
+
+    @Override
     public void tagContentTextViewClick() {
         view.showSetDialog(new DialogInterface.OnClickListener() {
             @Override

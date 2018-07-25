@@ -19,6 +19,7 @@ import com.aidan.inventoryworkplatform.Dialog.SearchableItem;
 import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
 import com.aidan.inventoryworkplatform.KeyConstants;
+import com.aidan.inventoryworkplatform.Printer.PrintItemLittleTagDialog;
 import com.aidan.inventoryworkplatform.Printer.PrinterItemDialog;
 import com.aidan.inventoryworkplatform.R;
 
@@ -39,7 +40,7 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
             custodyGroupTextView, custodianTextView,
             useGroupTextView, userTextView,
             deleteTextView,printTextView,nickNameTextView,tagContentTextView;
-    Button confirmButton,printButton , cancelButton;
+    Button confirmButton,printButton , cancelButton, printLittleButton;
     ItemListFragment.RefreshItems refreshItems;
 
     public static ItemDetailFragment newInstance(Item item, ItemListFragment.RefreshItems refreshItems) {
@@ -79,6 +80,7 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         printTextView = (TextView) rootView.findViewById(R.id.printTextView);
         nickNameTextView = (TextView) rootView.findViewById(R.id.nickNameTextView);
         tagContentTextView= (TextView) rootView.findViewById(R.id.tagContentTextView);
+        printLittleButton = (Button) rootView.findViewById(R.id.printLittleButton);
     }
 
     @Override
@@ -101,6 +103,7 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
             tagContentTextView.setText(item.getTagContent().getName());
         }
         printTextView.setVisibility(KeyConstants.showPrint ? View.VISIBLE : View.GONE);
+
     }
 
     @Override
@@ -169,6 +172,12 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
                 presenter.printButtonClick();
             }
         });
+        printLittleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.printLittleButtonClick();
+            }
+        });
 
         tagContentTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,6 +205,14 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
     @Override
     public void showPrintDialog(Item item) {
         PrinterItemDialog dialog = new PrinterItemDialog(getActivity());
+        dialog.setItem(item);
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+
+    @Override
+    public void showLittlePrintDialog(Item item) {
+        PrintItemLittleTagDialog dialog = new PrintItemLittleTagDialog(getActivity());
         dialog.setItem(item);
         dialog.setCancelable(false);
         dialog.show();

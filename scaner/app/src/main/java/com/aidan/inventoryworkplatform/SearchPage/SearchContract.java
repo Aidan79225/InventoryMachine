@@ -38,8 +38,8 @@ public interface SearchContract {
         void agentTextViewClick(TextView agentTextView);
         void useGroupTextViewClick(TextView departmentTextView);
         void userTextViewClick(TextView agentTextView);
-        void searchTextViewClick(String name, String number,String serialMinNumber,String serialMaxNumber);
-        void printTextViewClick(Context context, String name, String number, String serialMinNumber, String serialMaxNumber);
+        void searchTextViewClick(String name, String nickname, String number,String serialMinNumber,String serialMaxNumber);
+        void printTextViewClick(Context context, String name, String nickname, String number, String serialMinNumber, String serialMaxNumber);
         void tagContentTextViewClick(TextView tagContentTextView);
         void sortTextViewClick(TextView sortTextView);
         void minDateTextViewClick(Activity activity);
