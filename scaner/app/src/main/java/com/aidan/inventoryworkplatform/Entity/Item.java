@@ -364,14 +364,14 @@ public class Item {
     }
     public String getLittleTagContentString() {
 
-        String ans = "  ";
+        String ans = " ";
         ans += KeyConstants.AuthorityName + (PA3C1.equals("6") ? KeyConstants.ItemName : "") + "\n";
-        ans += "  " + getTagIdNumber() + "\n";
+        ans += " " + getTagIdNumber() + "\n";
         if(!getName().isEmpty()){
-            ans += "  " + getName() + "\n";
+            ans += " " + getName() + "\n";
         }
-        ans += "  " + ADtoCal() + "  年限:" + getYears() +"\n";
-        ans += "  "+ getCustodian().getName() + "/" + getLocation().getName() ;
+        ans += " " + ADtoCal() + "  年限:" + getYears() +"\n";
+        ans += " "+ getCustodian().getName() + "/" + getLocation().getName() ;
         return ans;
     }
     public String getTagContentString() {

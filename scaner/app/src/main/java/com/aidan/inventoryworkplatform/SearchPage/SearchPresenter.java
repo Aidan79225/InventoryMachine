@@ -388,9 +388,9 @@ public class SearchPresenter implements SearchContract.presenter {
                 }
                 for (int i = 0 ; i < itemList.size(); i++ ) {
                     Item item  =  itemList.get(i);
-                    Bitmap bitmap = TagCreator.transStringToImage(item.getTagContentString(), TagCreator.height / 10, 0);
+                    Bitmap bitmap = TagCreator.transStringToImage(item.getTagContentString(), TagCreator.height / 10 - dpToPix(2) * 2, dpToPix(2));
                     try {
-                        bitmap = TagCreator.mergeBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.CODE_128, TagCreator.width, TagCreator.height / 4), dpToPix(2));
+                        bitmap = TagCreator.mergeBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.CODE_128, TagCreator.width, TagCreator.height / 5), dpToPix(2));
                         bitmap = TagCreator.mergeQRBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.QR_CODE, TagCreator.height / 3,TagCreator.height / 3),dpToPix(2));
                         String fileName = item.getNumber() + item.getSerialNumber() + ".png";
                         File file = new File(dir, fileName);
