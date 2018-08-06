@@ -365,7 +365,7 @@ public class Item {
     public String getLittleTagContentString() {
 
         String ans = " ";
-        ans += KeyConstants.AuthorityName + (PA3C1.equals("6") ? KeyConstants.ItemName : "") + "\n";
+        ans += KeyConstants.LittleAuthorityName + (PA3C1.equals("6") ? KeyConstants.LittleItemName : "") + "\n";
         ans += " " + getTagIdNumber() + "\n";
         if(!getName().isEmpty()){
             ans += " " + getName() + "\n";
