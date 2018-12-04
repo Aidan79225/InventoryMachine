@@ -100,7 +100,7 @@ public class PrintItemLittleTagDialog extends Dialog {
 
 
 
-                String fileName = item.getNumber() + item.getSerialNumber() + "little.png";
+                String fileName = item.getNumber() + item.getSerialNumber() + "-little.png";
                 File file = new File(dir, fileName);
                 if (file.exists()) {
                     file.delete();
