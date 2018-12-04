@@ -30,6 +30,7 @@
     <string name="search">查詢</string>
     <string name="clear">清除</string>
     <string name="print_it">列印</string>
+    <string name="print_little_it">列印小標籤</string>
     <string name="already_check_information">已盤 %1$d 筆 / 總數 %2$d 筆</string>
     <string name="clear_data">清除全部資料</string>
     <string name="clear_data_msg">您確定要清除資料？（清除後將無法取回）</string>

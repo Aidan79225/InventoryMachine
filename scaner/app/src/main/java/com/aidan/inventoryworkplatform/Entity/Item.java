@@ -370,7 +370,7 @@ public class Item {
         if(!getName().isEmpty()){
             ans += " " + getName() + "\n";
         }
-        ans += " " + ADtoCal() + "  年限:" + getYears() +"\n";
+        ans += " " + ADtoCal() + "  年限:" + getYears() + "  取得:" + ADtoCal() +"\n";
         ans += " "+ getCustodian().getName() + "/" + getLocation().getName() ;
         return ans;
     }

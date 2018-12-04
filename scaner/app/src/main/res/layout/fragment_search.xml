@@ -538,7 +538,7 @@
 
         <TextView
             android:id="@+id/searchTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
@@ -551,7 +551,7 @@
 
         <TextView
             android:id="@+id/printTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
@@ -563,8 +563,21 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/printLittleTagTextView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@color/bg_dark_gray"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/print_little_it"
+            android:textColor="@color/bg_white"
+            android:textSize="14sp" />
+
+        <TextView
             android:id="@+id/clearTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"

@@ -40,7 +40,7 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
     TextView useGroupTextView, userTextView;
     EditText c1EditText, c2EditText, c3EditText, c4EditText, c5EditText;
     BaseFragmentManager baseFragmentManager;
-    TextView tagContentTextView, sortTextView, minDateTextView, maxDateTextView;
+    TextView tagContentTextView, sortTextView, minDateTextView, maxDateTextView, printLittleTagTextView;
     EditText nameEditText, nicknameEditText;
     ProgressDialog mProgressDialog;
 
@@ -73,6 +73,7 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
         searchTextView = (TextView) rootView.findViewById(R.id.searchTextView);
         clearTextView = (TextView) rootView.findViewById(R.id.clearTextView);
         printTextView = (TextView) rootView.findViewById(R.id.printTextView);
+        printLittleTagTextView = (TextView) rootView.findViewById(R.id.printLittleTagTextView);
         useGroupTextView = (TextView) rootView.findViewById(R.id.useGroupTextView);
         userTextView = (TextView) rootView.findViewById(R.id.userTextView);
         tagContentTextView = (TextView) rootView.findViewById(R.id.tagContentTextView);
@@ -174,6 +175,21 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
                 presenter.printTextViewClick(rootView.getContext(), name, nickname, id, serialMinNumberEditText.getText().toString(), serialMaxNumberEditText.getText().toString());
             }
         });
+        printLittleTagTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id = "";
+                id += c1EditText.getText().toString();
+                id += c2EditText.getText().toString();
+                id += c3EditText.getText().toString();
+                id += c4EditText.getText().toString();
+                id += c5EditText.getText().toString();
+                String name = nameEditText.getText().toString();
+                String nickname = nicknameEditText.getText().toString();
+                presenter.printLittleTextViewClick(rootView.getContext(), name, nickname, id, serialMinNumberEditText.getText().toString(), serialMaxNumberEditText.getText().toString());
+            }
+        });
+
         c1EditText.addTextChangedListener(getNextTextWatcher(1, c2EditText));
         c2EditText.addTextChangedListener(getNextTextWatcher(2, c3EditText));
         c3EditText.addTextChangedListener(getNextTextWatcher(2, c4EditText));

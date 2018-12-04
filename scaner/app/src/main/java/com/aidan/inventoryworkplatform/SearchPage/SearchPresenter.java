@@ -24,6 +24,7 @@ import com.aidan.inventoryworkplatform.Model.BarCodeCreator;
 import com.aidan.inventoryworkplatform.Model.DepartmentSingleton;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 import com.aidan.inventoryworkplatform.Model.LocationSingleton;
+import com.aidan.inventoryworkplatform.Printer.LittleTagCreator;
 import com.aidan.inventoryworkplatform.Printer.TagCreator;
 import com.brother.ptouch.sdk.LabelInfo;
 import com.brother.ptouch.sdk.NetPrinter;
@@ -279,6 +280,29 @@ public class SearchPresenter implements SearchContract.presenter {
         }).show();
     }
 
+    @Override
+    public void printLittleTextViewClick(Context context, String name,String nickname, String number, String serialMinNumber, String serialMaxNumber) {
+        int minSerialNumber = serialMinNumber.length() > 0 ? Integer.valueOf(serialMinNumber) : 0;
+        int maxSerialNumber = serialMaxNumber.length() > 0 ? Integer.valueOf(serialMaxNumber) : Integer.MAX_VALUE;
+        final List<Item> itemList = getItemListWithCondition(name,nickname, number, minSerialNumber, maxSerialNumber);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("列印").
+                setMessage("將會列印 " + itemList.size() + " 個項目，您確定要列印嗎？").
+                setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        printLittleTags(itemList);
+                        view.showToast("列印中請稍後");
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).show();
+    }
+
     public List<Item> getItemListWithCondition(String name, String nickname, String number, int minSerialNumber, int maxSerialNumber) {
         List<Item> itemList = new ArrayList<>();
         for (Item item : ItemSingleton.getInstance().getItemList()) {
@@ -375,6 +399,10 @@ public class SearchPresenter implements SearchContract.presenter {
         return (int) Resources.getSystem().getDisplayMetrics().density * dp;
     }
 
+    public int dpToPix(float dp) {
+        return (int) (Resources.getSystem().getDisplayMetrics().density * dp);
+    }
+
     public void print(final List<Item> itemList) {
         Thread trd = new Thread(new Runnable() {
             @Override
@@ -426,6 +454,84 @@ public class SearchPresenter implements SearchContract.presenter {
                     printInfo.ipAddress = netPrinters[0].ipAddress;
                     printInfo.macAddress = netPrinters[0].macAddress;
                     printInfo.labelNameIndex = LabelInfo.PT.W36.ordinal();
+                    printInfo.orientation = PrinterInfo.Orientation.LANDSCAPE;
+                    printInfo.align = PrinterInfo.Align.CENTER;
+                    printInfo.isAutoCut = false;
+                    printInfo.isCutAtEnd = false;
+                    printInfo.isHalfCut = true;
+                    printer.setPrinterInfo(printInfo);
+                    printer.startCommunication();
+                    for (int i = 0; i < fileList.size(); i++) {
+                        File file = fileList.get(i);
+                        PrinterStatus status = printer.printFile(file.getAbsolutePath());
+                        if (status.errorCode != PrinterInfo.ErrorCode.ERROR_NONE) {
+                            view.hideProgress();
+                            view.showToast("列印失敗,找不到機器");
+                            printer.endCommunication();
+                            return;
+                        }
+                        view.updateProgress((i + 1) * 100 / fileList.size());
+
+                    }
+                    printer.endCommunication();
+                    view.hideProgress();
+                    view.showToast("列印成功");
+                }
+            }
+        });
+        trd.start();
+    }
+
+    public void printLittleTags(final List<Item> itemList) {
+        Thread trd = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                view.showProgress("製造標籤中");
+                String dir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/欣華盤點系統/圖片暫存";
+                List<File> fileList = new ArrayList<>();
+                File dirFile = new File(dir);
+                if (!dirFile.exists()) {
+                    dirFile.mkdirs();
+                }
+                for (int i = 0 ; i < itemList.size(); i++ ) {
+                    Item item  =  itemList.get(i);
+                    Bitmap bitmap = LittleTagCreator.transStringToImage(item.getLittleTagContentString(), LittleTagCreator.height / 5 - dpToPix(2) * 2, dpToPix(1.5f));
+                    try {
+                        bitmap = LittleTagCreator.addQRBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.QR_CODE, LittleTagCreator.height , LittleTagCreator.height ), dpToPix(2));
+                        String fileName = item.getNumber() + item.getSerialNumber() + "-little.png";
+                        File file = new File(dir, fileName);
+                        if (file.exists()) {
+                            file.delete();
+                            file = new File(dir, fileName);
+                        }
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
+                        byte[] bitmapdata = bos.toByteArray();
+                        FileOutputStream fos = new FileOutputStream(file);
+                        fos.write(bitmapdata);
+                        fos.flush();
+                        fos.close();
+                        fileList.add(file);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    view.updateProgress((i + 1) * 100 / itemList.size());
+                }
+                view.hideProgress();
+
+                view.showProgress("列印中");
+                Printer printer = new Printer();
+                NetPrinter[] netPrinters = printer.getNetPrinters("PT-P900W");
+                if (netPrinters == null || netPrinters.length == 0) {
+                    view.hideProgress();
+                    view.showToast("列印失敗,找不到機器");
+                } else {
+                    PrinterInfo printInfo = new PrinterInfo();
+                    printInfo.printerModel = PrinterInfo.Model.PT_P900W;
+                    printInfo.port = PrinterInfo.Port.NET;
+                    printInfo.ipAddress = netPrinters[0].ipAddress;
+                    printInfo.macAddress = netPrinters[0].macAddress;
+                    printInfo.labelNameIndex = LabelInfo.PT.W12.ordinal();
                     printInfo.orientation = PrinterInfo.Orientation.LANDSCAPE;
                     printInfo.align = PrinterInfo.Align.CENTER;
                     printInfo.isAutoCut = false;

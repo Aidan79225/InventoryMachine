@@ -40,6 +40,7 @@ public interface SearchContract {
         void userTextViewClick(TextView agentTextView);
         void searchTextViewClick(String name, String nickname, String number,String serialMinNumber,String serialMaxNumber);
         void printTextViewClick(Context context, String name, String nickname, String number, String serialMinNumber, String serialMaxNumber);
+        void printLittleTextViewClick(Context context, String name, String nickname, String number, String serialMinNumber, String serialMaxNumber);
         void tagContentTextViewClick(TextView tagContentTextView);
         void sortTextViewClick(TextView sortTextView);
         void minDateTextViewClick(Activity activity);
