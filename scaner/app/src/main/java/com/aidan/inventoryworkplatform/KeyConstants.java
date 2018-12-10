@@ -31,6 +31,7 @@ public class KeyConstants {
     public static final String LittleItemName = "非消耗物品";                                 //非消耗物品
 
     public static final boolean showPrint = true;   //true 顯示列印   false 不顯示列印
-//    public static final String key = "sin239593931016alice0215";
-    public static final String key = "1";
+    public static final boolean showPrintLittleTag = true;   //true 顯示列印小標籤   false 不顯示列印小標籤
+    public static final String key = "sin239593931016alice0215";
+
 }

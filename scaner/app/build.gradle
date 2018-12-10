@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "com.aidan.inventoryworkplatform"
         minSdkVersion 19
@@ -36,15 +36,15 @@ android {
 }
 
 dependencies {
-    compile 'com.droidninja:filepicker:1.0.8'
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    testCompile 'junit:junit:4.12'
-    compile files('libs/BarcodeAPI.jar')
-    compile('eu.livotov.labs.android:CAMView:2.0.1@aar') { transitive = true }
-    compile 'cn.bingoogolapple:bga-qrcodecore:1.1.7@aar'
-    compile 'cn.bingoogolapple:bga-zbar:1.1.7@aar'
-    compile files('libs/BrotherPrintLibrary.jar')
-    compile files('libs/MobilePrintLib.jar')
-    compile files('libs/jxl.jar')
+    implementation 'com.droidninja:filepicker:1.0.8'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:25.3.1'
+    testImplementation 'junit:junit:4.12'
+    implementation files('libs/BarcodeAPI.jar')
+    implementation('eu.livotov.labs.android:CAMView:2.0.1@aar') { transitive = true }
+    implementation 'cn.bingoogolapple:bga-qrcodecore:1.1.7@aar'
+    implementation 'cn.bingoogolapple:bga-zbar:1.1.7@aar'
+    implementation files('libs/BrotherPrintLibrary.jar')
+    implementation files('libs/MobilePrintLib.jar')
+    implementation files('libs/jxl.jar')
 }

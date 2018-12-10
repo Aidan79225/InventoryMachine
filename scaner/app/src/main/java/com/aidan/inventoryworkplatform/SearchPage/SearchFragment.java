@@ -197,6 +197,7 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
         c5EditText.addTextChangedListener(getNextTextWatcher(4, serialMinNumberEditText));
         serialMinNumberEditText.addTextChangedListener(getNextTextWatcher(7, serialMaxNumberEditText));
         printTextView.setVisibility(KeyConstants.showPrint ? View.VISIBLE : View.GONE);
+        printLittleTagTextView.setVisibility(KeyConstants.showPrintLittleTag ? View.VISIBLE : View.GONE);
     }
 
     private TextWatcher getNextTextWatcher(final int length, final EditText next) {

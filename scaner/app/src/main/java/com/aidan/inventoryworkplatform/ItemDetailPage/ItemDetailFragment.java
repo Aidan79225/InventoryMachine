@@ -102,8 +102,8 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         if(item.getTagContent() != null){
             tagContentTextView.setText(item.getTagContent().getName());
         }
-        printTextView.setVisibility(KeyConstants.showPrint ? View.VISIBLE : View.GONE);
-
+        printButton.setVisibility(KeyConstants.showPrint ? View.VISIBLE : View.GONE);
+        printLittleButton.setVisibility(KeyConstants.showPrintLittleTag ? View.VISIBLE : View.GONE);
     }
 
     @Override
