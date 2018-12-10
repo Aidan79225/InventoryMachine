@@ -3,6 +3,7 @@ package com.aidan.inventoryworkplatform.Model;
 import com.aidan.inventoryworkplatform.Database.DBHelper;
 import com.aidan.inventoryworkplatform.Database.LocationDAO;
 import com.aidan.inventoryworkplatform.Entity.Location;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,18 @@ public class LocationSingleton {
     public List<Location> getLocationList() {
         return locationList;
     }
+
+    public List<Location> getLocationList(SelectableItem.Type type) {
+        List<Location> temp = new ArrayList<>();
+        for (Location location : locationList) {
+            if (location.getType() == type) {
+                temp.add(location);
+            }
+        }
+        return temp;
+    }
+
+
     public void saveToDB() {
         try {
             DBHelper.getDatabase().beginTransaction();

@@ -34,6 +34,7 @@ public class Agent extends SelectableItem {
         try{
             number = jsonObject.getString(AgentConstants.D1KY);
             name = jsonObject.getString(AgentConstants.D1NM);
+            type = Type.valueOf(jsonObject.getString(ItemConstants.TYPE));
         }catch (JSONException e){
             e.printStackTrace();
         }
@@ -43,6 +44,7 @@ public class Agent extends SelectableItem {
         try {
             jsonObject.put(AgentConstants.D1KY,number);
             jsonObject.put(AgentConstants.D1NM,name);
+            jsonObject.put(ItemConstants.TYPE, type.toString());
         }catch (JSONException e){
             e.printStackTrace();
         }

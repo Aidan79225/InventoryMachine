@@ -46,6 +46,7 @@ public class Item {
     private String PA3PRN = "PA3PRN";
     private String NAME = "";
     private TagContent tagContent = null;
+    private SelectableItem.Type type = SelectableItem.Type.property;
 
     public Item() {
 
@@ -83,6 +84,9 @@ public class Item {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        try {
+            type = SelectableItem.Type.valueOf(jsonObject.getString(ItemConstants.TYPE));
+        } catch (Exception e){ }
     }
 
     public void setData(String data) {
@@ -116,9 +120,13 @@ public class Item {
             PA3DEL = jsonObject.getString(ItemConstants.PA3DEL);
             PA3PRN = jsonObject.getString(ItemConstants.PA3PRN);
             NAME = jsonObject.getString(ItemConstants.NAME);
+            try {
+                type = SelectableItem.Type.valueOf(jsonObject.getString(ItemConstants.TYPE));
+            } catch (Exception e){ }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     public JSONObject toJSON() {
@@ -188,6 +196,7 @@ public class Item {
             jsonObject.put(ItemConstants.PA3DEL, PA3DEL);
             jsonObject.put(ItemConstants.PA3PRN, PA3PRN);
             jsonObject.put(ItemConstants.NAME, NAME);
+            jsonObject.put(ItemConstants.TYPE, type);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -416,4 +425,9 @@ public class Item {
     public TagContent getTagContent() {
         return tagContent;
     }
+
+    public SelectableItem.Type getItemType(){
+        return type;
+    }
+
 }

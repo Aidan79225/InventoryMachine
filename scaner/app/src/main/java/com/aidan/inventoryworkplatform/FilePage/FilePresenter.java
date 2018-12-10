@@ -13,6 +13,7 @@ import com.aidan.inventoryworkplatform.Entity.Agent;
 import com.aidan.inventoryworkplatform.Entity.Department;
 import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.Entity.Location;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem;
 import com.aidan.inventoryworkplatform.Model.AgentSingleton;
 import com.aidan.inventoryworkplatform.Model.DepartmentSingleton;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
@@ -80,12 +81,12 @@ public class FilePresenter implements FileContract.presenter {
                 allowType.add("3");
                 allowType.add("4");
                 allowType.add("5");
-                loadData(path, "讀取財產中", allowType, Constants.PREFERENCE_PROPERTY_KEY);
+                loadData(path, "讀取財產中", allowType, Constants.PREFERENCE_PROPERTY_KEY, SelectableItem.Type.property);
             }
         }).start();
     }
 
-    private void loadData(String path, String msg, Set<String> allowType, String key) {
+    private void loadData(String path, String msg, Set<String> allowType, String key, SelectableItem.Type type) {
         view.showProgress(msg);
         List<Item> itemList = ItemSingleton.getInstance().getItemList();
         List<Location> locationList = LocationSingleton.getInstance().getLocationList();
@@ -109,10 +110,10 @@ public class FilePresenter implements FileContract.presenter {
             JSONObject ASSETs = jsonObj.getJSONObject("ASSETs");
             JSONObject MS = jsonObj.getJSONObject(Constants.MS);
             Singleton.preferenceEditor.putString(key, MS.toString()).commit();
-            getItems(ASSETs, itemList, allowType);
-            getAgents(ASSETs, agentList);
-            getDepartments(ASSETs, departmentList);
-            getLocations(ASSETs, locationList);
+            getItems(ASSETs, itemList, allowType, type);
+            getAgents(ASSETs, agentList, type);
+            getDepartments(ASSETs, departmentList, type);
+            getLocations(ASSETs, locationList, type);
 
             ItemSingleton.getInstance().saveToDB();
             DepartmentSingleton.getInstance().saveToDB();
@@ -157,7 +158,7 @@ public class FilePresenter implements FileContract.presenter {
         }
     }
 
-    private void getItems(JSONObject ASSETs, List<Item> itemList, Set<String> allowType) {
+    private void getItems(JSONObject ASSETs, List<Item> itemList, Set<String> allowType, SelectableItem.Type type) {
         try {
             JSONArray data = ASSETs.getJSONArray("PA3");
             Singleton.log("itemList size : " + data.length());
@@ -177,7 +178,7 @@ public class FilePresenter implements FileContract.presenter {
         }
     }
 
-    private void getAgents(JSONObject ASSETs, List<Agent> agentList) {
+    private void getAgents(JSONObject ASSETs, List<Agent> agentList, SelectableItem.Type type) {
         try {
             JSONArray data = ASSETs.getJSONArray("D1");
             Singleton.log("agentList size : " + data.length());
@@ -185,9 +186,10 @@ public class FilePresenter implements FileContract.presenter {
             for (int i = 0; i < data.length(); i++) {
                 JSONObject c = data.getJSONObject(i);
                 Agent agent = new Agent(c);
+                agent.setType(type);
                 boolean isNotAdded = true;
                 for(Agent mAgent : agentList){
-                    if(agent.getName().equals(mAgent.getName()) && agent.getNumber().equals(mAgent.getNumber())){
+                    if(agent.getName().equals(mAgent.getName()) && agent.getNumber().equals(mAgent.getNumber()) && agent.getType() == mAgent.getType()){
                         isNotAdded = false;
                         break;
                     }
@@ -205,7 +207,7 @@ public class FilePresenter implements FileContract.presenter {
         Collections.sort(agentList);
     }
 
-    private void getDepartments(JSONObject ASSETs, List<Department> departmentList) {
+    private void getDepartments(JSONObject ASSETs, List<Department> departmentList, SelectableItem.Type type) {
         try {
             JSONArray data = ASSETs.getJSONArray("D2");
             Singleton.log("departmentList size : " + data.length());
@@ -213,9 +215,10 @@ public class FilePresenter implements FileContract.presenter {
             for (int i = 0; i < data.length(); i++) {
                 JSONObject c = data.getJSONObject(i);
                 Department department = new Department(c);
+                department.setType(type);
                 boolean isNotAdded = true;
                 for(Department mDepartment : departmentList){
-                    if(department.getName().equals(mDepartment.getName()) && department.getNumber().equals(mDepartment.getNumber())){
+                    if(department.getName().equals(mDepartment.getName()) && department.getNumber().equals(mDepartment.getNumber()) && department.getType() == mDepartment.getType()){
                         isNotAdded = false;
                         break;
                     }
@@ -233,7 +236,7 @@ public class FilePresenter implements FileContract.presenter {
         Collections.sort(departmentList);
     }
 
-    private void getLocations(JSONObject ASSETs, List<Location> locationList) {
+    private void getLocations(JSONObject ASSETs, List<Location> locationList, SelectableItem.Type type) {
         try {
             JSONArray data = ASSETs.getJSONArray("D3");
             Singleton.log("locationList size : " + data.length());
@@ -241,9 +244,10 @@ public class FilePresenter implements FileContract.presenter {
             for (int i = 0; i < data.length(); i++) {
                 JSONObject c = data.getJSONObject(i);
                 Location location = new Location(c);
+                location.setType(type);
                 boolean isNotAdded = true;
                 for(Location mLocation : locationList){
-                    if(location.getName().equals(mLocation.getName()) && location.getNumber().equals(mLocation.getNumber())){
+                    if(location.getName().equals(mLocation.getName()) && location.getNumber().equals(mLocation.getNumber()) && location.getType() == mLocation.getType()){
                         isNotAdded = false;
                         break;
                     }
@@ -305,7 +309,7 @@ public class FilePresenter implements FileContract.presenter {
             public void run() {
                 Set<String> allowType = new HashSet<>();
                 allowType.add("6");
-                loadData(path, "讀取物品中", allowType, Constants.PREFERENCE_ITEM_KEY);
+                loadData(path, "讀取物品中", allowType, Constants.PREFERENCE_ITEM_KEY, SelectableItem.Type.item);
             }
         }).start();
     }

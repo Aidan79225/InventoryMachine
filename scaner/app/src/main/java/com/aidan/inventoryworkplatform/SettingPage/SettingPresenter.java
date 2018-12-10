@@ -8,6 +8,7 @@ import com.aidan.inventoryworkplatform.Entity.Agent;
 import com.aidan.inventoryworkplatform.Entity.Department;
 import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.Entity.Location;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem;
 import com.aidan.inventoryworkplatform.Model.AgentSingleton;
 import com.aidan.inventoryworkplatform.Model.DepartmentSingleton;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
@@ -21,16 +22,14 @@ import java.util.List;
  */
 
 public class SettingPresenter implements SettingContract.presenter{
-    SettingContract.view view;
-    String[] locationStrings ={};
-    String[] agentStrings ={};
-    String[] departmentStrings ={};
-    Location location;
-    Agent agent;
-    Department department;
-    Agent user;
-    Department useGroup;
-    List<Item> itemList;
+    private SettingContract.view view;
+    private Location location;
+    private Agent agent;
+    private Department department;
+    private Agent user;
+    private Department useGroup;
+    private List<Item> itemList;
+    private SelectableItem.Type type = null;
     SettingPresenter(SettingContract.view view,List<Item> itemList){
         this.view = view;
         this.itemList = itemList;
@@ -38,37 +37,38 @@ public class SettingPresenter implements SettingContract.presenter{
 
     @Override
     public void start() {
-        init();
         view.findView();
         view.setViewClick();
     }
-    private void init(){
-        List<Location> locationList = LocationSingleton.getInstance().getLocationList();
-        List<String> locationStringList = new ArrayList<>();
-        for(Location location : locationList ){
-            locationStringList.add(location.name);
-        }
-        locationStrings = locationStringList.toArray(locationStrings);
 
-        List<Agent> agentList = AgentSingleton.getInstance().getAgentList();
-        List<String> agentStringList = new ArrayList<>();
-        for(Agent agent : agentList ){
-            agentStringList.add(agent.name);
-        }
-        agentStrings = agentStringList.toArray(agentStrings);
-
-
-        List<Department> departmentList = DepartmentSingleton.getInstance().getDepartmentList();
-        List<String> departmentStringList = new ArrayList<>();
-        for(Department department : departmentList ){
-            departmentStringList.add(department.name);
-        }
-        departmentStrings = departmentStringList.toArray(departmentStrings);
+    @Override
+    public void itemTextViewClick(final TextView itemTextView) {
+        List<SearchableItem> temp = new ArrayList<>();
+        temp.add(SelectableItem.Type.property);
+        temp.add(SelectableItem.Type.item);
+        view.showSetDialog(new SearchItemAdapter.OnClickListener() {
+            @Override
+            public void onClick(SearchableItem item) {
+                itemTextView.setText(item.getName());
+                type = (SelectableItem.Type) item;
+                location = null;
+                agent = null;
+                department = null;
+                user = null;
+                useGroup = null;
+                view.reset();
+            }
+        },"目標列表",temp);
     }
+
     @Override
     public void locationTextViewClick(final TextView locationTextView){
+        if (type == null) {
+            view.showToast("請先選擇目標");
+            return;
+        }
         List<SearchableItem> temp = new ArrayList<>();
-        temp.addAll( LocationSingleton.getInstance().getLocationList());
+        temp.addAll( LocationSingleton.getInstance().getLocationList(type));
         view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
             public void onClick(SearchableItem item) {
@@ -79,8 +79,12 @@ public class SettingPresenter implements SettingContract.presenter{
     }
     @Override
     public void departmentTextViewClick(final TextView departmentTextView){
+        if (type == null) {
+            view.showToast("請先選擇目標");
+            return;
+        }
         List<SearchableItem> temp = new ArrayList<>();
-        temp.addAll( DepartmentSingleton.getInstance().getDepartmentList());
+        temp.addAll( DepartmentSingleton.getInstance().getDepartmentList(type));
         view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
             public void onClick(SearchableItem item) {
@@ -91,8 +95,12 @@ public class SettingPresenter implements SettingContract.presenter{
     }
     @Override
     public void agentTextViewClick(final TextView agentTextView){
+        if (type == null) {
+            view.showToast("請先選擇目標");
+            return;
+        }
         List<SearchableItem> temp = new ArrayList<>();
-        temp.addAll( AgentSingleton.getInstance().getAgentList());
+        temp.addAll( AgentSingleton.getInstance().getAgentList(type));
         view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
             public void onClick(SearchableItem item) {
@@ -104,8 +112,12 @@ public class SettingPresenter implements SettingContract.presenter{
 
     @Override
     public void useGroupTextViewClick(final TextView useGroupTextVie) {
+        if (type == null) {
+            view.showToast("請先選擇目標");
+            return;
+        }
         List<SearchableItem> temp = new ArrayList<>();
-        temp.addAll( DepartmentSingleton.getInstance().getDepartmentList());
+        temp.addAll( DepartmentSingleton.getInstance().getDepartmentList(type));
         view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
             public void onClick(SearchableItem item) {
@@ -117,8 +129,12 @@ public class SettingPresenter implements SettingContract.presenter{
 
     @Override
     public void userTextViewClick(final TextView userTextView) {
+        if (type == null) {
+            view.showToast("請先選擇目標");
+            return;
+        }
         List<SearchableItem> temp = new ArrayList<>();
-        temp.addAll( AgentSingleton.getInstance().getAgentList());
+        temp.addAll( AgentSingleton.getInstance().getAgentList(type));
         view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
             public void onClick(SearchableItem item) {
@@ -137,6 +153,9 @@ public class SettingPresenter implements SettingContract.presenter{
                 view.showProgress("設定中");
                 int count = 0;
                 for(Item item : itemList){
+                    if (item.getItemType() != type) {
+                        continue;
+                    }
                     if(location != null ){
                         item.setLocation(location);
                     }

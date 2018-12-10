@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aidan.inventoryworkplatform.BaseFragmentManager;
 import com.aidan.inventoryworkplatform.Dialog.SearchItemAdapter;
@@ -39,6 +40,7 @@ public class SettingFragment extends DialogFragment implements SettingContract.v
     BaseFragmentManager baseFragmentManager;
     Reload reload;
     ProgressDialog mProgressDialog;
+    TextView itemTextView;
 
     public interface Reload{
         void reload();
@@ -68,10 +70,17 @@ public class SettingFragment extends DialogFragment implements SettingContract.v
         settingTextView = (TextView) rootView.findViewById(R.id.settingTextView);
         useGroupTextView = (TextView) rootView.findViewById(R.id.useGroupTextView);
         userTextView = (TextView) rootView.findViewById(R.id.userTextView);
+        itemTextView = (TextView) rootView.findViewById(R.id.itemTextView);
     }
 
     @Override
     public void setViewClick() {
+        itemTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.itemTextViewClick(itemTextView);
+            }
+        });
         locationTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,6 +192,21 @@ public class SettingFragment extends DialogFragment implements SettingContract.v
                 mProgressDialog.setProgress(value);
             }
         });
+    }
+
+    @Override
+    public void showToast(String msg) {
+        Toast.makeText(rootView.getContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void reset() {
+        locationTextView.setText("請點選存置地點");
+        departmentTextView.setText("請點選保管單位");
+        agentTextView.setText("請點選保管人");
+        useGroupTextView.setText("請點選使用單位");
+        userTextView.setText("請點選使用人");
+
     }
 
 }

@@ -40,10 +40,12 @@ public class ItemSingleton {
             e.printStackTrace();
         }
     }
+
     public void saveItem(Item item){
         if (!ItemDAO.getInstance().update(item))
             ItemDAO.getInstance().insert(item);
     }
+
     public void loadFromDB(){
         itemList = ItemDAO.getInstance().getAll();
     }

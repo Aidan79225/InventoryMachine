@@ -18,6 +18,7 @@ public class Department extends SelectableItem{
             JSONObject jsonObject = new JSONObject(data);
             number = jsonObject.getString(DepartmentConstants.D2KY);
             name = jsonObject.getString(DepartmentConstants.D2NM);
+            type = Type.valueOf(jsonObject.getString(ItemConstants.TYPE));
         }catch (JSONException e){
             e.printStackTrace();
         }
@@ -26,6 +27,7 @@ public class Department extends SelectableItem{
         try{
             number = jsonObject.getString(DepartmentConstants.D2KY);
             name = jsonObject.getString(DepartmentConstants.D2NM);
+            type = Type.valueOf(jsonObject.getString(ItemConstants.TYPE));
         }catch (JSONException e){
             e.printStackTrace();
         }
@@ -39,6 +41,7 @@ public class Department extends SelectableItem{
         try {
             jsonObject.put(DepartmentConstants.D2KY,number);
             jsonObject.put(DepartmentConstants.D2NM,name);
+            jsonObject.put(ItemConstants.TYPE, type.toString());
         }catch (JSONException e){
             e.printStackTrace();
         }

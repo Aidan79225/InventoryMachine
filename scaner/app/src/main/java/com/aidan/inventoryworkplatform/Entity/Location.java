@@ -20,6 +20,7 @@ public class Location extends SelectableItem{
         try {
             number = jsonObject.getString(LocationConstants.D3KY);
             name = jsonObject.getString(LocationConstants.D3NM);
+            type = Type.valueOf(jsonObject.getString(ItemConstants.TYPE));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -38,6 +39,7 @@ public class Location extends SelectableItem{
         try {
             number = jsonObject.getString(LocationConstants.D3KY);
             name = jsonObject.getString(LocationConstants.D3NM);
+            type = Type.valueOf(jsonObject.getString(ItemConstants.TYPE));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -48,6 +50,7 @@ public class Location extends SelectableItem{
         try {
             jsonObject.put(LocationConstants.D3KY, number);
             jsonObject.put(LocationConstants.D3NM, name);
+            jsonObject.put(ItemConstants.TYPE, type.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -34,9 +34,6 @@ import java.util.Map;
 public class ItemDetailPresenter implements ItemDetailContract.presenter {
     private ItemDetailContract.view view;
     private ItemDetailModel model;
-    private String[] locationStrings ={};
-    private String[] agentStrings ={};
-    private String[] departmentStrings ={};
     private String[] deleteStrings ={"Y","N"};
     private String[] printStrings ={"Y","N"};
     private String[] tagContentStrings;
@@ -46,28 +43,6 @@ public class ItemDetailPresenter implements ItemDetailContract.presenter {
         init();
     }
     private void init(){
-        List<Location> locationList = LocationSingleton.getInstance().getLocationList();
-        List<String> locationStringList = new ArrayList<>();
-        for(Location location : locationList ){
-            locationStringList.add(location.name);
-        }
-        locationStrings = locationStringList.toArray(locationStrings);
-
-        List<Agent> agentList = AgentSingleton.getInstance().getAgentList();
-        List<String> agentStringList = new ArrayList<>();
-        for(Agent agent : agentList ){
-            agentStringList.add(agent.name);
-        }
-        agentStrings = agentStringList.toArray(agentStrings);
-
-
-        List<Department> departmentList = DepartmentSingleton.getInstance().getDepartmentList();
-        List<String> departmentStringList = new ArrayList<>();
-        for(Department department : departmentList ){
-            departmentStringList.add(department.name);
-        }
-        departmentStrings = departmentStringList.toArray(departmentStrings);
-
         tagContentStrings = new String[TagContent.values().length];
         for(int i = 0 ;i < TagContent.values().length ; i++){
             tagContentStrings[i] = TagContent.values()[i].getName();
@@ -95,7 +70,7 @@ public class ItemDetailPresenter implements ItemDetailContract.presenter {
     @Override
     public void locationTextViewClick(){
         List<SearchableItem> temp = new ArrayList<>();
-        temp.addAll( LocationSingleton.getInstance().getLocationList());
+        temp.addAll( LocationSingleton.getInstance().getLocationList(model.getItem().getItemType()));
         view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
             public void onClick(SearchableItem item) {
@@ -107,7 +82,7 @@ public class ItemDetailPresenter implements ItemDetailContract.presenter {
     @Override
     public void departmentTextViewClick(){
         List<SearchableItem> temp = new ArrayList<>();
-        temp.addAll( DepartmentSingleton.getInstance().getDepartmentList());
+        temp.addAll( DepartmentSingleton.getInstance().getDepartmentList(model.getItem().getItemType()));
         view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
             public void onClick(SearchableItem item) {
@@ -119,7 +94,7 @@ public class ItemDetailPresenter implements ItemDetailContract.presenter {
     @Override
     public void agentTextViewClick(){
         List<SearchableItem> temp = new ArrayList<>();
-        temp.addAll( AgentSingleton.getInstance().getAgentList());
+        temp.addAll( AgentSingleton.getInstance().getAgentList(model.getItem().getItemType()));
         view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
             public void onClick(SearchableItem item) {
@@ -132,7 +107,7 @@ public class ItemDetailPresenter implements ItemDetailContract.presenter {
     @Override
     public void useGroupTextViewClick(){
         List<SearchableItem> temp = new ArrayList<>();
-        temp.addAll( DepartmentSingleton.getInstance().getDepartmentList());
+        temp.addAll( DepartmentSingleton.getInstance().getDepartmentList(model.getItem().getItemType()));
         view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
             public void onClick(SearchableItem item) {
@@ -145,7 +120,7 @@ public class ItemDetailPresenter implements ItemDetailContract.presenter {
     @Override
     public void userTextViewClick() {
         List<SearchableItem> temp = new ArrayList<>();
-        temp.addAll( AgentSingleton.getInstance().getAgentList());
+        temp.addAll( AgentSingleton.getInstance().getAgentList(model.getItem().getItemType()));
         view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
             public void onClick(SearchableItem item) {

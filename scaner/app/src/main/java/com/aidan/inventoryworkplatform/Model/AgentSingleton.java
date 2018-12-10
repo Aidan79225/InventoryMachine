@@ -3,7 +3,7 @@ package com.aidan.inventoryworkplatform.Model;
 import com.aidan.inventoryworkplatform.Database.AgentDAO;
 import com.aidan.inventoryworkplatform.Database.DBHelper;
 import com.aidan.inventoryworkplatform.Entity.Agent;
-import com.aidan.inventoryworkplatform.Entity.Department;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +29,18 @@ public class AgentSingleton {
     public List<Agent> getAgentList() {
         return agentList;
     }
+
+    public List<Agent> getAgentList(SelectableItem.Type type) {
+        List<Agent> temp = new ArrayList<>();
+        for (Agent agent : agentList) {
+            if (agent.getType() == type) {
+                temp.add(agent);
+            }
+        }
+        return temp;
+    }
+
+
     public void loadFromDB(){
         agentList = AgentDAO.getInstance().getAll();
     }

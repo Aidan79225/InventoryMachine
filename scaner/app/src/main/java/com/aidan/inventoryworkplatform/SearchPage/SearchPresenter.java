@@ -48,21 +48,18 @@ import java.util.List;
  */
 
 public class SearchPresenter implements SearchContract.presenter {
-    SearchContract.view view;
-    String[] locationStrings = {};
-    String[] agentStrings = {};
-    String[] departmentStrings = {};
-    Location location;
-    Agent agent;
-    Department department;
-    Agent user;
-    Department useGroup;
-    TagContent selectTagContent = null;
-    SortCategory sortCategory = null;
-    Calendar minCalendar;
-    Calendar maxCalendar;
-    Date minDate = null;
-    Date maxDate = null;
+    private SearchContract.view view;
+    private Location location;
+    private Agent agent;
+    private Department department;
+    private Agent user;
+    private Department useGroup;
+    private TagContent selectTagContent = null;
+    private SortCategory sortCategory = null;
+    private Calendar minCalendar;
+    private Calendar maxCalendar;
+    private Date minDate = null;
+    private Date maxDate = null;
 
     SearchPresenter(SearchContract.view view) {
         this.view = view;
@@ -76,33 +73,8 @@ public class SearchPresenter implements SearchContract.presenter {
 
     @Override
     public void start() {
-        init();
         view.findView();
         view.setViewClick();
-    }
-
-    private void init() {
-        List<Location> locationList = LocationSingleton.getInstance().getLocationList();
-        List<String> locationStringList = new ArrayList<>();
-        for (Location location : locationList) {
-            locationStringList.add(location.name);
-        }
-        locationStrings = locationStringList.toArray(locationStrings);
-
-        List<Agent> agentList = AgentSingleton.getInstance().getAgentList();
-        List<String> agentStringList = new ArrayList<>();
-        for (Agent agent : agentList) {
-            agentStringList.add(agent.name);
-        }
-        agentStrings = agentStringList.toArray(agentStrings);
-
-
-        List<Department> departmentList = DepartmentSingleton.getInstance().getDepartmentList();
-        List<String> departmentStringList = new ArrayList<>();
-        for (Department department : departmentList) {
-            departmentStringList.add(department.name);
-        }
-        departmentStrings = departmentStringList.toArray(departmentStrings);
     }
 
     @Override

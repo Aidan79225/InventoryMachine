@@ -6,6 +6,7 @@ import com.aidan.inventoryworkplatform.Database.DBHelper;
 import com.aidan.inventoryworkplatform.Database.DepartmentDAO;
 import com.aidan.inventoryworkplatform.Entity.Department;
 import com.aidan.inventoryworkplatform.Entity.Item;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,17 @@ public class DepartmentSingleton {
     public List<Department> getDepartmentList() {
         return departmentList;
     }
+
+    public List<Department> getDepartmentList(SelectableItem.Type type) {
+        List<Department> temp = new ArrayList<>();
+        for (Department department : departmentList) {
+            if (department.getType() == type) {
+                temp.add(department);
+            }
+        }
+        return temp;
+    }
+
     public void saveToDB() {
         try {
             DBHelper.getDatabase().beginTransaction();

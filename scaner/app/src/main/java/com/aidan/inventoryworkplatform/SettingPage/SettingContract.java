@@ -22,9 +22,12 @@ public interface SettingContract {
         void hideProgress();
         void updateProgress(int value);
         void dismissAllowingStateLoss();
+        void showToast(String msg);
+        void reset();
     }
     interface presenter{
         void start();
+        void itemTextViewClick(TextView itemTextView);
         void locationTextViewClick(TextView locationTextView);
         void departmentTextViewClick(TextView departmentTextView);
         void agentTextViewClick(TextView agentTextView);
