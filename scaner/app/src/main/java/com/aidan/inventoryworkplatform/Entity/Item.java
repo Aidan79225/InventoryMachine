@@ -430,4 +430,8 @@ public class Item {
         return type;
     }
 
+    public void setItemType(SelectableItem.Type type) {
+        this.type = type;
+    }
+
 }

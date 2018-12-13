@@ -166,6 +166,7 @@ public class FilePresenter implements FileContract.presenter {
             for (int i = 0; i < size; i++) {
                 JSONObject c = data.getJSONObject(i);
                 Item item = new Item(c);
+                item.setItemType(type);
                 if (allowType.contains(item.getPA3C1())) {
                     itemList.add(item);
                 }
