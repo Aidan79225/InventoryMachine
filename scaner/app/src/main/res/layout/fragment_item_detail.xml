@@ -520,7 +520,8 @@
 
                 <TextView
                     android:id="@+id/deleteTextView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="60dp"
+                    android:gravity="center"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
                     android:text="N"
@@ -545,7 +546,8 @@
 
                 <TextView
                     android:id="@+id/printTextView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="60dp"
+                    android:gravity="center"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
                     android:text="N"
