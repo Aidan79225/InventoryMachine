@@ -5,23 +5,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.View;
+
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aidan.inventoryworkplatform.Entity.Item;
-import com.aidan.inventoryworkplatform.KeyConstants;
 import com.aidan.inventoryworkplatform.Model.BarCodeCreator;
 import com.aidan.inventoryworkplatform.R;
 import com.brother.ptouch.sdk.LabelInfo;
@@ -32,9 +22,10 @@ import com.brother.ptouch.sdk.PrinterStatus;
 import com.google.zxing.BarcodeFormat;
 
 import java.io.ByteArrayOutputStream;
-import java.io.EOFException;
 import java.io.File;
 import java.io.FileOutputStream;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Aidan on 2017/10/15.

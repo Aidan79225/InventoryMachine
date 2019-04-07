@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -26,6 +25,8 @@ import com.google.zxing.BarcodeFormat;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+
+import androidx.annotation.NonNull;
 
 public class PrintItemLittleTagDialog extends Dialog {
     private Item item;

@@ -1,8 +1,5 @@
 package com.aidan.inventoryworkplatform.FragmentManager;
 
-import android.Manifest;
-import android.support.v4.app.ActivityCompat;
-
 import com.aidan.inventoryworkplatform.Model.AgentSingleton;
 import com.aidan.inventoryworkplatform.Model.DepartmentSingleton;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;

@@ -11,8 +11,8 @@
         android:singleLine="true"
         android:layout_margin="10dp"
         android:background="@null"/>
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="300dp"></android.support.v7.widget.RecyclerView>
+        android:layout_height="300dp"></androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>

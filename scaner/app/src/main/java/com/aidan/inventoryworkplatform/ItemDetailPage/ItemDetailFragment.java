@@ -1,10 +1,7 @@
 package com.aidan.inventoryworkplatform.ItemDetailPage;
 
-import android.app.AlertDialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +9,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.aidan.inventoryworkplatform.Constants;
 import com.aidan.inventoryworkplatform.Dialog.SearchItemAdapter;
 import com.aidan.inventoryworkplatform.Dialog.SearchItemDialog;
 import com.aidan.inventoryworkplatform.Dialog.SearchableItem;
@@ -23,9 +19,11 @@ import com.aidan.inventoryworkplatform.Printer.PrintItemLittleTagDialog;
 import com.aidan.inventoryworkplatform.Printer.PrinterItemDialog;
 import com.aidan.inventoryworkplatform.R;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.logging.SimpleFormatter;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
 
 
 /**

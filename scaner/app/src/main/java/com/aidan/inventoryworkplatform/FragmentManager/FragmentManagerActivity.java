@@ -1,55 +1,36 @@
 package com.aidan.inventoryworkplatform.FragmentManager;
 
 
-import android.Manifest;
-
-import static android.Manifest.permission.*;
-
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
-import android.provider.SyncStateContract;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.graphics.drawable.RippleDrawable;
 
 import com.aidan.inventoryworkplatform.BaseFragmentManager;
 import com.aidan.inventoryworkplatform.Database.AgentDAO;
 import com.aidan.inventoryworkplatform.Database.DepartmentDAO;
 import com.aidan.inventoryworkplatform.Database.ItemDAO;
 import com.aidan.inventoryworkplatform.Database.LocationDAO;
-import com.aidan.inventoryworkplatform.Entity.Agent;
 import com.aidan.inventoryworkplatform.FilePage.FileFragment;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
-import com.aidan.inventoryworkplatform.Model.AgentSingleton;
-import com.aidan.inventoryworkplatform.Model.DepartmentSingleton;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
-import com.aidan.inventoryworkplatform.Model.LocationSingleton;
 import com.aidan.inventoryworkplatform.R;
 import com.aidan.inventoryworkplatform.ScannerPage.ScannerFragment;
 import com.aidan.inventoryworkplatform.SearchPage.SearchFragment;
 import com.aidan.inventoryworkplatform.Singleton;
-import com.cipherlab.barcode.GeneralString;
-import com.cipherlab.barcode.ReaderManager;
-import com.cipherlab.barcode.decoder.BcReaderType;
-import com.cipherlab.barcode.decoder.Enable_State;
-import com.cipherlab.barcode.decoderparams.ReaderOutputConfiguration;
-import com.cipherlab.barcode.*;
-import com.cipherlab.barcodebase.*;
-import com.cipherlab.barcode.decoder.*;
-import com.cipherlab.barcode.decoderparams.*;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 public class FragmentManagerActivity extends AppCompatActivity implements FragmentManagerContract.view, BaseFragmentManager {
     FragmentManagerContract.presenter presenter;
@@ -76,11 +57,11 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
     @Override
     public void findView() {
         fragmentContainer = findViewById(R.id.fragmentContainer);
-        fileTextView = (TextView) findViewById(R.id.fileTextView);
-        scanTextView = (TextView) findViewById(R.id.scanTextView);
-        searchTextView = (TextView) findViewById(R.id.searchTextView);
-        itemListTextView = (TextView) findViewById(R.id.itemListTextView);
-        itemDetailTextView = (TextView) findViewById(R.id.itemDetailTextView);
+        fileTextView =  findViewById(R.id.fileTextView);
+        scanTextView = findViewById(R.id.scanTextView);
+        searchTextView =  findViewById(R.id.searchTextView);
+        itemListTextView =  findViewById(R.id.itemListTextView);
+        itemDetailTextView =  findViewById(R.id.itemDetailTextView);
         loadFileFragment();
     }
 
@@ -171,7 +152,7 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
 
     @Override
     public void loadFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         int backStackCount = fragmentManager.getBackStackEntryCount();
         for (int i = 0; i < backStackCount; i++) {
@@ -209,6 +190,27 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
             timer.schedule(new BackTimerTask(), 2500);
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.ScannerMenu:
+                showScannerSettingDialog();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showScannerSettingDialog() {
+
+    }
+
 
 
 }

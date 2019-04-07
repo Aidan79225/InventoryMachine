@@ -1,33 +1,15 @@
 package com.aidan.inventoryworkplatform.ScannerPage;
 
-import android.app.DialogFragment;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
-import android.graphics.PointF;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Vibrator;
-import android.support.annotation.ColorInt;
-import android.support.annotation.Nullable;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,21 +22,16 @@ import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
 import com.aidan.inventoryworkplatform.R;
 import com.aidan.inventoryworkplatform.SettingConstants;
 import com.aidan.inventoryworkplatform.Singleton;
-import com.cipherlab.barcode.GeneralString;
 import com.cipherlab.barcode.ReaderManager;
-import com.cipherlab.barcode.decoder.BcReaderType;
-import com.cipherlab.barcode.decoder.Enable_State;
-import com.cipherlab.barcode.decoderparams.ReaderOutputConfiguration;
 
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import cn.bingoogolapple.qrcode.core.QRCodeView;
 import cn.bingoogolapple.qrcode.zbar.ZBarView;
-import eu.livotov.labs.android.camview.ScannerLiveView;
-import eu.livotov.labs.android.camview.scanner.decoder.zxing.ZXDecoder;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
-import static android.content.Context.VIBRATOR_SERVICE;
 
 /**
  * Created by Aidan on 2017/1/22.
@@ -175,7 +152,6 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
         filter.addAction(com.cipherlab.barcode.GeneralString.Intent_SOFTTRIGGER_DATA);
         filter.addAction(com.cipherlab.barcode.GeneralString.Intent_PASS_TO_APP);
         filter.addAction(com.cipherlab.barcode.GeneralString.Intent_READERSERVICE_CONNECTED);
-//        getActivity().registerReceiver(scanReceiver, filter);
 
 
     }
