@@ -58,12 +58,14 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
     Runnable fileRunnable;
     ProgressDialog mProgressDialog;
     TextView clearTextView;
+    TextView readPurchaseDateTextView;
     int type = 0;
     private static final int readTxtType = 19;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static final int FILE_SELECT_CODE = 0;
     private static final int FILE_SELECT_NAME_CODE = 2;
     private static final int FILE_SELECT_ITEM_CODE = 3;
+    private static final int FILE_SELECT_PURCHASE_DATE_CODE = 4;
 
     @Override
     public void checkPermission() {
@@ -87,12 +89,7 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
 
     @Override
     public void showToast(final String msg) {
-        rootView.post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(rootView.getContext(),msg,Toast.LENGTH_SHORT).show();
-            }
-        });
+        rootView.post(() -> Toast.makeText(rootView.getContext(),msg,Toast.LENGTH_SHORT).show());
     }
 
 
@@ -121,105 +118,63 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
 
     @Override
     public void findView() {
-        inputTextView = (TextView) rootView.findViewById(R.id.inputTextView);
-        outputTextView = (TextView) rootView.findViewById(R.id.outputTextView);
-        readNameTextView = (TextView) rootView.findViewById(R.id.readNameTextView);
-        clearTextView = (TextView) rootView.findViewById(R.id.clearTextView);
-        outputItemTextView = (TextView) rootView.findViewById(R.id.outputItemTextView);
-        inputItemTextView = (TextView) rootView.findViewById(R.id.inputItemTextView);
+        inputTextView = rootView.findViewById(R.id.inputTextView);
+        outputTextView = rootView.findViewById(R.id.outputTextView);
+        readNameTextView = rootView.findViewById(R.id.readNameTextView);
+        clearTextView = rootView.findViewById(R.id.clearTextView);
+        outputItemTextView = rootView.findViewById(R.id.outputItemTextView);
+        inputItemTextView = rootView.findViewById(R.id.inputItemTextView);
+        readPurchaseDateTextView = rootView.findViewById(R.id.readPurchaseDateTextView);
     }
 
     @Override
     public void setViewClick() {
-        inputTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fileRunnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        showFileChooser(FILE_SELECT_CODE);
-                    }
-                };
-                checkPermission();
-            }
+        inputTextView.setOnClickListener(v -> {
+            fileRunnable = () -> showFileChooser(FILE_SELECT_CODE);
+            checkPermission();
         });
-        outputTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fileRunnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        Set<String> allowType = new HashSet<>();
-                        allowType.add("0");
-                        allowType.add("1");
-                        allowType.add("2");
-                        allowType.add("3");
-                        allowType.add("4");
-                        allowType.add("5");
-                        showFileNameDialog("請輸入財產檔名",Constants.PREFERENCE_PROPERTY_KEY,allowType);
-                    }
-                };
-                checkPermission();
-            }
+        outputTextView.setOnClickListener(v -> {
+            fileRunnable = () -> {
+                Set<String> allowType = new HashSet<>();
+                allowType.add("0");
+                allowType.add("1");
+                allowType.add("2");
+                allowType.add("3");
+                allowType.add("4");
+                allowType.add("5");
+                showFileNameDialog("請輸入財產檔名",Constants.PREFERENCE_PROPERTY_KEY,allowType);
+            };
+            checkPermission();
         });
-        outputItemTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fileRunnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        Set<String> allowType = new HashSet<>();
-                        allowType.add("6");
-                        showFileNameDialog("請輸入物品檔名",Constants.PREFERENCE_ITEM_KEY,allowType);
-                    }
-                };
-                checkPermission();
-            }
+        outputItemTextView.setOnClickListener(v -> {
+            fileRunnable = () -> {
+                Set<String> allowType = new HashSet<>();
+                allowType.add("6");
+                showFileNameDialog("請輸入物品檔名",Constants.PREFERENCE_ITEM_KEY,allowType);
+            };
+            checkPermission();
         });
-        readNameTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fileRunnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        showFileChooser(FILE_SELECT_NAME_CODE);
-                    }
-                };
-                checkPermission();
-            }
+        readNameTextView.setOnClickListener(v -> {
+            fileRunnable = () -> showFileChooser(FILE_SELECT_NAME_CODE);
+            checkPermission();
         });
-        clearTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
-                builder.setTitle(R.string.clear_data).
-                        setMessage(R.string.clear_data_msg).
-                        setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        }).
-                        setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                presenter.clearData();
-                                dialog.dismiss();
-                            }
-                        }).show();
-            }
+        readPurchaseDateTextView.setOnClickListener(v -> {
+            fileRunnable = () -> showFileChooser(FILE_SELECT_PURCHASE_DATE_CODE);
+            checkPermission();
         });
-        inputItemTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fileRunnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        showFileChooser(FILE_SELECT_ITEM_CODE);
-                    }
-                };
-                checkPermission();
-            }
+        clearTextView.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
+            builder.setTitle(R.string.clear_data).
+                    setMessage(R.string.clear_data_msg).
+                    setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss()).
+                    setPositiveButton(R.string.confirm, (dialog, which) -> {
+                        presenter.clearData();
+                        dialog.dismiss();
+                    }).show();
+        });
+        inputItemTextView.setOnClickListener(v -> {
+            fileRunnable = () -> showFileChooser(FILE_SELECT_ITEM_CODE);
+            checkPermission();
         });
 
 
@@ -227,38 +182,25 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
 
     @Override
     public void showProgress(final String title) {
-        rootView.post(new Runnable() {
-            @Override
-            public void run() {
-                mProgressDialog = new ProgressDialog(rootView.getContext());
-                mProgressDialog.setCancelable(false);
-                mProgressDialog.setTitle(title);
-                mProgressDialog.setMessage("正在處理請稍後...");
-                mProgressDialog.setMax(100);
-                mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                mProgressDialog.show();
-            }
+        rootView.post(() -> {
+            mProgressDialog = new ProgressDialog(rootView.getContext());
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.setTitle(title);
+            mProgressDialog.setMessage("正在處理請稍後...");
+            mProgressDialog.setMax(100);
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            mProgressDialog.show();
         });
     }
 
     @Override
     public void hideProgress() {
-        rootView.post(new Runnable() {
-            @Override
-            public void run() {
-                mProgressDialog.dismiss();
-            }
-        });
+        rootView.post(() -> mProgressDialog.dismiss());
     }
 
     @Override
     public void updateProgress(final int value) {
-        rootView.post(new Runnable() {
-            @Override
-            public void run() {
-                mProgressDialog.setProgress(value);
-            }
-        });
+        rootView.post(() -> mProgressDialog.setProgress(value));
     }
 
     public void showFileNameDialog(String title, final  String preferencesKey, final Set<String> allowType) {
@@ -280,19 +222,13 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
         editText.setSelection(editText.getText().length());
         editDialog.setView(editText);
 
-        editDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            // do something when the button is clicked
-            public void onClick(DialogInterface arg0, int arg1) {
-                presenter.saveFile(editText.getText().toString(),preferencesKey,allowType);
-                arg0.dismiss();
-            }
+        // do something when the button is clicked
+        editDialog.setPositiveButton("OK", (arg0, arg1) -> {
+            presenter.saveFile(editText.getText().toString(),preferencesKey,allowType);
+            arg0.dismiss();
         });
-        editDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            // do something when the button is clicked
-            public void onClick(DialogInterface arg0, int arg1) {
-                arg0.dismiss();
-            }
-        });
+        // do something when the button is clicked
+        editDialog.setNegativeButton("Cancel", (arg0, arg1) -> arg0.dismiss());
         editDialog.show();
     }
 
@@ -353,6 +289,14 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
                     Uri uri = data.getData();
                     String path = getPath(getActivity(), uri);
                     presenter.inputItemTextViewClick(path);
+                }
+                break;
+
+            case FILE_SELECT_PURCHASE_DATE_CODE:
+                if (resultCode == RESULT_OK) {
+                    Uri uri = data.getData();
+                    String path = getPath(getActivity(), uri);
+                    presenter.readPurchaseDateTextViewClick(path);
                 }
                 break;
         }

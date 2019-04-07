@@ -21,28 +21,25 @@ import jxl.read.biff.BiffException;
 public class ReadExcel {
     private ProgressAction progressAction;
 
-    public void read(final String inputFile) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+    public void readName(final String inputFile) {
+        new Thread(() -> {
+            if(progressAction != null){
+                progressAction.showProgress("讀取名稱中");
+            }
+            File inputWorkbook = new File(inputFile);
+            Workbook w;
+            try {
+                w = Workbook.getWorkbook(inputWorkbook);
+                loadAndSetName(w);
+            } catch (BiffException e) {
+                progressAction.showToast("檔案格式錯誤");
+                e.printStackTrace();
+            } catch (IOException iOException) {
+                progressAction.showToast("檔案格式錯誤");
+                iOException.printStackTrace();
+            }finally {
                 if(progressAction != null){
-                    progressAction.showProgress("讀取名稱中");
-                }
-                File inputWorkbook = new File(inputFile);
-                Workbook w;
-                try {
-                    w = Workbook.getWorkbook(inputWorkbook);
-                    loadAndSetName(w);
-                } catch (BiffException e) {
-                    progressAction.showToast("檔案格式錯誤");
-                    e.printStackTrace();
-                } catch (IOException iOException) {
-                    progressAction.showToast("檔案格式錯誤");
-                    iOException.printStackTrace();
-                }finally {
-                    if(progressAction != null){
-                        progressAction.hideProgress();
-                    }
+                    progressAction.hideProgress();
                 }
             }
         }).start();
@@ -74,6 +71,63 @@ public class ReadExcel {
             if(list != null){
                 for(Item item : list){
                     item.setNAME(name);
+                }
+            }
+            if(progressAction != null){
+                progressAction.updateProgress((i+1)*100/sheet.getRows());
+            }
+        }
+        ItemSingleton.getInstance().saveToDB();
+    }
+
+    public void readPurchaseDate(final String inputFile) {
+        new Thread(() -> {
+            if(progressAction != null){
+                progressAction.showProgress("讀取名稱中");
+            }
+            File inputWorkbook = new File(inputFile);
+            Workbook w;
+            try {
+                w = Workbook.getWorkbook(inputWorkbook);
+                loadAndSetPurchaseDate(w);
+            } catch (BiffException e) {
+                progressAction.showToast("檔案格式錯誤");
+                e.printStackTrace();
+            } catch (IOException iOException) {
+                progressAction.showToast("檔案格式錯誤");
+                iOException.printStackTrace();
+            }finally {
+                if(progressAction != null){
+                    progressAction.hideProgress();
+                }
+            }
+        }).start();
+    }
+
+    public void loadAndSetPurchaseDate(Workbook w) {
+        Sheet sheet = w.getSheet(0);
+        List<Item> itemList = ItemSingleton.getInstance().getItemList();
+        Map<String,List<Item>> itemMap = new HashMap<>();
+        for(Item item : itemList){
+            List<Item> list = itemMap.get(item.getNumber());
+            if(list == null){
+                list = new ArrayList<>();
+            }
+            list.add(item);
+            itemMap.put(item.getNumber(),list);
+        }
+        for (int i = 0; i < sheet.getRows(); i++) {
+            if (i == 0) continue;
+            String number = sheet.getCell(0, i).getContents().split("-")[0];
+            String id = sheet.getCell(0, i).getContents().split("-")[1];
+
+
+            List<Item> list = itemMap.get(number);
+            if(list != null){
+                for(Item item : list){
+                    if (item.getSerialNumber().equals(id)) {
+                        item.setPurchaseDate(sheet.getCell(1, i).getContents());
+                    }
                 }
             }
             if(progressAction != null){

@@ -1,8 +1,6 @@
 package com.aidan.inventoryworkplatform.FilePage;
 
-import android.os.AsyncTask;
 import android.os.Environment;
-import android.provider.MediaStore;
 
 import com.aidan.inventoryworkplatform.Constants;
 import com.aidan.inventoryworkplatform.Database.AgentDAO;
@@ -28,29 +26,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.PrintStream;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static android.R.attr.borderlessButtonStyle;
-import static android.R.attr.data;
-import static android.R.attr.value;
 
 /**
  * Created by Aidan on 2016/11/20.
@@ -132,7 +120,14 @@ public class FilePresenter implements FileContract.presenter {
     public void readNameTextViewClick(String path) {
         ReadExcel readExcel = new ReadExcel();
         readExcel.setProgressAction((ReadExcel.ProgressAction) view);
-        readExcel.read(path);
+        readExcel.readName(path);
+    }
+
+    @Override
+    public void readPurchaseDateTextViewClick(String path) {
+        ReadExcel readExcel = new ReadExcel();
+        readExcel.setProgressAction((ReadExcel.ProgressAction) view);
+        readExcel.readPurchaseDate(path);
     }
 
     private void dropTable() {

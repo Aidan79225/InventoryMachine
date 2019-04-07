@@ -58,33 +58,33 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
 
     @Override
     public void findView() {
-        confirmButton = (Button) rootView.findViewById(R.id.confirmButton);
-        cancelButton = (Button) rootView.findViewById(R.id.cancelButton);
-        printButton= (Button) rootView.findViewById(R.id.printButton);
-        yearsTextView = (TextView) rootView.findViewById(R.id.yearsTextView);
-        buyDateTextView = (TextView) rootView.findViewById(R.id.buyDateTextView);
-        brandTextView = (TextView) rootView.findViewById(R.id.brandTextView);
-        typeTextView = (TextView) rootView.findViewById(R.id.typeTextView);
+        confirmButton = rootView.findViewById(R.id.confirmButton);
+        cancelButton = rootView.findViewById(R.id.cancelButton);
+        printButton= rootView.findViewById(R.id.printButton);
+        yearsTextView = rootView.findViewById(R.id.yearsTextView);
+        buyDateTextView = rootView.findViewById(R.id.buyDateTextView);
+        brandTextView = rootView.findViewById(R.id.brandTextView);
+        typeTextView = rootView.findViewById(R.id.typeTextView);
 
-        locationTextView = (TextView) rootView.findViewById(R.id.locationTextView);
-        nameTextView = (TextView) rootView.findViewById(R.id.nameTextView);
-        itemIdTextView = (TextView) rootView.findViewById(R.id.itemIdTextView);
+        locationTextView = rootView.findViewById(R.id.locationTextView);
+        nameTextView = rootView.findViewById(R.id.nameTextView);
+        itemIdTextView = rootView.findViewById(R.id.itemIdTextView);
 
-        custodyGroupTextView = (TextView) rootView.findViewById(R.id.custodyGroupTextView);
-        custodianTextView = (TextView) rootView.findViewById(R.id.custodianTextView);
-        useGroupTextView = (TextView) rootView.findViewById(R.id.useGroupTextView);
-        userTextView = (TextView) rootView.findViewById(R.id.userTextView);
-        deleteTextView = (TextView) rootView.findViewById(R.id.deleteTextView);
-        printTextView = (TextView) rootView.findViewById(R.id.printTextView);
-        nickNameTextView = (TextView) rootView.findViewById(R.id.nickNameTextView);
-        tagContentTextView= (TextView) rootView.findViewById(R.id.tagContentTextView);
-        printLittleButton = (Button) rootView.findViewById(R.id.printLittleButton);
+        custodyGroupTextView = rootView.findViewById(R.id.custodyGroupTextView);
+        custodianTextView = rootView.findViewById(R.id.custodianTextView);
+        useGroupTextView = rootView.findViewById(R.id.useGroupTextView);
+        userTextView = rootView.findViewById(R.id.userTextView);
+        deleteTextView = rootView.findViewById(R.id.deleteTextView);
+        printTextView = rootView.findViewById(R.id.printTextView);
+        nickNameTextView = rootView.findViewById(R.id.nickNameTextView);
+        tagContentTextView= rootView.findViewById(R.id.tagContentTextView);
+        printLittleButton = rootView.findViewById(R.id.printLittleButton);
     }
 
     @Override
     public void setViewValue(Item item) {
         yearsTextView.setText(item.getYears());
-        buyDateTextView.setText(item.ADtoCal());
+        buyDateTextView.setText(item.ADtoCal() +", " +item.getPurchaseDate());
         brandTextView.setText(item.getBrand());
         typeTextView.setText(item.getType());
         custodianTextView.setText(item.getCustodian().name);

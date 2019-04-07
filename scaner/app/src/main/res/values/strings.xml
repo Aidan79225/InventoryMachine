@@ -21,7 +21,7 @@
     <string name="use_department">使用單位</string>
     <string name="type">型式</string>
     <string name="brand">廠牌</string>
-    <string name="buy_date">取得日</string>
+    <string name="buy_date">取得/購置日</string>
     <string name="years">年限</string>
     <string name="delete">報廢</string>
     <string name="print">補印</string>

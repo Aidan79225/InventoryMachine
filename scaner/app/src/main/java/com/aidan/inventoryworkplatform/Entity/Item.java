@@ -1,7 +1,5 @@
 package com.aidan.inventoryworkplatform.Entity;
 
-import android.nfc.Tag;
-
 import com.aidan.inventoryworkplatform.KeyConstants;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 
@@ -16,6 +14,7 @@ import java.util.Date;
  */
 
 public class Item {
+    private static final String PurchaseDateKey = "purchaseDate";
     private long id = 0;
     private String PA341 = "PA341";
     private String PA342 = "PA342";
@@ -29,7 +28,8 @@ public class Item {
     private String PA3P3 = "PA3P3";
     private String PA3PS = "PA3PS";
     private String PA3MK = "PA3MK";
-    private String PA3BD = "PA3BD";
+    private String PA3BD = "PA3BD"; // 取得日期
+    private String purchaseDate = ""; //購置日期
     private String PA3PY = "PA3PY";
     private String PA3LOC = "PA3LOC";
     private String PA3LOCN = "PA3LOCN";
@@ -87,6 +87,9 @@ public class Item {
         try {
             type = SelectableItem.Type.valueOf(jsonObject.getString(ItemConstants.TYPE));
         } catch (Exception e){ }
+        try {
+            purchaseDate = jsonObject.getString(PurchaseDateKey);
+        } catch (Exception e){ }
     }
 
     public void setData(String data) {
@@ -123,9 +126,13 @@ public class Item {
             try {
                 type = SelectableItem.Type.valueOf(jsonObject.getString(ItemConstants.TYPE));
             } catch (Exception e){ }
+            try {
+                purchaseDate = jsonObject.getString(PurchaseDateKey);
+            } catch (Exception e){ }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
 
     }
 
@@ -197,6 +204,7 @@ public class Item {
             jsonObject.put(ItemConstants.PA3PRN, PA3PRN);
             jsonObject.put(ItemConstants.NAME, NAME);
             jsonObject.put(ItemConstants.TYPE, type);
+            jsonObject.put(PurchaseDateKey, purchaseDate);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -390,7 +398,7 @@ public class Item {
         ans += "  財產編號：" + getTagIdNumber() + "\n";
         ans += "  財產名稱：" + getName() + "\n";
         ans += "  財產別名：" + getNickName() + "\n";
-        ans += "  取得日期：" + ADtoCal() + "\t年限：" + getYears() + "\n";
+        ans += "  取得/購置日期：" + ADtoCal() + ", " + purchaseDate +  "\t年限：" + getYears() + "\n";
         if (tagContent != null) {
             ans += "  " + tagContent.getName() + "：";
             switch (tagContent) {
@@ -411,6 +419,14 @@ public class Item {
 
         ans += "  廠牌/型式：" + getBrand() + "/" + getType() + "\n";
         return ans;
+    }
+
+    public String getPurchaseDate() {
+        return purchaseDate;
+    }
+
+    public void setPurchaseDate(String purchaseDate) {
+        this.purchaseDate = purchaseDate;
     }
 
     public String ADtoCal() {
