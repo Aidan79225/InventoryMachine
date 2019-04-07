@@ -2,6 +2,7 @@ package com.aidan.inventoryworkplatform.ScannerPage;
 
 import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
+import com.aidan.inventoryworkplatform.SettingConstants;
 import com.aidan.inventoryworkplatform.Singleton;
 
 import java.util.ArrayList;
@@ -54,6 +55,12 @@ public class ScannerPresenter implements ScannerContract.presenter {
         for (Item item : ItemSingleton.getInstance().getItemList()) {
             if (item.getNumber().equals(temps[1]) && serialNumber == Integer.valueOf(item.getSerialNumber().substring(2))) {
                 item.setConfirm(true);
+                if (Singleton.preferences.getBoolean(SettingConstants.PRINT_IN_SCANNER, false)) {
+                    item.setPrint(true);
+                }
+                if (Singleton.preferences.getBoolean(SettingConstants.DELETE_IN_SCANNER, false)) {
+                    item.setDelete(true);
+                }
                 itemList.add(0, item);
                 ItemSingleton.getInstance().saveItem(item);
                 view.refreshList();

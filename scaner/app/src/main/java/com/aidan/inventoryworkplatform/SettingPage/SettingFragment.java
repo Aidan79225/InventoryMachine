@@ -59,14 +59,14 @@ public class SettingFragment extends DialogFragment implements SettingContract.v
 
     @Override
     public void findView() {
-        locationTextView = (TextView) rootView.findViewById(R.id.locationTextView);
-        agentTextView = (TextView) rootView.findViewById(R.id.agentTextView);
-        departmentTextView = (TextView) rootView.findViewById(R.id.departmentTextView);
-        cancelTextView = (TextView) rootView.findViewById(R.id.cancelTextView);
-        settingTextView = (TextView) rootView.findViewById(R.id.settingTextView);
-        useGroupTextView = (TextView) rootView.findViewById(R.id.useGroupTextView);
-        userTextView = (TextView) rootView.findViewById(R.id.userTextView);
-        itemTextView = (TextView) rootView.findViewById(R.id.itemTextView);
+        locationTextView = rootView.findViewById(R.id.locationTextView);
+        agentTextView = rootView.findViewById(R.id.agentTextView);
+        departmentTextView = rootView.findViewById(R.id.departmentTextView);
+        cancelTextView = rootView.findViewById(R.id.cancelTextView);
+        settingTextView = rootView.findViewById(R.id.settingTextView);
+        useGroupTextView = rootView.findViewById(R.id.useGroupTextView);
+        userTextView = rootView.findViewById(R.id.userTextView);
+        itemTextView = rootView.findViewById(R.id.itemTextView);
     }
 
     @Override

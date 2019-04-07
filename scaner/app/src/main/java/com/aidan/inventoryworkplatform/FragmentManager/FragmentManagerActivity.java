@@ -16,6 +16,7 @@ import com.aidan.inventoryworkplatform.Database.AgentDAO;
 import com.aidan.inventoryworkplatform.Database.DepartmentDAO;
 import com.aidan.inventoryworkplatform.Database.ItemDAO;
 import com.aidan.inventoryworkplatform.Database.LocationDAO;
+import com.aidan.inventoryworkplatform.Dialog.ScannerSettingDialog;
 import com.aidan.inventoryworkplatform.FilePage.FileFragment;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
@@ -68,30 +69,10 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
 
     @Override
     public void setViewClick() {
-        fileTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFileFragment();
-            }
-        });
-        itemListTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadItemListFragment();
-            }
-        });
-        searchTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadSearchFragment();
-            }
-        });
-        scanTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadScannerFragment();
-            }
-        });
+        fileTextView.setOnClickListener(v -> loadFileFragment());
+        itemListTextView.setOnClickListener(v -> loadItemListFragment());
+        searchTextView.setOnClickListener(v -> loadSearchFragment());
+        scanTextView.setOnClickListener(v -> loadScannerFragment());
     }
 
     @Override
@@ -208,7 +189,7 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
     }
 
     private void showScannerSettingDialog() {
-
+        new ScannerSettingDialog().show(getSupportFragmentManager(), ScannerSettingDialog.class.getName());
     }
 
 
