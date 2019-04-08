@@ -1,39 +1,39 @@
 <resources>
-    <string name="check_system">欣華盤點系統</string>
-    <string name="input_file">電腦轉至行動裝置(財產)</string>
-    <string name="input_file_item">電腦轉至行動裝置(物品)</string>
+    <string name="check_system" translatable="false">欣華盤點系統</string>
+    <string name="input_file" translatable="false">電腦轉至行動裝置(財產)</string>
+    <string name="input_file_item" translatable="false">電腦轉至行動裝置(物品)</string>
     <!--Page-->
-    <string name="file_page">檔案頁面</string>
-    <string name="scan_page">盤點掃描</string>
-    <string name="search_page">人工查詢</string>
-    <string name="itemList_page">財產清單</string>
-    <string name="itemDetail_page">財產明細</string>
+    <string name="file_page" translatable="false">檔案頁面</string>
+    <string name="scan_page" translatable="false">盤點掃描</string>
+    <string name="search_page" translatable="false">人工查詢</string>
+    <string name="itemList_page" translatable="false">財產清單</string>
+    <string name="itemDetail_page" translatable="false">財產明細</string>
     <!--Item List Adapter-->
-    <string name="status">狀態</string>
-    <string name="name">財產別名</string>
-    <string name="item_id">財產編號-流水號</string>
-    <string name="item_little_id">財產編號</string>
-    <string name="item_water_id">流水號</string>
-    <string name="save_location">存置地點</string>
-    <string name="save_agent">保管人</string>
-    <string name="save_department">保管單位</string>
-    <string name="use_agent">使用人</string>
-    <string name="use_department">使用單位</string>
-    <string name="type">型式</string>
-    <string name="brand">廠牌</string>
-    <string name="buy_date">取得/購置日</string>
-    <string name="years">年限</string>
-    <string name="delete">報廢</string>
-    <string name="print">補印</string>
-    <string name="confirm">確認</string>
-    <string name="cancel">取消</string>
-    <string name="search">查詢</string>
-    <string name="clear">清除</string>
-    <string name="print_it">列印</string>
-    <string name="print_little_it">列印小標籤</string>
-    <string name="already_check_information">已盤 %1$d 筆 / 總數 %2$d 筆</string>
-    <string name="clear_data">清除全部資料</string>
-    <string name="clear_data_msg">您確定要清除資料？（清除後將無法取回）</string>
+    <string name="status" translatable="false">狀態</string>
+    <string name="name" translatable="false">財產別名</string>
+    <string name="item_id" translatable="false">財產編號-流水號</string>
+    <string name="item_little_id" translatable="false">財產編號</string>
+    <string name="item_water_id" translatable="false">流水號</string>
+    <string name="save_location" translatable="false">存置地點</string>
+    <string name="save_agent" translatable="false">保管人</string>
+    <string name="save_department" translatable="false">保管單位</string>
+    <string name="use_agent" translatable="false">使用人</string>
+    <string name="use_department" translatable="false">使用單位</string>
+    <string name="type" translatable="false">型式</string>
+    <string name="brand" translatable="false">廠牌</string>
+    <string name="buy_date" translatable="false">取得/購置日</string>
+    <string name="years" translatable="false">年限</string>
+    <string name="delete" translatable="false">報廢</string>
+    <string name="print" translatable="false">補印</string>
+    <string name="confirm" translatable="false">確認</string>
+    <string name="cancel" translatable="false">取消</string>
+    <string name="search" translatable="false">查詢</string>
+    <string name="clear" translatable="false">清除</string>
+    <string name="print_it" translatable="false">列印</string>
+    <string name="print_little_it" translatable="false">列印小標籤</string>
+    <string name="already_check_information" translatable="false">已盤 %1$d 筆 / 總數 %2$d 筆</string>
+    <string name="clear_data" translatable="false">清除全部資料</string>
+    <string name="clear_data_msg" translatable="false">您確定要清除資料？（清除後將無法取回）</string>
     <string name="pickerview_cancel">取消</string>
     <string name="pickerview_submit">確定</string>
     <string name="pickerview_year">年</string>

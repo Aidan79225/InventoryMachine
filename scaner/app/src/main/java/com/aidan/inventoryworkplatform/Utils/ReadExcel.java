@@ -4,6 +4,8 @@ import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,15 +23,14 @@ import jxl.read.biff.BiffException;
 public class ReadExcel {
     private ProgressAction progressAction;
 
-    public void readName(final String inputFile) {
+    public void readName(final FileDescriptor fileDescriptor) {
         new Thread(() -> {
             if(progressAction != null){
                 progressAction.showProgress("讀取名稱中");
             }
-            File inputWorkbook = new File(inputFile);
             Workbook w;
             try {
-                w = Workbook.getWorkbook(inputWorkbook);
+                w = Workbook.getWorkbook(new FileInputStream(fileDescriptor));
                 loadAndSetName(w);
             } catch (BiffException e) {
                 progressAction.showToast("檔案格式錯誤");
@@ -80,15 +81,14 @@ public class ReadExcel {
         ItemSingleton.getInstance().saveToDB();
     }
 
-    public void readPurchaseDate(final String inputFile) {
+    public void readPurchaseDate(final FileDescriptor fileDescriptor) {
         new Thread(() -> {
             if(progressAction != null){
                 progressAction.showProgress("讀取名稱中");
             }
-            File inputWorkbook = new File(inputFile);
             Workbook w;
             try {
-                w = Workbook.getWorkbook(inputWorkbook);
+                w = Workbook.getWorkbook(new FileInputStream(fileDescriptor));
                 loadAndSetPurchaseDate(w);
             } catch (BiffException e) {
                 progressAction.showToast("檔案格式錯誤");

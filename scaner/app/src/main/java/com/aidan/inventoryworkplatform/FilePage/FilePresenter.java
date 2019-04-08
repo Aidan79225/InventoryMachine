@@ -28,6 +28,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -58,31 +59,27 @@ public class FilePresenter implements FileContract.presenter {
     }
 
     @Override
-    public void readTxtButtonClick(final String path) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Set<String> allowType = new HashSet<>();
-                allowType.add("0");
-                allowType.add("1");
-                allowType.add("2");
-                allowType.add("3");
-                allowType.add("4");
-                allowType.add("5");
-                loadData(path, "讀取財產中", allowType, Constants.PREFERENCE_PROPERTY_KEY, SelectableItem.Type.property);
-            }
+    public void readTxtButtonClick(final FileDescriptor fileDescriptor) {
+        new Thread(() -> {
+            Set<String> allowType = new HashSet<>();
+            allowType.add("0");
+            allowType.add("1");
+            allowType.add("2");
+            allowType.add("3");
+            allowType.add("4");
+            allowType.add("5");
+            loadData(fileDescriptor, "讀取財產中", allowType, Constants.PREFERENCE_PROPERTY_KEY, SelectableItem.Type.property);
         }).start();
     }
 
-    private void loadData(String path, String msg, Set<String> allowType, String key, SelectableItem.Type type) {
+    private void loadData(FileDescriptor fileDescriptor, String msg, Set<String> allowType, String key, SelectableItem.Type type) {
         view.showProgress(msg);
         List<Item> itemList = ItemSingleton.getInstance().getItemList();
         List<Location> locationList = LocationSingleton.getInstance().getLocationList();
         List<Agent> agentList = AgentSingleton.getInstance().getAgentList();
         List<Department> departmentList = DepartmentSingleton.getInstance().getDepartmentList();
         try {
-            File yourFile = new File(path);
-            FileInputStream stream = new FileInputStream(yourFile);
+            FileInputStream stream = new FileInputStream(fileDescriptor);
             String jsonStr = "";
 
             try {
@@ -115,19 +112,18 @@ public class FilePresenter implements FileContract.presenter {
         }
     }
 
-
     @Override
-    public void readNameTextViewClick(String path) {
+    public void readNameTextViewClick(FileDescriptor fileDescriptor) {
         ReadExcel readExcel = new ReadExcel();
         readExcel.setProgressAction((ReadExcel.ProgressAction) view);
-        readExcel.readName(path);
+        readExcel.readName(fileDescriptor);
     }
 
     @Override
-    public void readPurchaseDateTextViewClick(String path) {
+    public void readPurchaseDateTextViewClick(FileDescriptor fileDescriptor) {
         ReadExcel readExcel = new ReadExcel();
         readExcel.setProgressAction((ReadExcel.ProgressAction) view);
-        readExcel.readPurchaseDate(path);
+        readExcel.readPurchaseDate(fileDescriptor);
     }
 
     private void dropTable() {
@@ -299,14 +295,11 @@ public class FilePresenter implements FileContract.presenter {
     }
 
     @Override
-    public void inputItemTextViewClick(final String path) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Set<String> allowType = new HashSet<>();
-                allowType.add("6");
-                loadData(path, "讀取物品中", allowType, Constants.PREFERENCE_ITEM_KEY, SelectableItem.Type.item);
-            }
+    public void inputItemTextViewClick(final FileDescriptor fileDescriptor) {
+        new Thread(() -> {
+            Set<String> allowType = new HashSet<>();
+            allowType.add("6");
+            loadData(fileDescriptor, "讀取物品中", allowType, Constants.PREFERENCE_ITEM_KEY, SelectableItem.Type.item);
         }).start();
     }
 

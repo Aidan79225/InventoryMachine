@@ -2,6 +2,7 @@ package com.aidan.inventoryworkplatform.FilePage;
 
 import com.aidan.inventoryworkplatform.Utils.ReadExcel;
 
+import java.io.FileDescriptor;
 import java.util.Set;
 
 /**
@@ -20,11 +21,11 @@ public interface FileContract {
     }
     interface presenter{
         void start();
-        void readTxtButtonClick(String path);
-        void readNameTextViewClick(String path);
-        void readPurchaseDateTextViewClick(String path);
-        void saveFile(String fileName,String preferencesKey,Set<String> allowType);
+        void readTxtButtonClick(FileDescriptor fileDescriptor);
+        void readNameTextViewClick(FileDescriptor fileDescriptor);
+        void readPurchaseDateTextViewClick(FileDescriptor fileDescriptor);
+        void saveFile(String fileName, String preferencesKey, Set<String> allowType);
         void clearData();
-        void inputItemTextViewClick(String path);
+        void inputItemTextViewClick(FileDescriptor fileDescriptor);
     }
 }
