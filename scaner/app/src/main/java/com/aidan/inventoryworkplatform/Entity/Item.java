@@ -398,7 +398,7 @@ public class Item {
         ans += "  財產編號：" + getTagIdNumber() + "\n";
         ans += "  財產名稱：" + getName() + "\n";
         ans += "  財產別名：" + getNickName() + "\n";
-        ans += "  取得/購置日期：" + ADtoCal() + ", " + purchaseDate +  "\t年限：" + getYears() + "\n";
+        ans += "  取得/購置：" + ADtoCal() + ", " + purchaseDate +  "  年限：" + getYears() + "\n";
         if (tagContent != null) {
             ans += "  " + tagContent.getName() + "：";
             switch (tagContent) {

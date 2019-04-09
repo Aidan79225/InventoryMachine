@@ -10,4 +10,7 @@ public class SettingConstants {
 
     public static final String DELETE_IN_SCANNER = "DELETE_IN_SCANNER";
     public static final String PRINT_IN_SCANNER = "PRINT_IN_SCANNER";
+
+    public static final String ITEM_TAG_TYPE = "ITEM_TAG_TYPE";
+
 }

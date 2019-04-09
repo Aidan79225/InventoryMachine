@@ -56,6 +56,7 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
     ProgressDialog mProgressDialog;
     TextView clearTextView;
     TextView readPurchaseDateTextView;
+
     int type = 0;
     private static final int readTxtType = 19;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -63,6 +64,8 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
     private static final int FILE_SELECT_NAME_CODE = 2;
     private static final int FILE_SELECT_ITEM_CODE = 3;
     private static final int FILE_SELECT_PURCHASE_DATE_CODE = 4;
+    private static final String TEXT_MIME = "text/*";
+    private static final String XLS_MIME = "application/vnd.ms-excel";
 
     @Override
     public void checkPermission() {
@@ -127,7 +130,7 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
     @Override
     public void setViewClick() {
         inputTextView.setOnClickListener(v -> {
-            fileRunnable = () -> showFileChooser(FILE_SELECT_CODE);
+            fileRunnable = () -> showFileChooser("text/*", FILE_SELECT_CODE);
             checkPermission();
         });
         outputTextView.setOnClickListener(v -> {
@@ -152,11 +155,11 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
             checkPermission();
         });
         readNameTextView.setOnClickListener(v -> {
-            fileRunnable = () -> showFileChooser(FILE_SELECT_NAME_CODE);
+            fileRunnable = () -> showFileChooser(XLS_MIME, FILE_SELECT_NAME_CODE);
             checkPermission();
         });
         readPurchaseDateTextView.setOnClickListener(v -> {
-            fileRunnable = () -> showFileChooser(FILE_SELECT_PURCHASE_DATE_CODE);
+            fileRunnable = () -> showFileChooser(XLS_MIME, FILE_SELECT_PURCHASE_DATE_CODE);
             checkPermission();
         });
         clearTextView.setOnClickListener(v -> {
@@ -170,7 +173,7 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
                     }).show();
         });
         inputItemTextView.setOnClickListener(v -> {
-            fileRunnable = () -> showFileChooser(FILE_SELECT_ITEM_CODE);
+            fileRunnable = () -> showFileChooser(TEXT_MIME, FILE_SELECT_ITEM_CODE);
             checkPermission();
         });
 
@@ -229,10 +232,10 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
         editDialog.show();
     }
 
-    private void showFileChooser(int requestCode) {
+    private void showFileChooser(String mimeType, int requestCode) {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("text/*");
+        intent.setType(mimeType);
         getActivity().startActivityForResult(intent, requestCode);
     }
 
