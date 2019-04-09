@@ -1,7 +1,10 @@
 package com.aidan.inventoryworkplatform.ItemDetailPage;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +22,12 @@ import com.aidan.inventoryworkplatform.Printer.PrintItemLittleTagDialog;
 import com.aidan.inventoryworkplatform.Printer.PrinterItemDialog;
 import com.aidan.inventoryworkplatform.R;
 
+import java.io.File;
 import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 
 
@@ -38,7 +43,7 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
             custodyGroupTextView, custodianTextView,
             useGroupTextView, userTextView,
             deleteTextView,printTextView,nickNameTextView,tagContentTextView;
-    Button confirmButton,printButton , cancelButton, printLittleButton;
+    Button confirmButton,printButton , cancelButton, printLittleButton, photoButton;
     ItemListFragment.RefreshItems refreshItems;
 
     public static ItemDetailFragment newInstance(Item item, ItemListFragment.RefreshItems refreshItems) {
@@ -79,6 +84,7 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         nickNameTextView = rootView.findViewById(R.id.nickNameTextView);
         tagContentTextView= rootView.findViewById(R.id.tagContentTextView);
         printLittleButton = rootView.findViewById(R.id.printLittleButton);
+        photoButton = rootView.findViewById(R.id.photoButton);
     }
 
     @Override
@@ -102,6 +108,27 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         }
         printButton.setVisibility(KeyConstants.showPrint ? View.VISIBLE : View.GONE);
         printLittleButton.setVisibility(KeyConstants.showPrintLittleTag ? View.VISIBLE : View.GONE);
+        photoButton.setOnClickListener(v -> startPhotoActivity(item.getIdNumber().replace("-","")));
+
+    }
+
+    private void startPhotoActivity(String fileName) {
+        String dir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/欣華盤點系統/照片";
+        File dirFile = new File(dir);
+        if (!dirFile.exists()) {
+            dirFile.mkdirs();
+        }
+
+        int count = 1;
+        File file = new File(dir, fileName + count + ".jpg");
+        while (file.exists()) {
+            count++;
+            file = new File(dir, fileName+ count + ".jpg");
+        }
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(getContext(), getContext().getPackageName() + ".fileprovider", file));
+        startActivity(intent);
     }
 
     @Override

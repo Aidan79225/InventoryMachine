@@ -74,12 +74,12 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
 
     @Override
     public void findView() {
-        scanEditText = (EditText) rootView.findViewById(R.id.scanEditText);
-        itemListView = (ListView) rootView.findViewById(R.id.itemListView);
-        zbarview = (ZBarView) rootView.findViewById(R.id.zbarview);
-        cameraButton = (TextView) rootView.findViewById(R.id.cameraButton);
-        listTitleTextView = (TextView) rootView.findViewById(R.id.listTitleTextView);
-        titleTextView = (TextView) rootView.findViewById(R.id.titleTextView);
+        scanEditText = rootView.findViewById(R.id.scanEditText);
+        itemListView = rootView.findViewById(R.id.itemListView);
+        zbarview = rootView.findViewById(R.id.zbarview);
+        cameraButton = rootView.findViewById(R.id.cameraButton);
+        listTitleTextView = rootView.findViewById(R.id.listTitleTextView);
+        titleTextView = rootView.findViewById(R.id.titleTextView);
         zbarview.setDelegate(this);
         zbarview.changeToScanBarcodeStyle();
     }
