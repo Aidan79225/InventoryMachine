@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,13 +29,13 @@ public class ItemListFragment extends DialogFragment implements ItemListContract
     private ItemListAdapter adapter;
     private ViewGroup rootView;
     private ListView itemListView;
-    private TextView contentTextView,settingTextView;
+    private TextView contentTextView, settingTextView;
     private BaseFragmentManager baseFragmentManager;
     private boolean showSetAll = false;
 
-    public static ItemListFragment newInstance(List<Item> itemList,BaseFragmentManager baseFragmentManager,boolean showSetAll){
+    public static ItemListFragment newInstance(List<Item> itemList, BaseFragmentManager baseFragmentManager, boolean showSetAll) {
         ItemListFragment fragment = new ItemListFragment();
-        fragment.presenter = new ItemListPresenter(fragment,itemList);
+        fragment.presenter = new ItemListPresenter(fragment, itemList);
         fragment.baseFragmentManager = baseFragmentManager;
         fragment.showSetAll = showSetAll;
         return fragment;
@@ -45,7 +44,8 @@ public class ItemListFragment extends DialogFragment implements ItemListContract
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_item_list, container, false);
-        if(presenter == null)presenter = new ItemListPresenter(this, ItemSingleton.getInstance().getItemList());
+        if (presenter == null)
+            presenter = new ItemListPresenter(this, ItemSingleton.getInstance().getItemList());
         presenter.start();
         return rootView;
     }
@@ -63,21 +63,32 @@ public class ItemListFragment extends DialogFragment implements ItemListContract
         adapter = new ItemListAdapter(itemList);
         adapter.setContentInformationTextView(contentTextView);
         itemListView.setAdapter(adapter);
-        itemListView.setOnItemClickListener((parent, view, position, id) -> gotoDetailFragment(adapter.getItem(position-1), () -> adapter.notifyDataSetChanged()));
+        itemListView.setOnItemClickListener(
+                (parent, view, position, id) -> {
+                    Item item = adapter.getItem(position - 1);
+                    if (item == null) {
+                        return;
+                    }
+                    gotoDetailFragment(
+                            item,
+                            () -> adapter.notifyDataSetChanged()
+                    );
+                }
+        );
         itemListView.setOnLongClickListener(v -> false);
         adapter.notifyDataSetChanged();
         settingTextView.setOnClickListener(v -> {
             DialogFragment dialogFragment = SettingFragment.newInstance(baseFragmentManager, adapter.getItems(), () -> adapter.notifyDataSetChanged());
-            dialogFragment.show(getFragmentManager(),dialogFragment.getClass().getName());
+            dialogFragment.show(getFragmentManager(), dialogFragment.getClass().getName());
         });
     }
 
-    private void gotoDetailFragment(Item item,ItemListFragment.RefreshItems refreshItems){
-        DialogFragment fragment = ItemDetailFragment.newInstance(item,refreshItems);
-        fragment.show(getFragmentManager(),ItemDetailFragment.class.getName());
+    private void gotoDetailFragment(Item item, ItemListFragment.RefreshItems refreshItems) {
+        DialogFragment fragment = ItemDetailFragment.newInstance(item, refreshItems);
+        fragment.show(getFragmentManager(), ItemDetailFragment.class.getName());
     }
 
-    public interface RefreshItems{
+    public interface RefreshItems {
         void refresh();
     }
 }

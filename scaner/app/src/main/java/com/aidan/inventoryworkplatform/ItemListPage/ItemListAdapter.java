@@ -32,6 +32,9 @@ public class ItemListAdapter extends BaseAdapter {
 
     @Override
     public Item getItem(int position) {
+        if (position < 0 || position > itemList.size()) {
+            return null;
+        }
         return itemList.get(position);
     }
 
