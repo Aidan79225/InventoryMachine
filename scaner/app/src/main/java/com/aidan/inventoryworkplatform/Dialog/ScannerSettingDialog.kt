@@ -7,9 +7,11 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Observer
 import com.aidan.inventoryworkplatform.R
 import com.aidan.inventoryworkplatform.SettingConstants
 import com.aidan.inventoryworkplatform.Singleton
+import com.aidan.inventoryworkplatform.Utils.SettingsSingleton
 
 class ScannerSettingDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -31,7 +33,16 @@ class ScannerSettingDialog : DialogFragment() {
                             preferenceEditor.putBoolean(SettingConstants.DELETE_IN_SCANNER, isChecked).commit()
                         }
                     }
+                    findViewById<CheckBox>(R.id.scanCheckBox).apply {
+                        SettingsSingleton.getInstance().showScannerInItemList.observe(this@ScannerSettingDialog, Observer {
+                            isChecked = it
+                        })
+                        setOnClickListener {
+                            val checked = SettingsSingleton.getInstance().showScannerInItemList.value
+                            SettingsSingleton.getInstance().showScannerInItemList.value = !(checked ?: false)
+                        }
 
+                    }
                     findViewById<TextView>(R.id.closeTextView).apply {
                         setOnClickListener {
                             dismiss()

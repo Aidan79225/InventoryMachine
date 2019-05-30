@@ -104,6 +104,10 @@ public class FilePresenter implements FileContract.presenter {
             DepartmentSingleton.getInstance().saveToDB();
             AgentSingleton.getInstance().saveToDB();
             LocationSingleton.getInstance().saveToDB();
+            ItemSingleton.getInstance().loadFromDB();
+            DepartmentSingleton.getInstance().loadFromDB();
+            AgentSingleton.getInstance().loadFromDB();
+            LocationSingleton.getInstance().loadFromDB();
 
         } catch (Exception e) {
             view.hideProgress();

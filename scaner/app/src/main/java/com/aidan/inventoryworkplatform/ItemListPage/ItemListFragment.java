@@ -2,11 +2,19 @@ package com.aidan.inventoryworkplatform.ItemListPage;
 
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 
 import com.aidan.inventoryworkplatform.BaseFragmentManager;
 import com.aidan.inventoryworkplatform.Entity.Item;
@@ -14,11 +22,12 @@ import com.aidan.inventoryworkplatform.ItemDetailPage.ItemDetailFragment;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 import com.aidan.inventoryworkplatform.R;
 import com.aidan.inventoryworkplatform.SettingPage.SettingFragment;
+import com.aidan.inventoryworkplatform.Singleton;
+import com.aidan.inventoryworkplatform.Utils.SettingsSingleton;
 
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 /**
  * Created by Aidan on 2016/11/20.
@@ -32,6 +41,7 @@ public class ItemListFragment extends DialogFragment implements ItemListContract
     private TextView contentTextView, settingTextView;
     private BaseFragmentManager baseFragmentManager;
     private boolean showSetAll = false;
+    private EditText scanEditText;
 
     public static ItemListFragment newInstance(List<Item> itemList, BaseFragmentManager baseFragmentManager, boolean showSetAll) {
         ItemListFragment fragment = new ItemListFragment();
@@ -39,6 +49,12 @@ public class ItemListFragment extends DialogFragment implements ItemListContract
         fragment.baseFragmentManager = baseFragmentManager;
         fragment.showSetAll = showSetAll;
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -56,6 +72,8 @@ public class ItemListFragment extends DialogFragment implements ItemListContract
         contentTextView = rootView.findViewById(R.id.contentTextView);
         settingTextView = rootView.findViewById(R.id.settingTextView);
         settingTextView.setVisibility(showSetAll ? View.VISIBLE : View.GONE);
+        scanEditText = rootView.findViewById(R.id.scanEditText);
+        SettingsSingleton.getInstance().getShowScannerInItemList().observe(this, visible -> scanEditText.setVisibility(visible? View.VISIBLE : View.GONE));
     }
 
     @Override
@@ -81,6 +99,43 @@ public class ItemListFragment extends DialogFragment implements ItemListContract
             DialogFragment dialogFragment = SettingFragment.newInstance(baseFragmentManager, adapter.getItems(), () -> adapter.notifyDataSetChanged());
             dialogFragment.show(getFragmentManager(), dialogFragment.getClass().getName());
         });
+    }
+
+    public void setEditTextScan() {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(scanEditText.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        scanEditText.setShowSoftInputOnFocus(false);
+        scanEditText.requestFocus();
+        scanEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() != 0) {
+                    Singleton.log(s.toString());
+                    presenter.scan(s.toString());
+                    scanEditText.setText("");
+                }
+            }
+        });
+    }
+
+    @Override
+    public void showToast(String msg) {
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void refreshList() {
+        adapter.notifyDataSetChanged();
     }
 
     private void gotoDetailFragment(Item item, ItemListFragment.RefreshItems refreshItems) {
