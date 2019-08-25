@@ -138,6 +138,11 @@ public class ItemListFragment extends DialogFragment implements ItemListContract
         adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void showItem(Item item) {
+        gotoDetailFragment(item, () -> adapter.notifyDataSetChanged());
+    }
+
     private void gotoDetailFragment(Item item, ItemListFragment.RefreshItems refreshItems) {
         DialogFragment fragment = ItemDetailFragment.newInstance(item, refreshItems);
         fragment.show(getFragmentManager(), ItemDetailFragment.class.getName());

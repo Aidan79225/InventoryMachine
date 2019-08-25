@@ -74,6 +74,9 @@ public class ItemListPresenter implements ItemListContract.presenter {
                 ItemSingleton.getInstance().saveItem(item);
                 view.refreshList();
                 view.showToast("盤點到編號 : " + key);
+                if (Singleton.preferences.getBoolean(SettingConstants.SHOW_AFTER_SCAN, false)) {
+                    view.showItem(item);
+                }
                 return;
             }
         }
@@ -96,6 +99,9 @@ public class ItemListPresenter implements ItemListContract.presenter {
                 ItemSingleton.getInstance().saveItem(item);
                 view.refreshList();
                 view.showToast("盤點到編號 : " + key);
+                if (Singleton.preferences.getBoolean(SettingConstants.SHOW_AFTER_SCAN, false)) {
+                    view.showItem(item);
+                }
                 return;
             }
         }

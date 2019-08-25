@@ -16,6 +16,7 @@ public interface ScannerContract {
         void refreshList();
         void showToast(String msg);
         void setViewClick();
+        void showItem(Item item);
     }
     interface presenter{
         void start();

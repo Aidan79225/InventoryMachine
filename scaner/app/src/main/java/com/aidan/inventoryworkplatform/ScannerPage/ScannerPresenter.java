@@ -64,6 +64,9 @@ public class ScannerPresenter implements ScannerContract.presenter {
                 itemList.add(0, item);
                 ItemSingleton.getInstance().saveItem(item);
                 view.refreshList();
+                if (Singleton.preferences.getBoolean(SettingConstants.SHOW_AFTER_SCAN, false)) {
+                    view.showItem(item);
+                }
                 return;
             }
         }
@@ -85,6 +88,9 @@ public class ScannerPresenter implements ScannerContract.presenter {
                 itemList.add(0, item);
                 ItemSingleton.getInstance().saveItem(item);
                 view.refreshList();
+                if (Singleton.preferences.getBoolean(SettingConstants.SHOW_AFTER_SCAN, false)) {
+                    view.showItem(item);
+                }
                 return;
             }
         }

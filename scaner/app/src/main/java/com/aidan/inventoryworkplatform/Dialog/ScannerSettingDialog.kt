@@ -41,7 +41,12 @@ class ScannerSettingDialog : DialogFragment() {
                             val checked = SettingsSingleton.getInstance().showScannerInItemList.value
                             SettingsSingleton.getInstance().showScannerInItemList.value = !(checked ?: false)
                         }
-
+                    }
+                    findViewById<CheckBox>(R.id.scanAndShowCheckBox).apply {
+                        isChecked = preference.getBoolean(SettingConstants.SHOW_AFTER_SCAN, false)
+                        setOnClickListener {
+                            preferenceEditor.putBoolean(SettingConstants.SHOW_AFTER_SCAN, isChecked).commit()
+                        }
                     }
                     findViewById<TextView>(R.id.closeTextView).apply {
                         setOnClickListener {

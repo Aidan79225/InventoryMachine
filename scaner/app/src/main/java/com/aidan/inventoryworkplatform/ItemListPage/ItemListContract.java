@@ -15,6 +15,7 @@ public interface ItemListContract {
         void setEditTextScan();
         void showToast(String msg);
         void refreshList();
+        void showItem(Item item);
     }
     interface presenter{
         void start();

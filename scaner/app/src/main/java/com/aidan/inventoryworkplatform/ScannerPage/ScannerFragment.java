@@ -19,6 +19,7 @@ import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.ItemDetailPage.ItemDetailFragment;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListAdapter;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
+import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment.RefreshItems;
 import com.aidan.inventoryworkplatform.R;
 import com.aidan.inventoryworkplatform.SettingConstants;
 import com.aidan.inventoryworkplatform.Singleton;
@@ -160,20 +161,10 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
     public void setListView(List<Item> itemList) {
         adapter = new ItemListAdapter(itemList);
         itemListView.setAdapter(adapter);
-        itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                gotoDetailFragment(adapter.getItem(position - 1), new ItemListFragment.RefreshItems() {
-                    @Override
-                    public void refresh() {
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-            }
-        });
+        itemListView.setOnItemClickListener((parent, view, position, id) -> gotoDetailFragment(adapter.getItem(position - 1), () -> adapter.notifyDataSetChanged()));
     }
 
-    private void gotoDetailFragment(Item item, ItemListFragment.RefreshItems refreshItems) {
+    private void gotoDetailFragment(Item item, RefreshItems refreshItems) {
         DialogFragment fragment = ItemDetailFragment.newInstance(item, refreshItems);
         fragment.show(getFragmentManager(), ItemDetailFragment.class.getName());
     }
@@ -191,14 +182,16 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
 
     @Override
     public void setViewClick() {
-        cameraButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isOpenCamera = !isOpenCamera;
-                v.getContext().getSharedPreferences(SettingConstants.SETTING_CAMERA,0).edit().putBoolean(SettingConstants.CAMERA_IS_OPEN,isOpenCamera).commit();
-                configView();
-            }
+        cameraButton.setOnClickListener(v -> {
+            isOpenCamera = !isOpenCamera;
+            v.getContext().getSharedPreferences(SettingConstants.SETTING_CAMERA,0).edit().putBoolean(SettingConstants.CAMERA_IS_OPEN,isOpenCamera).apply();
+            configView();
         });
+    }
+
+    @Override
+    public void showItem(Item item) {
+        gotoDetailFragment(item, () -> adapter.notifyDataSetChanged());
     }
 
 //    private final BroadcastReceiver scanReceiver = new BroadcastReceiver() {
