@@ -47,16 +47,6 @@ public class StartActivity extends AppCompatActivity {
     }
     private void start(){
         int permission = ActivityCompat.checkSelfPermission(this,
-                READ_PHONE_STATE);
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{READ_PHONE_STATE},
-                    REQUEST_PHONE_STATE
-            );
-            return;
-        }
-
-        permission = ActivityCompat.checkSelfPermission(this,
                 CAMERA);
         if (permission != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
@@ -67,24 +57,15 @@ public class StartActivity extends AppCompatActivity {
         }
             //已有權限
         action();
-
     }
     private void action(){
         if(checkLogin()){
             gotoFragmentManagerActivity();
-        } else if(checkIMEI() ){
+        } else {
             showLoginDialog();
         }
     }
-    private boolean checkIMEI(){
-        TelephonyManager mTelManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-        String mIMEI = mTelManager.getDeviceId();
-        for(String IMEI : KeyConstants.IMEIS){
-            if(mIMEI.equals(IMEI))return true;
-        }
-        Toast.makeText(this,"IMEI不符合資格，請洽管理員",Toast.LENGTH_SHORT).show();
-        return false;
-    }
+
     private boolean checkLogin(){
         settings = getSharedPreferences(data,0);
         return settings.getBoolean(isLogin,false);
