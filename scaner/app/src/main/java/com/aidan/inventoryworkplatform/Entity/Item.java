@@ -394,25 +394,31 @@ public class Item {
     public String getTagContentString() {
         String ans = "  ";
         ans += KeyConstants.AuthorityName + (PA3C1.equals("6") ? KeyConstants.ItemName : "") + "\n";
-        ans += "  財產區分別：110公務用_一般\n";
+        if (tagContent != TagContent.AgentGroupLocation) {
+            ans += "  財產區分別：110公務用_一般\n";
+        }
         ans += "  財產編號：" + getTagIdNumber() + "\n";
         ans += "  財產名稱：" + getName() + "\n";
         ans += "  財產別名：" + getNickName() + "\n";
         ans += "  取得/購置：" + ADtoCal() + ", " + purchaseDate +  "  年限：" + getYears() + "\n";
         if (tagContent != null) {
-            ans += "  " + tagContent.getName() + "：";
             switch (tagContent) {
                 case Agent:
+                    ans += "  " + tagContent.getName() + "：";
                     ans += getCustodian().getName() + "\n";
                     break;
                 case AgentGroup:
+                    ans += "  " + tagContent.getName() + "：";
                     ans += getCustodian().getName() + "/" + getCustodyGroup().getName() + "\n";
                     break;
                 case AgentLocation:
+                    ans += "  " + tagContent.getName() + "：";
                     ans += getCustodian().getName() + "/" + getLocation().getName() + "\n";
                     break;
                 case AgentGroupLocation:
-                    ans += getCustodian().getName() + "/" + getCustodyGroup().getName() + "/" + getLocation().getName() + "\n";
+                    ans += "  保管人/單位：";
+                    ans += getCustodian().getName() + "/" + getCustodyGroup().getName() + "\n";
+                    ans += "  地點：" + getLocation().getName() + "\n";
                     break;
             }
         }
