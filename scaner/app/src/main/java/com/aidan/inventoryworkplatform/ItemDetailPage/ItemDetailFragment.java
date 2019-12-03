@@ -133,84 +133,26 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
 
     @Override
     public void setViewClick() {
-
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.saveItemToChecked(true);
-                refreshItems.refresh();
-                dismiss();
-            }
+        confirmButton.setOnClickListener(v -> {
+            presenter.saveItemToChecked(true);
+            refreshItems.refresh();
+            dismiss();
         });
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                refreshItems.refresh();
-                dismiss();
-            }
+        cancelButton.setOnClickListener(v -> {
+            presenter.saveItemToChecked(false);
+            refreshItems.refresh();
+            dismiss();
         });
-        locationTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.locationTextViewClick();
-            }
-        });
-        custodianTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.agentTextViewClick();
-            }
-        });
-        custodyGroupTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.departmentTextViewClick();
-            }
-        });
-        userTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.userTextViewClick();
-            }
-        });
-        useGroupTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.useGroupTextViewClick();
-            }
-        });
-        deleteTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.deleteTextViewClick();
-            }
-        });
-        printTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.printTextViewClick();
-            }
-        });
-        printButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.printButtonClick();
-            }
-        });
-        printLittleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.printLittleButtonClick();
-            }
-        });
-
-        tagContentTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.tagContentTextViewClick();
-            }
-        });
-
+        locationTextView.setOnClickListener(v -> presenter.locationTextViewClick());
+        custodianTextView.setOnClickListener(v -> presenter.agentTextViewClick());
+        custodyGroupTextView.setOnClickListener(v -> presenter.departmentTextViewClick());
+        userTextView.setOnClickListener(v -> presenter.userTextViewClick());
+        useGroupTextView.setOnClickListener(v -> presenter.useGroupTextViewClick());
+        deleteTextView.setOnClickListener(v -> presenter.deleteTextViewClick());
+        printTextView.setOnClickListener(v -> presenter.printTextViewClick());
+        printButton.setOnClickListener(v -> presenter.printButtonClick());
+        printLittleButton.setOnClickListener(v -> presenter.printLittleButtonClick());
+        tagContentTextView.setOnClickListener(v -> presenter.tagContentTextViewClick());
     }
     @Override
     public void showSetDialog(DialogInterface.OnClickListener clickListener, String title, final String[] temp){

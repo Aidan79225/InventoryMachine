@@ -24,7 +24,7 @@ public interface FileContract {
         void readTxtButtonClick(FileDescriptor fileDescriptor);
         void readNameTextViewClick(FileDescriptor fileDescriptor);
         void readPurchaseDateTextViewClick(FileDescriptor fileDescriptor);
-        void saveFile(String fileName, String preferencesKey, Set<String> allowType);
+        void saveFile(String fileName, String preferencesKey, Set<String> allowType, boolean onlyChanged);
         void clearData();
         void inputItemTextViewClick(FileDescriptor fileDescriptor);
     }

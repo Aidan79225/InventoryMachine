@@ -2,10 +2,8 @@ package com.aidan.inventoryworkplatform.FilePage;
 
 import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
@@ -17,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aidan.inventoryworkplatform.Constants;
+import com.aidan.inventoryworkplatform.KeyConstants;
 import com.aidan.inventoryworkplatform.R;
 import com.aidan.inventoryworkplatform.Singleton;
 import com.aidan.inventoryworkplatform.Utils.ReadExcel;
@@ -50,6 +49,7 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
     FileContract.presenter presenter;
     TextView inputTextView, outputTextView, readNameTextView;
     TextView outputItemTextView, inputItemTextView;
+    View outputChangedTextView, outputChangedItemTextView;
     ArrayList<String> filePaths = new ArrayList<>();
     ArrayList<String> docPaths = new ArrayList<>();
     Runnable fileRunnable;
@@ -125,33 +125,34 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
         outputItemTextView = rootView.findViewById(R.id.outputItemTextView);
         inputItemTextView = rootView.findViewById(R.id.inputItemTextView);
         readPurchaseDateTextView = rootView.findViewById(R.id.readPurchaseDateTextView);
+        outputChangedTextView = rootView.findViewById(R.id.outputChangedTextView);
+        outputChangedItemTextView = rootView.findViewById(R.id.outputChangedItemTextView);
     }
 
     @Override
     public void setViewClick() {
+        if (KeyConstants.showChanged) {
+            outputChangedTextView.setVisibility(View.VISIBLE);
+            outputChangedItemTextView.setVisibility(View.VISIBLE);
+        }
         inputTextView.setOnClickListener(v -> {
             fileRunnable = () -> showFileChooser("text/*", FILE_SELECT_CODE);
             checkPermission();
         });
         outputTextView.setOnClickListener(v -> {
-            fileRunnable = () -> {
-                Set<String> allowType = new HashSet<>();
-                allowType.add("0");
-                allowType.add("1");
-                allowType.add("2");
-                allowType.add("3");
-                allowType.add("4");
-                allowType.add("5");
-                showFileNameDialog("請輸入財產檔名", Constants.PREFERENCE_PROPERTY_KEY, allowType);
-            };
+            fileRunnable = createOutputCallback(false);
+            checkPermission();
+        });
+        outputChangedTextView.setOnClickListener(v -> {
+            fileRunnable = createOutputCallback(true);
             checkPermission();
         });
         outputItemTextView.setOnClickListener(v -> {
-            fileRunnable = () -> {
-                Set<String> allowType = new HashSet<>();
-                allowType.add("6");
-                showFileNameDialog("請輸入物品檔名", Constants.PREFERENCE_ITEM_KEY, allowType);
-            };
+            fileRunnable = createOutputItemCallback(false);
+            checkPermission();
+        });
+        outputChangedItemTextView.setOnClickListener(v -> {
+            fileRunnable = createOutputItemCallback(true);
             checkPermission();
         });
         readNameTextView.setOnClickListener(v -> {
@@ -180,6 +181,27 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
 
     }
 
+    private Runnable createOutputCallback(boolean onlyChanged) {
+        return () -> {
+            Set<String> allowType = new HashSet<>();
+            allowType.add("0");
+            allowType.add("1");
+            allowType.add("2");
+            allowType.add("3");
+            allowType.add("4");
+            allowType.add("5");
+            showFileNameDialog("請輸入財產檔名", Constants.PREFERENCE_PROPERTY_KEY, allowType, onlyChanged);
+        };
+    }
+
+    private Runnable createOutputItemCallback(boolean onlyChanged) {
+        return () -> {
+            Set<String> allowType = new HashSet<>();
+            allowType.add("6");
+            showFileNameDialog("請輸入物品檔名", Constants.PREFERENCE_ITEM_KEY, allowType, onlyChanged);
+        };
+    }
+
     @Override
     public void showProgress(final String title) {
         rootView.post(() -> {
@@ -203,7 +225,7 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
         rootView.post(() -> mProgressDialog.setProgress(value));
     }
 
-    public void showFileNameDialog(String title, final String preferencesKey, final Set<String> allowType) {
+    public void showFileNameDialog(String title, final String preferencesKey, final Set<String> allowType, boolean onlyChanged) {
         final AlertDialog.Builder editDialog = new AlertDialog.Builder(getActivity());
         editDialog.setTitle(title);
 
@@ -224,7 +246,7 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
 
         // do something when the button is clicked
         editDialog.setPositiveButton("OK", (arg0, arg1) -> {
-            presenter.saveFile(editText.getText().toString(), preferencesKey, allowType);
+            presenter.saveFile(editText.getText().toString(), preferencesKey, allowType, onlyChanged);
             arg0.dismiss();
         });
         // do something when the button is clicked

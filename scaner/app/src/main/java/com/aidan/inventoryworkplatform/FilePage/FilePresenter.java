@@ -262,8 +262,8 @@ public class FilePresenter implements FileContract.presenter {
     }
 
     @Override
-    public void saveFile(String fileName, String preferencesKey, Set<String> allowType) {
-        JSONObject jsonObject = getAllDataJSON(preferencesKey, allowType);
+    public void saveFile(String fileName, String preferencesKey, Set<String> allowType, boolean onlyChanged) {
+        JSONObject jsonObject = getAllDataJSON(preferencesKey, allowType, onlyChanged);
         String dir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/欣華盤點系統/行動裝置轉至電腦";
         File dirFile = new File(dir);
         if (!dirFile.exists()) {
@@ -276,7 +276,8 @@ public class FilePresenter implements FileContract.presenter {
         }
         try {
             BufferedWriter bufWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false), "big5"));
-            bufWriter.write(jsonObject.toString());
+            String source = jsonObject.toString();
+            bufWriter.write(source.replace("\\/","/"));
             bufWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -307,7 +308,7 @@ public class FilePresenter implements FileContract.presenter {
         }).start();
     }
 
-    public JSONObject getAllDataJSON(String key, Set<String> allowType) {
+    public JSONObject getAllDataJSON(String key, Set<String> allowType, boolean onlyChanged) {
         List<Item> itemList = ItemSingleton.getInstance().getItemList();
         JSONObject jsonObject = new JSONObject();
         try {
@@ -320,6 +321,9 @@ public class FilePresenter implements FileContract.presenter {
             JSONObject ASSETs = new JSONObject();
             JSONArray PA3 = new JSONArray();
             for (Item item : itemList) {
+                if (onlyChanged && !item.isChanged()) {
+                    continue;
+                }
                 if (allowType.contains(item.getPA3C1())) {
                     PA3.put(item.toJSON());
                 }

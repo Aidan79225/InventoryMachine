@@ -48,6 +48,8 @@ public class Item {
     private TagContent tagContent = null;
     private SelectableItem.Type type = SelectableItem.Type.property;
 
+    private boolean changed = false;
+
     public Item() {
 
     }
@@ -86,10 +88,16 @@ public class Item {
         }
         try {
             type = SelectableItem.Type.valueOf(jsonObject.getString(ItemConstants.TYPE));
-        } catch (Exception e){ }
+        } catch (Exception e) {
+        }
         try {
             purchaseDate = jsonObject.getString(PurchaseDateKey);
-        } catch (Exception e){ }
+        } catch (Exception e) {
+        }
+        try {
+            changed = jsonObject.getBoolean(ItemConstants.CHANGED);
+        } catch (Exception e) {
+        }
     }
 
     public void setData(String data) {
@@ -125,10 +133,16 @@ public class Item {
             NAME = jsonObject.getString(ItemConstants.NAME);
             try {
                 type = SelectableItem.Type.valueOf(jsonObject.getString(ItemConstants.TYPE));
-            } catch (Exception e){ }
+            } catch (Exception e) {
+            }
             try {
                 purchaseDate = jsonObject.getString(PurchaseDateKey);
-            } catch (Exception e){ }
+            } catch (Exception e) {
+            }
+            try {
+                changed = jsonObject.getBoolean(ItemConstants.CHANGED);
+            } catch (Exception e) {
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -205,10 +219,15 @@ public class Item {
             jsonObject.put(ItemConstants.NAME, NAME);
             jsonObject.put(ItemConstants.TYPE, type);
             jsonObject.put(PurchaseDateKey, purchaseDate);
+            jsonObject.put(ItemConstants.CHANGED, changed);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    public boolean isChanged() {
+        return changed;
     }
 
     public String getLoaclNumber() {
@@ -282,6 +301,7 @@ public class Item {
     public void setCustodian(Agent agent) {
         PA3OUN = agent.name;
         PA3OU = agent.number;
+        changed = true;
         setConfirm(true);
     }
 
@@ -292,6 +312,7 @@ public class Item {
     public void setUser(Agent agent) {
         PA3URN = agent.name;
         PA3UR = agent.number;
+        changed = true;
         setConfirm(true);
     }
 
@@ -302,6 +323,7 @@ public class Item {
     public void setCustodyGroup(Department department) {
         PA3OUTN = department.name;
         PA3OUT = department.number;
+        changed = true;
         setConfirm(true);
     }
 
@@ -312,6 +334,7 @@ public class Item {
     public void setUseGroup(Department department) {
         PA3UUTN = department.name;
         PA3UUT = department.number;
+        changed = true;
         setConfirm(true);
     }
 
@@ -322,6 +345,7 @@ public class Item {
     public void setLocation(Location location) {
         PA3LOCN = location.name;
         PA3LOC = location.number;
+        changed = true;
         setConfirm(true);
     }
 
@@ -352,6 +376,7 @@ public class Item {
 
     public void setDelete(String key) {
         PA3DEL = key;
+        changed = true;
         setConfirm(true);
     }
 
@@ -369,6 +394,7 @@ public class Item {
 
     public void setPrint(String key) {
         PA3PRN = key;
+        changed = true;
         setConfirm(true);
     }
 
@@ -379,18 +405,20 @@ public class Item {
     public void setId(long id) {
         this.id = id;
     }
+
     public String getLittleTagContentString() {
 
         String ans = " ";
         ans += KeyConstants.LittleAuthorityName + (PA3C1.equals("6") ? KeyConstants.LittleItemName : "") + "\n";
         ans += " " + getTagIdNumber() + "\n";
-        if(!getName().isEmpty()){
+        if (!getName().isEmpty()) {
             ans += " " + getName() + "\n";
         }
-        ans += " 取得:" + ADtoCal() + "  年限:" + getYears() + "\n";
-        ans += " "+ getCustodian().getName() + "/" + getLocation().getName() ;
+        ans += " 取得:" + ADtoCal() + "年限:" + getYears() + "\n";
+        ans += " " + getCustodian().getName() + "/" + getLocation().getName();
         return ans;
     }
+
     public String getTagContentString() {
         String ans = "  ";
         ans += KeyConstants.AuthorityName + (PA3C1.equals("6") ? KeyConstants.ItemName : "") + "\n";
@@ -400,7 +428,7 @@ public class Item {
         ans += "  財產編號：" + getTagIdNumber() + "\n";
         ans += "  財產名稱：" + getName() + "\n";
         ans += "  財產別名：" + getNickName() + "\n";
-        ans += "  取得/購置：" + ADtoCal() + ", " + purchaseDate +  "  年限：" + getYears() + "\n";
+        ans += "  取得/購置：" + ADtoCal() + ", " + purchaseDate + "  年限：" + getYears() + "\n";
         if (tagContent != null) {
             switch (tagContent) {
                 case Agent:
@@ -448,7 +476,7 @@ public class Item {
         return tagContent;
     }
 
-    public SelectableItem.Type getItemType(){
+    public SelectableItem.Type getItemType() {
         return type;
     }
 
