@@ -19,6 +19,7 @@ import com.aidan.inventoryworkplatform.Database.LocationDAO;
 import com.aidan.inventoryworkplatform.Dialog.ScannerSettingDialog;
 import com.aidan.inventoryworkplatform.FilePage.FileFragment;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
+import com.aidan.inventoryworkplatform.KeyConstants;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 import com.aidan.inventoryworkplatform.R;
 import com.aidan.inventoryworkplatform.ScannerPage.ScannerFragment;
@@ -175,7 +176,7 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        return KeyConstants.showMenu;
     }
 
     @Override
