@@ -10,11 +10,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import androidx.lifecycle.ViewModel;
+
 /**
  * Created by Aidan on 2016/11/20.
  */
 
-public class ItemListPresenter implements ItemListContract.presenter {
+public class ItemListPresenter extends ViewModel implements ItemListContract.presenter {
     ItemListContract.view view;
     ItemListModel model;
     List<Item> scaned = new ArrayList<>();

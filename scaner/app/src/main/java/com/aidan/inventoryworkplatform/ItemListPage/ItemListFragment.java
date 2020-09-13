@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.aidan.inventoryworkplatform.BaseFragmentManager;
 import com.aidan.inventoryworkplatform.Entity.Item;
@@ -54,7 +55,6 @@ public class ItemListFragment extends DialogFragment implements ItemListContract
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
