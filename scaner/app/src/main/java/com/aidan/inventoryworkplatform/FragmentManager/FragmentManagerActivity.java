@@ -19,6 +19,7 @@ import com.aidan.inventoryworkplatform.Database.LocationDAO;
 import com.aidan.inventoryworkplatform.Dialog.ScannerSettingDialog;
 import com.aidan.inventoryworkplatform.FilePage.FileFragment;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
+import com.aidan.inventoryworkplatform.ItemListPage.ItemListPresenter;
 import com.aidan.inventoryworkplatform.KeyConstants;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 import com.aidan.inventoryworkplatform.R;
@@ -33,6 +34,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
 
 public class FragmentManagerActivity extends AppCompatActivity implements FragmentManagerContract.view, BaseFragmentManager {
     FragmentManagerContract.presenter presenter;
@@ -78,9 +80,6 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
 
     @Override
     public void setScanner() {
-//        readerManager = ReaderManager.InitInstance(getApplicationContext());
-//        readerManager.SetActive(true);
-
 
         // ***************************************************//
         // Register for the IntentFilter whose content is the
@@ -91,22 +90,8 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
         filter.addAction(com.cipherlab.barcode.GeneralString.Intent_SOFTTRIGGER_DATA);
         filter.addAction(com.cipherlab.barcode.GeneralString.Intent_PASS_TO_APP);
         filter.addAction(com.cipherlab.barcode.GeneralString.Intent_READERSERVICE_CONNECTED);
-//        registerReceiver(scanReceiver, filter);
     }
 
-
-    @Override
-    public void onDestroy() {
-//        ItemSingleton.getInstance().saveToDB();
-//        DepartmentSingleton.getInstance().saveToDB();
-//        AgentSingleton.getInstance().saveToDB();
-//        LocationSingleton.getInstance().saveToDB();
-        super.onDestroy();
-//        unregisterReceiver(scanReceiver);
-//        if (readerManager != null) {
-//            readerManager.Release();
-//        }
-    }
 
     @Override
     public void loadScannerFragment() {
@@ -116,7 +101,9 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
 
     @Override
     public void loadItemListFragment() {
-        Fragment fragment = ItemListFragment.newInstance(ItemSingleton.getInstance().getItemList(), this,false);
+        ItemListPresenter presenter = ViewModelProviders.of(this).get(ItemListPresenter.class);
+        presenter.itemList = ItemSingleton.getInstance().getItemList();
+        Fragment fragment = ItemListFragment.newInstance(false);
         loadFragment(fragment);
     }
 
@@ -147,8 +134,9 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(curFragment != null){
-            curFragment.onActivityResult(requestCode,resultCode,data);
+        super.onActivityResult(requestCode, resultCode, data);
+        if (curFragment != null) {
+            curFragment.onActivityResult(requestCode, resultCode, data);
         }
     }
 

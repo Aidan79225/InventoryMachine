@@ -19,7 +19,9 @@ import com.aidan.inventoryworkplatform.Dialog.SearchItemDialog;
 import com.aidan.inventoryworkplatform.Dialog.SearchableItem;
 import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
+import com.aidan.inventoryworkplatform.ItemListPage.ItemListPresenter;
 import com.aidan.inventoryworkplatform.KeyConstants;
+import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 import com.aidan.inventoryworkplatform.R;
 
 import java.util.Calendar;
@@ -28,6 +30,7 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
 
 /**
@@ -246,12 +249,7 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
 
     @Override
     public void showToast(final String msg) {
-        rootView.post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(rootView.getContext(), msg, Toast.LENGTH_SHORT).show();
-            }
-        });
+        rootView.post(() -> Toast.makeText(rootView.getContext(), msg, Toast.LENGTH_SHORT).show());
     }
 
     @Override
@@ -264,23 +262,22 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
 
     @Override
     public void showFragmentWithResult(List<Item> items) {
-        Fragment fragment = ItemListFragment.newInstance(items, baseFragmentManager, true);
+        ItemListPresenter presenter = ViewModelProviders.of(this).get(ItemListPresenter.class);
+        presenter.itemList = items;
+        Fragment fragment = ItemListFragment.newInstance(true);
         baseFragmentManager.loadFragment(fragment);
     }
 
     @Override
     public void showProgress(final String title) {
-        rootView.post(new Runnable() {
-            @Override
-            public void run() {
-                mProgressDialog = new ProgressDialog(rootView.getContext());
-                mProgressDialog.setCancelable(false);
-                mProgressDialog.setTitle(title);
-                mProgressDialog.setMessage("正在處理請稍後...");
-                mProgressDialog.setMax(100);
-                mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                mProgressDialog.show();
-            }
+        rootView.post(() -> {
+            mProgressDialog = new ProgressDialog(rootView.getContext());
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.setTitle(title);
+            mProgressDialog.setMessage("正在處理請稍後...");
+            mProgressDialog.setMax(100);
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            mProgressDialog.show();
         });
     }
 

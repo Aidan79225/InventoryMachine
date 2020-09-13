@@ -33,7 +33,6 @@ public class SettingFragment extends DialogFragment implements SettingContract.v
     TextView locationTextView, agentTextView, departmentTextView;
     TextView settingTextView, cancelTextView;
     TextView useGroupTextView, userTextView;
-    BaseFragmentManager baseFragmentManager;
     Reload reload;
     ProgressDialog mProgressDialog;
     TextView itemTextView;
@@ -41,9 +40,8 @@ public class SettingFragment extends DialogFragment implements SettingContract.v
     public interface Reload{
         void reload();
     }
-    public static SettingFragment newInstance(BaseFragmentManager baseFragmentManager,List<Item> itemList,Reload reload) {
+    public static SettingFragment newInstance(List<Item> itemList,Reload reload) {
         SettingFragment fragment = new SettingFragment();
-        fragment.baseFragmentManager = baseFragmentManager;
         fragment.presenter = new SettingPresenter(fragment,itemList);
         fragment.reload = reload;
         return fragment;

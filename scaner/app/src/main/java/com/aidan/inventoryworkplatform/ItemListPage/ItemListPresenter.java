@@ -1,7 +1,9 @@
 package com.aidan.inventoryworkplatform.ItemListPage;
 
+import com.aidan.inventoryworkplatform.Base.BaseViewModel;
 import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
+import com.aidan.inventoryworkplatform.Model.SingleLiveEvent;
 import com.aidan.inventoryworkplatform.SettingConstants;
 import com.aidan.inventoryworkplatform.Singleton;
 
@@ -16,27 +18,12 @@ import androidx.lifecycle.ViewModel;
  * Created by Aidan on 2016/11/20.
  */
 
-public class ItemListPresenter extends ViewModel implements ItemListContract.presenter {
-    ItemListContract.view view;
-    ItemListModel model;
+public class ItemListPresenter extends BaseViewModel {
+    public List<Item> itemList;
     List<Item> scaned = new ArrayList<>();
+    SingleLiveEvent<String> refreshList = new SingleLiveEvent<>();
+    SingleLiveEvent<Item> showItem = new SingleLiveEvent<>();
 
-    public ItemListPresenter(ItemListContract.view view,List<Item> itemList){
-        this.view = view;
-        model = new ItemListModel(itemList);
-    }
-
-    @Override
-    public void start() {
-        view.findView();
-        view.setEditTextScan();
-        setAdapter();
-    }
-    private void setAdapter(){
-        view.setListView(model.getItemList());
-    }
-
-    @Override
     public void scan(String key) {
         if(key == null )return;
         key = key.replace("\n","");
@@ -58,12 +45,12 @@ public class ItemListPresenter extends ViewModel implements ItemListContract.pre
 
         for (Item item : scaned) {
             if (item.getNumber().equals(temps[1]) && serialNumber == Integer.valueOf(item.getSerialNumber().substring(2))) {
-                view.showToast("已重複盤點 : " + key);
+                showToast("已重複盤點 : " + key);
                 return;
             }
         }
 
-        for (Item item : model.getItemList()) {
+        for (Item item : itemList) {
             if (item.getNumber().equals(temps[1]) && serialNumber == Integer.valueOf(item.getSerialNumber().substring(2))) {
                 item.setConfirm(true);
                 if (Singleton.preferences.getBoolean(SettingConstants.PRINT_IN_SCANNER, false)) {
@@ -74,15 +61,15 @@ public class ItemListPresenter extends ViewModel implements ItemListContract.pre
                 }
                 scaned.add(0, item);
                 ItemSingleton.getInstance().saveItem(item);
-                view.refreshList();
-                view.showToast("盤點到編號 : " + key);
+                refreshList.postValue("");
+                showToast("盤點到編號 : " + key);
                 if (Singleton.preferences.getBoolean(SettingConstants.SHOW_AFTER_SCAN, false)) {
-                    view.showItem(item);
+                    showItem.postValue(item);
                 }
                 return;
             }
         }
-        view.showToast("找不到對應編號 : " + key);
+        showToast("找不到對應編號 : " + key);
     }
 
     public void secondTypeScan(String key, String[] temps){
@@ -90,7 +77,7 @@ public class ItemListPresenter extends ViewModel implements ItemListContract.pre
         int serialNumber = Integer.valueOf(temps[2]);
         for (Item item : scaned) {
             if (item.getNumber().equals(temps[1]) && serialNumber == Integer.valueOf(item.getSerialNumber().substring(2))) {
-                view.showToast("已重複盤點 : " + key);
+                showToast("已重複盤點 : " + key);
                 return;
             }
         }
@@ -99,14 +86,14 @@ public class ItemListPresenter extends ViewModel implements ItemListContract.pre
                 item.setConfirm(true);
                 scaned.add(0, item);
                 ItemSingleton.getInstance().saveItem(item);
-                view.refreshList();
-                view.showToast("盤點到編號 : " + key);
+                refreshList.postValue("");
+                showToast("盤點到編號 : " + key);
                 if (Singleton.preferences.getBoolean(SettingConstants.SHOW_AFTER_SCAN, false)) {
-                    view.showItem(item);
+                    showItem.postValue(item);
                 }
                 return;
             }
         }
-        view.showToast("找不到對應編號 : " + key);
+        showToast("找不到對應編號 : " + key);
     }
 }

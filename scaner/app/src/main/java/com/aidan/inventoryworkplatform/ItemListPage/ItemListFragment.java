@@ -1,6 +1,7 @@
 package com.aidan.inventoryworkplatform.ItemListPage;
 
 
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,20 +14,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProvider;
-
-import com.aidan.inventoryworkplatform.BaseFragmentManager;
 import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.ItemDetailPage.ItemDetailFragment;
-import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 import com.aidan.inventoryworkplatform.R;
 import com.aidan.inventoryworkplatform.SettingPage.SettingFragment;
 import com.aidan.inventoryworkplatform.Singleton;
 import com.aidan.inventoryworkplatform.Utils.SettingsSingleton;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
@@ -35,19 +35,15 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
  */
 
 public class ItemListFragment extends DialogFragment implements ItemListContract.view {
-    private ItemListContract.presenter presenter;
+    private ItemListPresenter presenter;
     private ItemListAdapter adapter;
-    private ViewGroup rootView;
     private ListView itemListView;
     private TextView contentTextView, settingTextView;
-    private BaseFragmentManager baseFragmentManager;
     private boolean showSetAll = false;
     private EditText scanEditText;
 
-    public static ItemListFragment newInstance(List<Item> itemList, BaseFragmentManager baseFragmentManager, boolean showSetAll) {
+    public static ItemListFragment newInstance(boolean showSetAll) {
         ItemListFragment fragment = new ItemListFragment();
-        fragment.presenter = new ItemListPresenter(fragment, itemList);
-        fragment.baseFragmentManager = baseFragmentManager;
         fragment.showSetAll = showSetAll;
         return fragment;
     }
@@ -59,21 +55,24 @@ public class ItemListFragment extends DialogFragment implements ItemListContract
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        rootView = (ViewGroup) inflater.inflate(R.layout.fragment_item_list, container, false);
-        if (presenter == null)
-            presenter = new ItemListPresenter(this, ItemSingleton.getInstance().getItemList());
-        presenter.start();
-        return rootView;
+        return inflater.inflate(R.layout.fragment_item_list, container, false);
     }
 
     @Override
-    public void findView() {
-        itemListView = rootView.findViewById(R.id.itemListView);
-        contentTextView = rootView.findViewById(R.id.contentTextView);
-        settingTextView = rootView.findViewById(R.id.settingTextView);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        presenter = ViewModelProviders.of(getActivity()).get(ItemListPresenter.class);
+        itemListView = view.findViewById(R.id.itemListView);
+        contentTextView = view.findViewById(R.id.contentTextView);
+        settingTextView = view.findViewById(R.id.settingTextView);
         settingTextView.setVisibility(showSetAll ? View.VISIBLE : View.GONE);
-        scanEditText = rootView.findViewById(R.id.scanEditText);
+        scanEditText = view.findViewById(R.id.scanEditText);
         SettingsSingleton.getInstance().getShowScannerInItemList().observe(this, visible -> scanEditText.setVisibility(visible? View.VISIBLE : View.GONE));
+        setEditTextScan();
+        setListView(presenter.itemList);
+        presenter.refreshList.observe(this, s -> refreshList());
+        presenter.showItem.observe(this, this::showItem);
+        presenter.getShowToast().observe(this, this::showToast);
     }
 
     @Override
@@ -96,7 +95,7 @@ public class ItemListFragment extends DialogFragment implements ItemListContract
         itemListView.setOnLongClickListener(v -> false);
         adapter.notifyDataSetChanged();
         settingTextView.setOnClickListener(v -> {
-            DialogFragment dialogFragment = SettingFragment.newInstance(baseFragmentManager, adapter.getItems(), () -> adapter.notifyDataSetChanged());
+            DialogFragment dialogFragment = SettingFragment.newInstance(adapter.getItems(), () -> adapter.notifyDataSetChanged());
             dialogFragment.show(getFragmentManager(), dialogFragment.getClass().getName());
         });
     }
@@ -104,7 +103,9 @@ public class ItemListFragment extends DialogFragment implements ItemListContract
     public void setEditTextScan() {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(scanEditText.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        scanEditText.setShowSoftInputOnFocus(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            scanEditText.setShowSoftInputOnFocus(false);
+        }
         scanEditText.requestFocus();
         scanEditText.addTextChangedListener(new TextWatcher() {
             @Override
