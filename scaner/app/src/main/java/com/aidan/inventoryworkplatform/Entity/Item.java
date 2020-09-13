@@ -57,6 +57,7 @@ public class Item {
     public Item(JSONObject jsonObject) {
         try {
             PA341 = jsonObject.getString(ItemConstants.PA341);
+
             PA342 = jsonObject.getString(ItemConstants.PA342);
             PA343 = jsonObject.getString(ItemConstants.PA343);
             PA3C1 = jsonObject.getString(ItemConstants.PA3C1);
@@ -80,7 +81,11 @@ public class Item {
             PA3UUTN = jsonObject.getString(ItemConstants.PA3UUTN);
             PA3UR = jsonObject.getString(ItemConstants.PA3UR);
             PA3URN = jsonObject.getString(ItemConstants.PA3URN);
-            PA308 = jsonObject.getString(ItemConstants.PA308);
+            if (PA3OUN.length() > 0) {
+                PA308 = "D";
+            } else {
+                PA308 = jsonObject.getString(ItemConstants.PA308);
+            }
             PA3DEL = jsonObject.getString(ItemConstants.PA3DEL);
             PA3PRN = jsonObject.getString(ItemConstants.PA3PRN);
         } catch (Exception e) {
@@ -354,6 +359,9 @@ public class Item {
     }
 
     public void setConfirm(boolean flag) {
+        if (PA308.equals("D")) {
+            return;
+        }
         if (flag) {
             PA308 = "Y";
             ItemSingleton.getInstance().saveItem(this);
