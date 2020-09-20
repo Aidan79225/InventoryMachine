@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.aidan.inventoryworkplatform.Adapter.ISearchableAdapter;
+import com.aidan.inventoryworkplatform.adapter.ISearchableAdapter;
 import com.aidan.inventoryworkplatform.R;
 
 import java.util.ArrayList;
