@@ -1,6 +1,5 @@
-package com.aidan.inventoryworkplatform.Base
+package com.aidan.inventoryworkplatform.base
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 

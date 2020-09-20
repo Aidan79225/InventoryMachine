@@ -1,6 +1,6 @@
 package com.aidan.inventoryworkplatform.ItemListPage;
 
-import com.aidan.inventoryworkplatform.Base.BaseViewModel;
+import com.aidan.inventoryworkplatform.base.BaseViewModel;
 import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 import com.aidan.inventoryworkplatform.Model.SingleLiveEvent;
@@ -8,11 +8,7 @@ import com.aidan.inventoryworkplatform.SettingConstants;
 import com.aidan.inventoryworkplatform.Singleton;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
-import androidx.lifecycle.ViewModel;
 
 /**
  * Created by Aidan on 2016/11/20.
