@@ -37,7 +37,7 @@ class ReadExcel {
         }).start()
     }
 
-    fun loadAndSetName(w: Workbook) {
+    private fun loadAndSetName(w: Workbook) {
         val sheet = w.getSheet(0)
         val itemList = ItemSingleton.getInstance().itemList
         val itemMap: MutableMap<String, MutableList<Item>> = HashMap()
@@ -94,7 +94,7 @@ class ReadExcel {
         }).start()
     }
 
-    fun loadAndSetPurchaseDate(w: Workbook) {
+    private fun loadAndSetPurchaseDate(w: Workbook) {
         val sheet = w.getSheet(0)
         val itemList = ItemSingleton.getInstance().itemList
         val itemMap: MutableMap<String, MutableList<Item>> = HashMap()
@@ -123,6 +123,32 @@ class ReadExcel {
             }
         }
         ItemSingleton.getInstance().saveToDB()
+    }
+
+
+    fun readWordName(fileDescriptor: FileDescriptor?) {
+        Thread(Runnable {
+            if (progressAction != null) {
+                progressAction!!.showProgress("讀取字號名稱中")
+            }
+            try {
+                loadAndSetWordName(Workbook.getWorkbook(FileInputStream(fileDescriptor)))
+            } catch (e: BiffException) {
+                progressAction!!.showToast("檔案格式錯誤")
+                e.printStackTrace()
+            } catch (iOException: IOException) {
+                progressAction!!.showToast("檔案格式錯誤")
+                iOException.printStackTrace()
+            } finally {
+                if (progressAction != null) {
+                    progressAction!!.hideProgress()
+                }
+            }
+        }).start()
+    }
+
+    private fun loadAndSetWordName(w: Workbook) {
+
     }
 
     fun setProgressAction(progressAction: ProgressAction?) {
