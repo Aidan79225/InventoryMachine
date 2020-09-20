@@ -17,7 +17,7 @@ import com.aidan.inventoryworkplatform.database.DepartmentDAO;
 import com.aidan.inventoryworkplatform.database.ItemDAO;
 import com.aidan.inventoryworkplatform.database.LocationDAO;
 import com.aidan.inventoryworkplatform.Dialog.ScannerSettingDialog;
-import com.aidan.inventoryworkplatform.FilePage.FileFragment;
+import com.aidan.inventoryworkplatform.ui.file.FileFragment;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListPresenter;
 import com.aidan.inventoryworkplatform.KeyConstants;

@@ -1,4 +1,4 @@
-package com.aidan.inventoryworkplatform.FilePage;
+package com.aidan.inventoryworkplatform.ui.file;
 
 /**
  * Created by Aidan on 2016/11/20.

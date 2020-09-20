@@ -1,4 +1,4 @@
-package com.aidan.inventoryworkplatform.FilePage;
+package com.aidan.inventoryworkplatform.ui.file;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -26,7 +26,6 @@ import org.json.JSONObject;
 import java.io.FileDescriptor;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -36,6 +35,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -46,7 +46,6 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class FileFragment extends DialogFragment implements FileContract.view, ReadExcel.ProgressAction {
-    ViewGroup rootView;
     FileContract.presenter presenter;
     TextView inputTextView, outputTextView, readNameTextView;
     TextView outputItemTextView, inputItemTextView;
@@ -88,7 +87,7 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
 
     @Override
     public void showToast(final String msg) {
-        rootView.post(() -> Toast.makeText(rootView.getContext(), msg, Toast.LENGTH_SHORT).show());
+        getView().post(() -> Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show());
     }
 
 
@@ -109,20 +108,18 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        rootView = (ViewGroup) inflater.inflate(R.layout.fragment_input_file, container, false);
-        presenter = new FilePresenter(this);
-        return rootView;
+        return inflater.inflate(R.layout.fragment_input_file, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        findView();
+        presenter = ViewModelProviders.of(this).get(FilePresenter.class);
+        findView(view);
         setViewClick();
     }
 
-    @Override
-    public void findView() {
+    public void findView(View rootView) {
         inputTextView = rootView.findViewById(R.id.inputTextView);
         outputTextView = rootView.findViewById(R.id.outputTextView);
         readNameTextView = rootView.findViewById(R.id.readNameTextView);
@@ -169,7 +166,7 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
             checkPermission();
         });
         clearTextView.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setTitle(R.string.clear_data).
                     setMessage(R.string.clear_data_msg).
                     setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss()).
@@ -209,8 +206,8 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
 
     @Override
     public void showProgress(final String title) {
-        rootView.post(() -> {
-            mProgressDialog = new ProgressDialog(rootView.getContext());
+        getView().post(() -> {
+            mProgressDialog = new ProgressDialog(getContext());
             mProgressDialog.setCancelable(false);
             mProgressDialog.setTitle(title);
             mProgressDialog.setMessage("正在處理請稍後...");
@@ -222,12 +219,12 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
 
     @Override
     public void hideProgress() {
-        rootView.post(() -> mProgressDialog.dismiss());
+        getView().post(() -> mProgressDialog.dismiss());
     }
 
     @Override
     public void updateProgress(final int value) {
-        rootView.post(() -> mProgressDialog.setProgress(value));
+        getView().post(() -> mProgressDialog.setProgress(value));
     }
 
     public void showFileNameDialog(String title, final String preferencesKey, final Set<String> allowType, boolean onlyChanged) {

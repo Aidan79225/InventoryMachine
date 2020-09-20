@@ -1,6 +1,4 @@
-package com.aidan.inventoryworkplatform.FilePage;
-
-import com.aidan.inventoryworkplatform.Utils.ReadExcel;
+package com.aidan.inventoryworkplatform.ui.file;
 
 import java.io.FileDescriptor;
 import java.util.Set;
@@ -11,11 +9,7 @@ import java.util.Set;
 
 public interface FileContract {
     interface view {
-        void findView();
         void setViewClick();
-        void showProgress(String msg);
-        void hideProgress();
-        void updateProgress(int value);
         void checkPermission();
         void showToast(String msg);
     }
