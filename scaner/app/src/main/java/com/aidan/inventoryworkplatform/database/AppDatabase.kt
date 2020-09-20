@@ -8,7 +8,7 @@ import com.aidan.inventoryworkplatform.Entity.WordName
 
 @Database(entities = [WordName::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun getWordNameDat(): WordNameDAO
+    abstract fun getWordNameDAO(): WordNameDAO
 
     companion object {
         private var instance: AppDatabase? = null
