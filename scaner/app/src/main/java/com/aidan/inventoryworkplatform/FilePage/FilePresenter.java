@@ -3,6 +3,7 @@ package com.aidan.inventoryworkplatform.FilePage;
 import android.os.Environment;
 
 import com.aidan.inventoryworkplatform.Constants;
+import com.aidan.inventoryworkplatform.base.BaseViewModel;
 import com.aidan.inventoryworkplatform.database.AgentDAO;
 import com.aidan.inventoryworkplatform.database.DepartmentDAO;
 import com.aidan.inventoryworkplatform.database.ItemDAO;
@@ -45,17 +46,11 @@ import java.util.Set;
  * Created by Aidan on 2016/11/20.
  */
 
-public class FilePresenter implements FileContract.presenter {
+public class FilePresenter extends BaseViewModel implements FileContract.presenter {
     FileContract.view view;
 
     public FilePresenter(FileContract.view view) {
         this.view = view;
-    }
-
-    @Override
-    public void start() {
-        view.findView();
-        view.setViewClick();
     }
 
     @Override

@@ -20,7 +20,6 @@ public interface FileContract {
         void showToast(String msg);
     }
     interface presenter{
-        void start();
         void readTxtButtonClick(FileDescriptor fileDescriptor);
         void readNameTextViewClick(FileDescriptor fileDescriptor);
         void readPurchaseDateTextViewClick(FileDescriptor fileDescriptor);

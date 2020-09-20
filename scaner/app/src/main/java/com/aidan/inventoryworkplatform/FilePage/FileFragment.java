@@ -31,6 +31,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
@@ -50,8 +51,6 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
     TextView inputTextView, outputTextView, readNameTextView;
     TextView outputItemTextView, inputItemTextView;
     View outputChangedTextView, outputChangedItemTextView;
-    ArrayList<String> filePaths = new ArrayList<>();
-    ArrayList<String> docPaths = new ArrayList<>();
     Runnable fileRunnable;
     ProgressDialog mProgressDialog;
     TextView clearTextView;
@@ -112,8 +111,14 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_input_file, container, false);
         presenter = new FilePresenter(this);
-        presenter.start();
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        findView();
+        setViewClick();
     }
 
     @Override
