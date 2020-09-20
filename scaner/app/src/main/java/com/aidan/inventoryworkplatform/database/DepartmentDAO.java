@@ -1,4 +1,4 @@
-package com.aidan.inventoryworkplatform.Database;
+package com.aidan.inventoryworkplatform.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.aidan.inventoryworkplatform.Entity.Agent;
+import com.aidan.inventoryworkplatform.Entity.Department;
 import com.aidan.inventoryworkplatform.Singleton;
 
 import java.util.ArrayList;
@@ -15,10 +15,11 @@ import java.util.List;
 /**
  * Created by Aidan on 2017/2/21.
  */
-public class AgentDAO {
+
+public class DepartmentDAO {
     // 表格名稱
-    public static final String TAG = "AgentDAO";
-    public static final String TABLE_NAME = "Agent";
+    public static final String TAG = "DepartmentDAO";
+    public static final String TABLE_NAME = "Department";
 
     // 編號表格欄位名稱，固定不變
     public static final String KeyID = "id";
@@ -31,19 +32,19 @@ public class AgentDAO {
                     KeyID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     content + " TEXT NOT NULL)";
     private SQLiteDatabase db;
-    private static AgentDAO agentDAO;
+    private static DepartmentDAO departmentDAO;
 
     public static void init(Context context) {
         Singleton.log("DepartmentDAO init");
-        agentDAO = new AgentDAO(context);
+        departmentDAO = new DepartmentDAO(context);
     }
 
-    public static AgentDAO getInstance() {
-        if (agentDAO == null) return null;
-        return agentDAO;
+    public static DepartmentDAO getInstance() {
+        if (departmentDAO == null) return null;
+        return departmentDAO;
     }
 
-    private AgentDAO(Context context) {
+    private DepartmentDAO(Context context) {
         db = DBHelper.getDatabase(context);
     }
 
@@ -52,39 +53,39 @@ public class AgentDAO {
     }
 
     // 新增參數指定的物件
-    public Agent insert(Agent agent) {
-        return insert(agent, TABLE_NAME);
+    public Department insert(Department department) {
+        return insert(department, TABLE_NAME);
     }
 
-    public Agent insert(Agent agent, String tableName) {
+    public Department insert(Department department, String tableName) {
         // 建立準備新增資料的ContentValues物件
         ContentValues cv = new ContentValues();
-        cv.put(content, agent.toJSON().toString());
+        cv.put(content, department.toJSON().toString());
 
         long id = db.insert(tableName, null, cv);
 
         // 設定編號
-        agent.setId(id);
+        department.setId(id);
         // 回傳結果
-        return agent;
+        return department;
     }
 
     // 修改參數指定的物件
-    public boolean update(Agent agent) {
-        return update(agent, TABLE_NAME);
+    public boolean update(Department item) {
+        return update(item, TABLE_NAME);
     }
 
-    public boolean update(Agent agent, String tableName) {
+    public boolean update(Department item, String tableName) {
         // 建立準備修改資料的ContentValues物件
         ContentValues cv = new ContentValues();
 
         // 加入ContentValues物件包裝的修改資料
         // 第一個參數是欄位名稱， 第二個參數是欄位的資料
-        cv.put(content, agent.toJSON().toString());
+        cv.put(content, item.toJSON().toString());
 
         // 設定修改資料的條件為編號
         // 格式為「欄位名稱＝資料」
-        String where = KeyID + "=" + agent.getId();
+        String where = KeyID + "=" + item.getId();
         long test = db.update(tableName, cv, where, null);
         // 執行修改資料並回傳修改的資料數量是否成功
         Log.e(TAG, test + "");
@@ -110,12 +111,12 @@ public class AgentDAO {
         db.delete(tableName, null, null);
     }
 
-    public List<Agent> getAll() {
+    public List<Department> getAll() {
         return getAll(TABLE_NAME);
     }
 
-    public List<Agent> getAll(String tableName) {
-        List<Agent> result = new ArrayList<>();
+    public List<Department> getAll(String tableName) {
+        List<Department> result = new ArrayList<>();
         Cursor cursor = db.query(
                 tableName, null, null, null, null, null, null, null);
 
@@ -128,14 +129,14 @@ public class AgentDAO {
     }
 
     // 取得指定編號的資料物件
-    public Agent get(long id) {
+    public Department get(long id) {
 
         return get(id, TABLE_NAME);
     }
 
-    public Agent get(long id, String tableName) {
+    public Department get(long id, String tableName) {
         // 準備回傳結果用的物件
-        Agent agent = null;
+        Department department = null;
         // 使用編號為查詢條件
         String where = KeyID + "=" + id;
         // 執行查詢
@@ -145,19 +146,19 @@ public class AgentDAO {
         // 如果有查詢結果
         if (result.moveToFirst()) {
             // 讀取包裝一筆資料的物件
-            agent = getRecord(result);
+            department = getRecord(result);
         }
 
         // 關閉Cursor物件
         result.close();
         // 回傳結果
-        return agent;
+        return department;
     }
 
     // 把Cursor目前的資料包裝為物件
-    public static Agent getRecord(Cursor cursor) {
+    public static Department getRecord(Cursor cursor) {
         // 準備回傳結果用的物件
-        Agent result = new Agent();
+        Department result = new Department();
 
         result.setId(cursor.getLong(0));
         result.setData(cursor.getString(1));
@@ -165,8 +166,8 @@ public class AgentDAO {
         return result;
     }
     public void dropTable(){
-        db.execSQL("DROP TABLE IF EXISTS " + AgentDAO.TABLE_NAME);
-        db.execSQL(AgentDAO.CREATE_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + DepartmentDAO.TABLE_NAME);
+        db.execSQL(DepartmentDAO.CREATE_TABLE);
     }
 }
 

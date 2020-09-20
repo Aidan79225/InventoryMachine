@@ -1,7 +1,7 @@
 package com.aidan.inventoryworkplatform.Model;
 
-import com.aidan.inventoryworkplatform.Database.DBHelper;
-import com.aidan.inventoryworkplatform.Database.LocationDAO;
+import com.aidan.inventoryworkplatform.database.DBHelper;
+import com.aidan.inventoryworkplatform.database.LocationDAO;
 import com.aidan.inventoryworkplatform.Entity.Location;
 import com.aidan.inventoryworkplatform.Entity.SelectableItem;
 

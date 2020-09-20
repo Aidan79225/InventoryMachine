@@ -1,4 +1,4 @@
-package com.aidan.inventoryworkplatform.Database;
+package com.aidan.inventoryworkplatform.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.aidan.inventoryworkplatform.Entity.Location;
+import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.Singleton;
 
 import java.util.ArrayList;
@@ -16,11 +16,10 @@ import java.util.List;
  * Created by Aidan on 2017/2/21.
  */
 
-
-public class LocationDAO {
+public class ItemDAO {
     // 表格名稱
-    public static final String TAG = "LocationDAO";
-    public static final String TABLE_NAME = "Location";
+    public static final String TAG = "ItemDAO";
+    public static final String TABLE_NAME = "Item";
 
     // 編號表格欄位名稱，固定不變
     public static final String KeyID = "id";
@@ -33,19 +32,19 @@ public class LocationDAO {
                     KeyID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     content + " TEXT NOT NULL)";
     private SQLiteDatabase db;
-    private static LocationDAO locationDAO;
+    private static ItemDAO itemDAO;
 
     public static void init(Context context) {
-        Singleton.log("LocationDAO init");
-        locationDAO = new LocationDAO(context);
+        Singleton.log("ItemDAO init");
+        itemDAO = new ItemDAO(context);
     }
 
-    public static LocationDAO getInstance() {
-        if (locationDAO == null) return null;
-        return locationDAO;
+    public static ItemDAO getInstance() {
+        if (itemDAO == null) return null;
+        return itemDAO;
     }
 
-    private LocationDAO(Context context) {
+    private ItemDAO(Context context) {
         db = DBHelper.getDatabase(context);
     }
 
@@ -54,39 +53,40 @@ public class LocationDAO {
     }
 
     // 新增參數指定的物件
-    public Location insert(Location location) {
-        return insert(location, TABLE_NAME);
+    public Item insert(Item item) {
+        return insert(item, TABLE_NAME);
     }
 
-    public Location insert(Location location, String tableName) {
+    public Item insert(Item item, String tableName) {
         // 建立準備新增資料的ContentValues物件
+        Singleton.log("ItemDAO insert");
         ContentValues cv = new ContentValues();
-        cv.put(content, location.toJSON().toString());
+        cv.put(content, item.toDbJSON().toString());
 
         long id = db.insert(tableName, null, cv);
 
         // 設定編號
-        location.setId(id);
+        item.setId(id);
         // 回傳結果
-        return location;
+        return item;
     }
 
     // 修改參數指定的物件
-    public boolean update(Location location) {
-        return update(location, TABLE_NAME);
+    public boolean update(Item item) {
+        return update(item, TABLE_NAME);
     }
 
-    public boolean update(Location location, String tableName) {
+    public boolean update(Item item, String tableName) {
         // 建立準備修改資料的ContentValues物件
         ContentValues cv = new ContentValues();
 
         // 加入ContentValues物件包裝的修改資料
         // 第一個參數是欄位名稱， 第二個參數是欄位的資料
-        cv.put(content, location.toJSON().toString());
+        cv.put(content, item.toDbJSON().toString());
 
         // 設定修改資料的條件為編號
         // 格式為「欄位名稱＝資料」
-        String where = KeyID + "=" + location.getId();
+        String where = KeyID + "=" + item.getId();
         long test = db.update(tableName, cv, where, null);
         // 執行修改資料並回傳修改的資料數量是否成功
         Log.e(TAG, test + "");
@@ -112,12 +112,12 @@ public class LocationDAO {
         db.delete(tableName, null, null);
     }
 
-    public List<Location> getAll() {
+    public List<Item> getAll() {
         return getAll(TABLE_NAME);
     }
 
-    public List<Location> getAll(String tableName) {
-        List<Location> result = new ArrayList<>();
+    public List<Item> getAll(String tableName) {
+        List<Item> result = new ArrayList<>();
         Cursor cursor = db.query(
                 tableName, null, null, null, null, null, null, null);
 
@@ -130,14 +130,14 @@ public class LocationDAO {
     }
 
     // 取得指定編號的資料物件
-    public Location get(long id) {
+    public Item get(long id) {
 
         return get(id, TABLE_NAME);
     }
 
-    public Location get(long id, String tableName) {
+    public Item get(long id, String tableName) {
         // 準備回傳結果用的物件
-        Location location = null;
+        Item item = null;
         // 使用編號為查詢條件
         String where = KeyID + "=" + id;
         // 執行查詢
@@ -147,19 +147,19 @@ public class LocationDAO {
         // 如果有查詢結果
         if (result.moveToFirst()) {
             // 讀取包裝一筆資料的物件
-            location = getRecord(result);
+            item = getRecord(result);
         }
 
         // 關閉Cursor物件
         result.close();
         // 回傳結果
-        return location;
+        return item;
     }
 
     // 把Cursor目前的資料包裝為物件
-    public static Location getRecord(Cursor cursor) {
+    public static Item getRecord(Cursor cursor) {
         // 準備回傳結果用的物件
-        Location result = new Location();
+        Item result = new Item();
 
         result.setId(cursor.getLong(0));
         result.setData(cursor.getString(1));
@@ -167,8 +167,7 @@ public class LocationDAO {
         return result;
     }
     public void dropTable(){
-        db.execSQL("DROP TABLE IF EXISTS " + LocationDAO.TABLE_NAME);
-        db.execSQL(LocationDAO.CREATE_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + ItemDAO.TABLE_NAME);
+        db.execSQL(ItemDAO.CREATE_TABLE);
     }
 }
-

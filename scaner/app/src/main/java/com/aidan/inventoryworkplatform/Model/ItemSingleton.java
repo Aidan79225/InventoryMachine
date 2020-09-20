@@ -1,7 +1,7 @@
 package com.aidan.inventoryworkplatform.Model;
 
-import com.aidan.inventoryworkplatform.Database.DBHelper;
-import com.aidan.inventoryworkplatform.Database.ItemDAO;
+import com.aidan.inventoryworkplatform.database.DBHelper;
+import com.aidan.inventoryworkplatform.database.ItemDAO;
 import com.aidan.inventoryworkplatform.Entity.Item;
 
 import java.util.ArrayList;

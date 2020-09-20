@@ -1,7 +1,7 @@
 package com.aidan.inventoryworkplatform.Model;
 
-import com.aidan.inventoryworkplatform.Database.AgentDAO;
-import com.aidan.inventoryworkplatform.Database.DBHelper;
+import com.aidan.inventoryworkplatform.database.AgentDAO;
+import com.aidan.inventoryworkplatform.database.DBHelper;
 import com.aidan.inventoryworkplatform.Entity.Agent;
 import com.aidan.inventoryworkplatform.Entity.SelectableItem;
 

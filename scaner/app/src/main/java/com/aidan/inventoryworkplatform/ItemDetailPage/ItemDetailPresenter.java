@@ -2,7 +2,7 @@ package com.aidan.inventoryworkplatform.ItemDetailPage;
 
 import android.text.TextUtils;
 
-import com.aidan.inventoryworkplatform.Database.ItemDAO;
+import com.aidan.inventoryworkplatform.database.ItemDAO;
 import com.aidan.inventoryworkplatform.Dialog.SearchableItem;
 import com.aidan.inventoryworkplatform.Entity.Agent;
 import com.aidan.inventoryworkplatform.Entity.Department;

@@ -12,10 +12,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aidan.inventoryworkplatform.BaseFragmentManager;
-import com.aidan.inventoryworkplatform.Database.AgentDAO;
-import com.aidan.inventoryworkplatform.Database.DepartmentDAO;
-import com.aidan.inventoryworkplatform.Database.ItemDAO;
-import com.aidan.inventoryworkplatform.Database.LocationDAO;
+import com.aidan.inventoryworkplatform.database.AgentDAO;
+import com.aidan.inventoryworkplatform.database.DepartmentDAO;
+import com.aidan.inventoryworkplatform.database.ItemDAO;
+import com.aidan.inventoryworkplatform.database.LocationDAO;
 import com.aidan.inventoryworkplatform.Dialog.ScannerSettingDialog;
 import com.aidan.inventoryworkplatform.FilePage.FileFragment;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
