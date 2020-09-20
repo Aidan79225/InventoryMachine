@@ -11,7 +11,6 @@ public interface FileContract {
     interface view {
         void setViewClick();
         void checkPermission();
-        void showToast(String msg);
     }
     interface presenter{
         void readTxtButtonClick(FileDescriptor fileDescriptor);
