@@ -1,7 +1,10 @@
 package com.aidan.inventoryworkplatform.Utils
 
 import com.aidan.inventoryworkplatform.Entity.Item
+import com.aidan.inventoryworkplatform.Entity.WordName
 import com.aidan.inventoryworkplatform.Model.ItemSingleton
+import com.aidan.inventoryworkplatform.database.AppDatabase
+import com.aidan.inventoryworkplatform.database.WordNameRepository
 import jxl.Workbook
 import jxl.read.biff.BiffException
 import java.io.FileDescriptor
@@ -148,7 +151,25 @@ class ReadExcel {
     }
 
     private fun loadAndSetWordName(w: Workbook) {
-
+        val sheet = w.getSheet(0)
+        val wordList = mutableListOf<WordName>()
+        for (i in 0 until sheet.rows) {
+            if (i == 0) continue
+            wordList.add(
+                    WordName(
+                            sheet.getCell(0, i).contents,
+                            sheet.getCell(1, i).contents
+                    )
+            )
+        }
+        if (wordList.size == 0) {
+            return
+        }
+        val repository = WordNameRepository()
+        AppDatabase.getInstance().runInTransaction {
+            repository.deleteAll()
+            repository.addAll(wordList)
+        }
     }
 
     fun setProgressAction(progressAction: ProgressAction?) {

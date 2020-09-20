@@ -14,6 +14,9 @@ interface WordNameDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(wordName: WordName)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(wordNames: List<WordName>)
+
     @Query("DELETE FROM word_name_table")
     fun deleteAll()
 

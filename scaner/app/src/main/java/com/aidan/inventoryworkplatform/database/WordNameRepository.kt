@@ -9,6 +9,10 @@ class WordNameRepository {
         return wordNameDAO.getAll()
     }
 
+    fun addAll(list: List<WordName>) {
+        wordNameDAO.insertAll(list)
+    }
+
     fun deleteAll() {
         wordNameDAO.deleteAll()
     }
