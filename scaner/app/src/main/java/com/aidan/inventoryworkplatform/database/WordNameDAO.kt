@@ -12,7 +12,7 @@ interface WordNameDAO {
     fun getAll(): List<WordName>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun add(wordName: WordName)
+    fun insert(wordName: WordName)
 
     @Query("DELETE FROM word_name_table")
     fun deleteAll()

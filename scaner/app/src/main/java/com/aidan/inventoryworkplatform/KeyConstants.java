@@ -9,10 +9,10 @@ public class KeyConstants {
     public static final String isLogin = "isLogin";
 
     //---------------大標籤----------------------------------//
-    public static final String AuthorityName = "法務部矯正署高雄";          //臺灣臺北地方法院檢察署
+    public static final String AuthorityName = "臺灣花蓮地方檢察署";          //臺灣臺北地方法院檢察署
     public static final String ItemName = "非消耗物品";                    //非消耗物品
     //---------------小標籤----------------------------------//
-    public static final String LittleAuthorityName = "高雄監獄";       //臺灣臺北地方法院檢察署
+    public static final String LittleAuthorityName = "花蓮檢察";       //臺灣臺北地方法院檢察署
     public static final String LittleItemName = "非消耗物品";                                 //非消耗物品
 
     public static final boolean showPrint = true;   //true 顯示列印   false 不顯示列印
