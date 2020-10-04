@@ -92,7 +92,7 @@ class FileFragment : DialogFragment() {
                 updateProgress(it)
             })
             showToast.observe(this@FileFragment, androidx.lifecycle.Observer {
-                showToast(it)
+                this@FileFragment.showToast(it)
             })
         }
         setViewClick(view)

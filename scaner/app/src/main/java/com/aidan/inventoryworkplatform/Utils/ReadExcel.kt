@@ -130,7 +130,7 @@ class ReadExcel {
 
 
     fun readWordName(fileDescriptor: FileDescriptor?) {
-        Thread(Runnable {
+        Thread {
             if (progressAction != null) {
                 progressAction!!.showProgress("讀取字號名稱中")
             }
@@ -147,7 +147,7 @@ class ReadExcel {
                     progressAction!!.hideProgress()
                 }
             }
-        }).start()
+        }.start()
     }
 
     private fun loadAndSetWordName(w: Workbook) {
@@ -169,6 +169,7 @@ class ReadExcel {
         AppDatabase.getInstance().runInTransaction {
             repository.deleteAll()
             repository.addAll(wordList)
+            progressAction?.showToast("讀取字號成功")
         }
     }
 
