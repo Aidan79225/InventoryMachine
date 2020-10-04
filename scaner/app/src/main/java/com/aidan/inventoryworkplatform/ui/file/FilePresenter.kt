@@ -24,13 +24,13 @@ import java.util.*
 /**
  * Created by Aidan on 2016/11/20.
  */
-class FilePresenter : BaseViewModel(), FileContract.presenter {
+class FilePresenter : BaseViewModel() {
     val showProgress = SingleLiveEvent<String>()
     val hideProgress = SingleLiveEvent<String>()
     val updateProgress = SingleLiveEvent<Int>()
 
-    override fun readTxtButtonClick(fileDescriptor: FileDescriptor) {
-        Thread(Runnable {
+    fun readTxtButtonClick(fileDescriptor: FileDescriptor) {
+        Thread {
             val allowType: MutableSet<String> = HashSet()
             allowType.add("0")
             allowType.add("1")
@@ -39,7 +39,7 @@ class FilePresenter : BaseViewModel(), FileContract.presenter {
             allowType.add("4")
             allowType.add("5")
             loadData(fileDescriptor, "讀取財產中", allowType, Constants.PREFERENCE_PROPERTY_KEY, SelectableItem.Type.property)
-        }).start()
+        }.start()
     }
 
     private fun loadData(fileDescriptor: FileDescriptor, msg: String, allowType: Set<String>, key: String, type: SelectableItem.Type) {
@@ -101,16 +101,23 @@ class FilePresenter : BaseViewModel(), FileContract.presenter {
 
     }
 
-    override fun readNameTextViewClick(fileDescriptor: FileDescriptor) {
+    fun readNameTextViewClick(fileDescriptor: FileDescriptor) {
         val readExcel = ReadExcel()
         readExcel.setProgressAction(progressAction)
         readExcel.readName(fileDescriptor)
     }
 
-    override fun readPurchaseDateTextViewClick(fileDescriptor: FileDescriptor) {
+    fun readPurchaseDateTextViewClick(fileDescriptor: FileDescriptor) {
         val readExcel = ReadExcel()
         readExcel.setProgressAction(progressAction)
         readExcel.readPurchaseDate(fileDescriptor)
+    }
+
+    fun readWordTextViewClick(fileDescriptor: FileDescriptor) {
+        ReadExcel().run {
+            setProgressAction(progressAction)
+            readWordName(fileDescriptor)
+        }
     }
 
     private fun dropTable() {
@@ -136,9 +143,9 @@ class FilePresenter : BaseViewModel(), FileContract.presenter {
         }
     }
 
-    private fun getItems(ASSETs: JSONObject, itemList: MutableList<Item>, allowType: Set<String>, type: SelectableItem.Type) {
+    private fun getItems(assets: JSONObject, itemList: MutableList<Item>, allowType: Set<String>, type: SelectableItem.Type) {
         try {
-            val data = ASSETs.getJSONArray("PA3")
+            val data = assets.getJSONArray("PA3")
             Singleton.log("itemList size : " + data.length())
             val size = data.length()
             for (i in 0 until size) {
@@ -157,9 +164,9 @@ class FilePresenter : BaseViewModel(), FileContract.presenter {
         }
     }
 
-    private fun getAgents(ASSETs: JSONObject, agentList: MutableList<Agent>, type: SelectableItem.Type) {
+    private fun getAgents(assets: JSONObject, agentList: MutableList<Agent>, type: SelectableItem.Type) {
         try {
-            val data = ASSETs.getJSONArray("D1")
+            val data = assets.getJSONArray("D1")
             Singleton.log("agentList size : " + data.length())
             showProgress.postValue("讀取人名中")
             for (i in 0 until data.length()) {
@@ -186,9 +193,9 @@ class FilePresenter : BaseViewModel(), FileContract.presenter {
         agentList.sort()
     }
 
-    private fun getDepartments(ASSETs: JSONObject, departmentList: MutableList<Department>, type: SelectableItem.Type) {
+    private fun getDepartments(assets: JSONObject, departmentList: MutableList<Department>, type: SelectableItem.Type) {
         try {
-            val data = ASSETs.getJSONArray("D2")
+            val data = assets.getJSONArray("D2")
             Singleton.log("departmentList size : " + data.length())
             showProgress.postValue("讀取部門中")
             for (i in 0 until data.length()) {
@@ -215,9 +222,9 @@ class FilePresenter : BaseViewModel(), FileContract.presenter {
         departmentList.sort()
     }
 
-    private fun getLocations(ASSETs: JSONObject, locationList: MutableList<Location>, type: SelectableItem.Type) {
+    private fun getLocations(assets: JSONObject, locationList: MutableList<Location>, type: SelectableItem.Type) {
         try {
-            val data = ASSETs.getJSONArray("D3")
+            val data = assets.getJSONArray("D3")
             Singleton.log("locationList size : " + data.length())
             showProgress.postValue("讀取地點中")
             for (i in 0 until data.length()) {
@@ -241,10 +248,10 @@ class FilePresenter : BaseViewModel(), FileContract.presenter {
         } catch (e: JSONException) {
             e.printStackTrace()
         }
-        Collections.sort(locationList)
+        locationList.sort()
     }
 
-    override fun saveFile(fileName: String, preferencesKey: String, allowType: Set<String>, onlyChanged: Boolean) {
+    fun saveFile(fileName: String, preferencesKey: String, allowType: Set<String>, onlyChanged: Boolean) {
         val jsonObject = getAllDataJSON(preferencesKey, allowType, onlyChanged)
         val dir = Environment.getExternalStorageDirectory().absolutePath + "/欣華盤點系統/行動裝置轉至電腦"
         val dirFile = File(dir)
@@ -267,7 +274,7 @@ class FilePresenter : BaseViewModel(), FileContract.presenter {
         }
     }
 
-    override fun clearData() {
+    fun clearData() {
         val itemList = ItemSingleton.getInstance().itemList
         val locationList = LocationSingleton.getInstance().locationList
         val agentList = AgentSingleton.getInstance().agentList
@@ -280,15 +287,15 @@ class FilePresenter : BaseViewModel(), FileContract.presenter {
         dropTable()
     }
 
-    override fun inputItemTextViewClick(fileDescriptor: FileDescriptor) {
-        Thread(Runnable {
+    fun inputItemTextViewClick(fileDescriptor: FileDescriptor) {
+        Thread {
             val allowType: MutableSet<String> = HashSet()
             allowType.add("6")
             loadData(fileDescriptor, "讀取物品中", allowType, Constants.PREFERENCE_ITEM_KEY, SelectableItem.Type.item)
-        }).start()
+        }.start()
     }
 
-    fun getAllDataJSON(key: String?, allowType: Set<String>, onlyChanged: Boolean): JSONObject {
+    private fun getAllDataJSON(key: String?, allowType: Set<String>, onlyChanged: Boolean): JSONObject {
         val itemList = ItemSingleton.getInstance().itemList
         val jsonObject = JSONObject()
         try {
