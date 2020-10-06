@@ -36,7 +36,7 @@ public class Item {
     private String PA3OUT = "PA3OUT";
     private String PA3OUTN = "PA3OUTN";
     private String PA3OU = "PA3OU";
-    private String PA3OUN = "PA3OUN";
+    private String PA3OUN = "";
     private String PA3UUT = "PA3UUT";
     private String PA3UUTN = "PA3UUTN";
     private String PA3UR = "PA3UR";
@@ -57,36 +57,113 @@ public class Item {
     public Item(JSONObject jsonObject) {
         try {
             PA341 = jsonObject.getString(ItemConstants.PA341);
-
+        } catch (Exception e) {
+        }
+        try {
             PA342 = jsonObject.getString(ItemConstants.PA342);
+        } catch (Exception e) {
+        }
+        try {
             PA343 = jsonObject.getString(ItemConstants.PA343);
+        } catch (Exception e) {
+        }
+        try {
             PA3C1 = jsonObject.getString(ItemConstants.PA3C1);
+        } catch (Exception e) {
+        }
+        try {
             PA3C2 = jsonObject.getString(ItemConstants.PA3C2);
+        } catch (Exception e) {
+        }
+        try {
             PA3C3 = jsonObject.getString(ItemConstants.PA3C3);
+        } catch (Exception e) {
+        }
+        try {
             PA3C4 = jsonObject.getString(ItemConstants.PA3C4);
+        } catch (Exception e) {
+        }
+        try {
             PA3C5 = jsonObject.getString(ItemConstants.PA3C5);
+        } catch (Exception e) {
+        }
+        try {
             PA3C6 = jsonObject.getString(ItemConstants.PA3C6);
+        } catch (Exception e) {
+        }
+        try {
             PA3P3 = jsonObject.getString(ItemConstants.PA3P3);
+        } catch (Exception e) {
+        }
+        try {
             PA3PS = jsonObject.getString(ItemConstants.PA3PS);
+        } catch (Exception e) {
+        }
+        try {
             PA3MK = jsonObject.getString(ItemConstants.PA3MK);
+        } catch (Exception e) {
+        }
+        try {
             PA3BD = jsonObject.getString(ItemConstants.PA3BD);
+        } catch (Exception e) {
+        }
+        try {
             PA3PY = jsonObject.getString(ItemConstants.PA3PY);
+        } catch (Exception e) {
+        }
+        try {
             PA3LOC = jsonObject.getString(ItemConstants.PA3LOC);
+        } catch (Exception e) {
+        }
+        try {
             PA3LOCN = jsonObject.getString(ItemConstants.PA3LOCN);
+        } catch (Exception e) {
+        }
+        try {
             PA3OUT = jsonObject.getString(ItemConstants.PA3OUT);
+        } catch (Exception e) {
+        }
+        try {
             PA3OUTN = jsonObject.getString(ItemConstants.PA3OUTN);
+        } catch (Exception e) {
+        }
+        try {
             PA3OU = jsonObject.getString(ItemConstants.PA3OU);
+        } catch (Exception e) {
+        }
+        try {
             PA3OUN = jsonObject.getString(ItemConstants.PA3OUN);
+        } catch (Exception e) {
+        }
+        try {
             PA3UUT = jsonObject.getString(ItemConstants.PA3UUT);
+        } catch (Exception e) {
+        }
+        try {
             PA3UUTN = jsonObject.getString(ItemConstants.PA3UUTN);
+        } catch (Exception e) {
+        }
+        try {
             PA3UR = jsonObject.getString(ItemConstants.PA3UR);
+        } catch (Exception e) {
+        }
+        try {
             PA3URN = jsonObject.getString(ItemConstants.PA3URN);
+        } catch (Exception e) {
+        }
+        try {
             if (PA3OUN.length() > 0) {
                 PA308 = "D";
             } else {
                 PA308 = jsonObject.getString(ItemConstants.PA308);
             }
+        } catch (Exception e) {
+        }
+        try {
             PA3DEL = jsonObject.getString(ItemConstants.PA3DEL);
+        } catch (Exception e) {
+        }
+        try {
             PA3PRN = jsonObject.getString(ItemConstants.PA3PRN);
         } catch (Exception e) {
             e.printStackTrace();
@@ -244,7 +321,7 @@ public class Item {
     }
 
     public String getNumber() {
-        return PA3C1 + PA3C2 + PA3C3 + PA3C4 + PA3C5;
+        return PA3C1 + "-" + PA3C2 + "-" + PA3C3 + "-" + PA3C4;
     }
 
     public String getSerialNumber() {

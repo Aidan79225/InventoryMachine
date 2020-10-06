@@ -152,9 +152,7 @@ class FilePresenter : BaseViewModel() {
                 val c = data.getJSONObject(i)
                 val item = Item(c)
                 item.itemType = type
-                if (allowType.contains(item.pA3C1)) {
-                    itemList.add(item)
-                }
+                itemList.add(item)
                 updateProgress.postValue((i + 1) * 100 / size)
             }
             hideProgress.postValue(null)

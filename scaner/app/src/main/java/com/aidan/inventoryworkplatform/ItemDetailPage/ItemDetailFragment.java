@@ -100,7 +100,7 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         locationTextView.setText(item.getLocation().name);
         nameTextView.setText(item.getName());
         nickNameTextView.setText(item.getNickName());
-        itemIdTextView.setText(item.getIdNumber());
+        itemIdTextView.setText(item.getNumber());
         deleteTextView.setText(item.isDelete() ? "Y" : "N");
         printTextView.setText(item.isPrint() ? "Y" : "N");
         if(item.getTagContent() != null){
@@ -108,7 +108,7 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         }
         printButton.setVisibility(KeyConstants.showPrint ? View.VISIBLE : View.GONE);
         printLittleButton.setVisibility(KeyConstants.showPrintLittleTag ? View.VISIBLE : View.GONE);
-        photoButton.setOnClickListener(v -> startPhotoActivity(item.getIdNumber().replace("-","")));
+        photoButton.setOnClickListener(v -> startPhotoActivity(item.getNumber().replace("-","")));
 
     }
 
