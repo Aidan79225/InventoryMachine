@@ -99,36 +99,12 @@ class FileFragment : DialogFragment() {
     }
 
     private fun setViewClick(view: View) {
-        if (KeyConstants.showChanged) {
-            view.outputChangedTextView.visibility = View.VISIBLE
-            view.outputChangedItemTextView.visibility = View.VISIBLE
-        }
         view.inputTextView.setOnClickListener { v: View? ->
             fileRunnable = Runnable { showFileChooser("text/*", FILE_SELECT_CODE) }
             checkPermission()
         }
         view.outputTextView.setOnClickListener { v: View? ->
-            fileRunnable = createOutputCallback(false)
-            checkPermission()
-        }
-        view.outputChangedTextView.setOnClickListener { v: View? ->
-            fileRunnable = createOutputCallback(true)
-            checkPermission()
-        }
-        view.outputItemTextView.setOnClickListener { v: View? ->
-            fileRunnable = createOutputItemCallback(false)
-            checkPermission()
-        }
-        view.outputChangedItemTextView.setOnClickListener {
-            fileRunnable = createOutputItemCallback(true)
-            checkPermission()
-        }
-        view.readNameTextView.setOnClickListener {
-            fileRunnable = Runnable { showFileChooser(XLS_MIME, FILE_SELECT_NAME_CODE) }
-            checkPermission()
-        }
-        view.readPurchaseDateTextView.setOnClickListener {
-            fileRunnable = Runnable { showFileChooser(XLS_MIME, FILE_SELECT_PURCHASE_DATE_CODE) }
+            fileRunnable = createOutputCallback()
             checkPermission()
         }
         view.readWordTextView.setOnClickListener {
@@ -142,30 +118,11 @@ class FileFragment : DialogFragment() {
                 dialog.dismiss()
             }.show()
         }
-        view.inputItemTextView.setOnClickListener { v: View? ->
-            fileRunnable = Runnable { showFileChooser(TEXT_MIME, FILE_SELECT_ITEM_CODE) }
-            checkPermission()
-        }
     }
 
-    private fun createOutputCallback(onlyChanged: Boolean): Runnable {
+    private fun createOutputCallback(): Runnable {
         return Runnable {
-            val allowType: MutableSet<String> = HashSet()
-            allowType.add("0")
-            allowType.add("1")
-            allowType.add("2")
-            allowType.add("3")
-            allowType.add("4")
-            allowType.add("5")
-            showFileNameDialog("請輸入財產檔名", Constants.PREFERENCE_PROPERTY_KEY, allowType, onlyChanged)
-        }
-    }
-
-    private fun createOutputItemCallback(onlyChanged: Boolean): Runnable {
-        return Runnable {
-            val allowType: MutableSet<String> = HashSet()
-            allowType.add("6")
-            showFileNameDialog("請輸入物品檔名", Constants.PREFERENCE_ITEM_KEY, allowType, onlyChanged)
+            showFileNameDialog("請輸入財產檔名", Constants.PREFERENCE_PROPERTY_KEY)
         }
     }
 
@@ -189,7 +146,7 @@ class FileFragment : DialogFragment() {
         mProgressDialog?.progress = value
     }
 
-    private fun showFileNameDialog(title: String?, preferencesKey: String, allowType: Set<String>, onlyChanged: Boolean) {
+    private fun showFileNameDialog(title: String?, preferencesKey: String) {
         val editDialog = AlertDialog.Builder(activity!!)
         editDialog.setTitle(title)
         val editText = EditText(activity)
@@ -209,7 +166,7 @@ class FileFragment : DialogFragment() {
 
         // do something when the button is clicked
         editDialog.setPositiveButton("OK") { arg0: DialogInterface, arg1: Int ->
-            presenter.saveFile(editText.text.toString(), preferencesKey, allowType, onlyChanged)
+            presenter.saveFile(editText.text.toString(), preferencesKey)
             arg0.dismiss()
         }
         // do something when the button is clicked
@@ -230,27 +187,6 @@ class FileFragment : DialogFragment() {
                 val uri = data!!.data
                 try {
                     presenter.readTxtButtonClick(readTextFromUri(uri))
-                } catch (e: Exception) {
-                }
-            }
-            FILE_SELECT_NAME_CODE -> if (resultCode == Activity.RESULT_OK) {
-                val uri = data!!.data
-                try {
-                    presenter.readNameTextViewClick(readTextFromUri(uri))
-                } catch (e: Exception) {
-                }
-            }
-            FILE_SELECT_ITEM_CODE -> if (resultCode == Activity.RESULT_OK) {
-                val uri = data!!.data
-                try {
-                    presenter.inputItemTextViewClick(readTextFromUri(uri))
-                } catch (e: Exception) {
-                }
-            }
-            FILE_SELECT_PURCHASE_DATE_CODE -> if (resultCode == Activity.RESULT_OK) {
-                val uri = data!!.data
-                try {
-                    presenter.readPurchaseDateTextViewClick(readTextFromUri(uri))
                 } catch (e: Exception) {
                 }
             }
@@ -275,9 +211,6 @@ class FileFragment : DialogFragment() {
         private const val readTxtType = 19
         private const val REQUEST_EXTERNAL_STORAGE = 1
         private const val FILE_SELECT_CODE = 100
-        private const val FILE_SELECT_NAME_CODE = 2
-        private const val FILE_SELECT_ITEM_CODE = 3
-        private const val FILE_SELECT_PURCHASE_DATE_CODE = 4
         private const val FILE_SELECT_WORD = 5
         private const val TEXT_MIME = "text/*"
         private const val XLS_MIME = "application/vnd.ms-excel"

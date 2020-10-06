@@ -31,18 +31,11 @@ class FilePresenter : BaseViewModel() {
 
     fun readTxtButtonClick(fileDescriptor: FileDescriptor) {
         Thread {
-            val allowType: MutableSet<String> = HashSet()
-            allowType.add("0")
-            allowType.add("1")
-            allowType.add("2")
-            allowType.add("3")
-            allowType.add("4")
-            allowType.add("5")
-            loadData(fileDescriptor, "讀取財產中", allowType, Constants.PREFERENCE_PROPERTY_KEY, SelectableItem.Type.property)
+            loadData(fileDescriptor, "讀取財產中", Constants.PREFERENCE_PROPERTY_KEY, SelectableItem.Type.property)
         }.start()
     }
 
-    private fun loadData(fileDescriptor: FileDescriptor, msg: String, allowType: Set<String>, key: String, type: SelectableItem.Type) {
+    private fun loadData(fileDescriptor: FileDescriptor, msg: String, key: String, type: SelectableItem.Type) {
         showProgress.postValue(msg)
         val itemList = ItemSingleton.getInstance().itemList
         val locationList = LocationSingleton.getInstance().locationList
@@ -63,7 +56,7 @@ class FilePresenter : BaseViewModel() {
             val ASSETs = jsonObj.getJSONObject("ASSETs")
             val MS = jsonObj.getJSONObject(Constants.MS)
             Singleton.preferenceEditor.putString(key, MS.toString()).commit()
-            getItems(ASSETs, itemList, allowType, type)
+            getItems(ASSETs, itemList, type)
             getAgents(ASSETs, agentList, type)
             getDepartments(ASSETs, departmentList, type)
             getLocations(ASSETs, locationList, type)
@@ -101,18 +94,6 @@ class FilePresenter : BaseViewModel() {
 
     }
 
-    fun readNameTextViewClick(fileDescriptor: FileDescriptor) {
-        val readExcel = ReadExcel()
-        readExcel.setProgressAction(progressAction)
-        readExcel.readName(fileDescriptor)
-    }
-
-    fun readPurchaseDateTextViewClick(fileDescriptor: FileDescriptor) {
-        val readExcel = ReadExcel()
-        readExcel.setProgressAction(progressAction)
-        readExcel.readPurchaseDate(fileDescriptor)
-    }
-
     fun readWordTextViewClick(fileDescriptor: FileDescriptor) {
         ReadExcel().run {
             setProgressAction(progressAction)
@@ -143,7 +124,7 @@ class FilePresenter : BaseViewModel() {
         }
     }
 
-    private fun getItems(assets: JSONObject, itemList: MutableList<Item>, allowType: Set<String>, type: SelectableItem.Type) {
+    private fun getItems(assets: JSONObject, itemList: MutableList<Item>, type: SelectableItem.Type) {
         try {
             val data = assets.getJSONArray("PA3")
             Singleton.log("itemList size : " + data.length())
@@ -249,8 +230,8 @@ class FilePresenter : BaseViewModel() {
         locationList.sort()
     }
 
-    fun saveFile(fileName: String, preferencesKey: String, allowType: Set<String>, onlyChanged: Boolean) {
-        val jsonObject = getAllDataJSON(preferencesKey, allowType, onlyChanged)
+    fun saveFile(fileName: String, preferencesKey: String) {
+        val jsonObject = getAllDataJSON(preferencesKey)
         val dir = Environment.getExternalStorageDirectory().absolutePath + "/欣華盤點系統/行動裝置轉至電腦"
         val dirFile = File(dir)
         if (!dirFile.exists()) {
@@ -285,15 +266,7 @@ class FilePresenter : BaseViewModel() {
         dropTable()
     }
 
-    fun inputItemTextViewClick(fileDescriptor: FileDescriptor) {
-        Thread {
-            val allowType: MutableSet<String> = HashSet()
-            allowType.add("6")
-            loadData(fileDescriptor, "讀取物品中", allowType, Constants.PREFERENCE_ITEM_KEY, SelectableItem.Type.item)
-        }.start()
-    }
-
-    private fun getAllDataJSON(key: String?, allowType: Set<String>, onlyChanged: Boolean): JSONObject {
+    private fun getAllDataJSON(key: String?): JSONObject {
         val itemList = ItemSingleton.getInstance().itemList
         val jsonObject = JSONObject()
         try {
@@ -306,12 +279,7 @@ class FilePresenter : BaseViewModel() {
             val ASSETs = JSONObject()
             val PA3 = JSONArray()
             for (item in itemList) {
-                if (onlyChanged && !item.isChanged) {
-                    continue
-                }
-                if (allowType.contains(item.pA3C1)) {
-                    PA3.put(item.toJSON())
-                }
+                PA3.put(item.toJSON())
             }
             val D1 = JSONArray()
             val D2 = JSONArray()

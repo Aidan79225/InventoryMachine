@@ -73,53 +73,6 @@
             android:text="@string/input_file" />
 
         <TextView
-            android:id="@+id/inputItemTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/bg_gray"
-            android:gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="5dp"
-            android:textSize="16sp"
-            android:padding="10dp"
-            android:text="@string/input_file_item" />
-        <TextView
-            android:id="@+id/readNameTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="5dp"
-            android:textSize="16sp"
-            android:background="@color/bg_gray"
-            android:padding="10dp"
-            android:text="開啟財產名稱檔案" />
-
-        <TextView
-            android:id="@+id/readPurchaseDateTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
-            android:textSize="16sp"
-            android:background="@color/bg_gray"
-            android:padding="10dp"
-            android:text="開啟購置日期檔案" />
-
-        <TextView
             android:id="@+id/readWordTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -162,57 +115,8 @@
             android:textSize="16sp"
             android:background="@color/bg_gray"
             android:padding="10dp"
-            android:text="行動裝置轉至電腦(財產)" />
+            android:text="行動裝置轉至電腦(案管)" />
 
-        <TextView
-            android:id="@+id/outputItemTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="5dp"
-            android:textSize="16sp"
-            android:background="@color/bg_gray"
-            android:padding="10dp"
-            android:text="行動裝置轉至電腦(物品)" />
-
-        <TextView
-            android:id="@+id/outputChangedTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="5dp"
-            android:textSize="16sp"
-            android:background="@color/bg_gray"
-            android:padding="10dp"
-            android:text="行動裝置轉至電腦(異動財產)"
-            android:visibility="gone"/>
-
-        <TextView
-            android:id="@+id/outputChangedItemTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="5dp"
-            android:textSize="16sp"
-            android:background="@color/bg_gray"
-            android:padding="10dp"
-            android:text="行動裝置轉至電腦(異動物品)"
-            android:visibility="gone"/>
     </LinearLayout>
 
 

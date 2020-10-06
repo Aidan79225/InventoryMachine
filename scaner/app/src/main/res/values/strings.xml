@@ -1,6 +1,6 @@
 <resources>
     <string name="check_system" translatable="false">欣華案管盤點系統</string>
-    <string name="input_file" translatable="false">電腦轉至行動裝置(財產)</string>
+    <string name="input_file" translatable="false">電腦轉至行動裝置(案管)</string>
     <string name="input_file_item" translatable="false">電腦轉至行動裝置(物品)</string>
     <!--Page-->
     <string name="file_page" translatable="false">檔案頁面</string>
