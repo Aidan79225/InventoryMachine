@@ -6,12 +6,12 @@
     <string name="file_page" translatable="false">檔案頁面</string>
     <string name="scan_page" translatable="false">盤點掃描</string>
     <string name="search_page" translatable="false">人工查詢</string>
-    <string name="itemList_page" translatable="false">財產清單</string>
+    <string name="itemList_page" translatable="false">案管清冊</string>
     <string name="itemDetail_page" translatable="false">財產明細</string>
     <!--Item List Adapter-->
     <string name="status" translatable="false">狀態</string>
     <string name="name" translatable="false">物品名稱</string>
-    <string name="item_id" translatable="false">財產編號-流水號</string>
+    <string name="item_id" translatable="false">保管字號含分物件號</string>
     <string name="item_little_id" translatable="false">保管字號</string>
     <string name="item_water_id" translatable="false">分物號</string>
     <string name="save_location" translatable="false">存置地點</string>
