@@ -85,9 +85,6 @@ class FileFragment : DialogFragment() {
             showProgress.observe(this@FileFragment, androidx.lifecycle.Observer {
                 showProgress(it)
             })
-            hideProgress.observe(this@FileFragment, androidx.lifecycle.Observer {
-                hideProgress()
-            })
             updateProgress.observe(this@FileFragment, androidx.lifecycle.Observer {
                 updateProgress(it)
             })
@@ -135,15 +132,19 @@ class FileFragment : DialogFragment() {
             setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
             show()
         }
-    }
 
-    private fun hideProgress() {
-        mProgressDialog?.dismiss()
-        mProgressDialog = null
+        view?.postDelayed({
+            mProgressDialog?.dismiss()
+            mProgressDialog = null
+        }, 3000)
     }
 
     private fun updateProgress(value: Int) {
         mProgressDialog?.progress = value
+        if (value == 100) {
+            mProgressDialog?.dismiss()
+            mProgressDialog = null
+        }
     }
 
     private fun showFileNameDialog(title: String?, preferencesKey: String) {

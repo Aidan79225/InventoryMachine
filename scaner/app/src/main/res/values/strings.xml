@@ -10,10 +10,10 @@
     <string name="itemDetail_page" translatable="false">財產明細</string>
     <!--Item List Adapter-->
     <string name="status" translatable="false">狀態</string>
-    <string name="name" translatable="false">財產別名</string>
+    <string name="name" translatable="false">物品名稱</string>
     <string name="item_id" translatable="false">財產編號-流水號</string>
-    <string name="item_little_id" translatable="false">財產編號</string>
-    <string name="item_water_id" translatable="false">流水號</string>
+    <string name="item_little_id" translatable="false">保管字號</string>
+    <string name="item_water_id" translatable="false">分物號</string>
     <string name="save_location" translatable="false">存置地點</string>
     <string name="save_agent" translatable="false">保管人</string>
     <string name="save_department" translatable="false">保管單位</string>

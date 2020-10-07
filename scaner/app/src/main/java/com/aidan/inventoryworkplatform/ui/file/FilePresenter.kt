@@ -26,7 +26,6 @@ import java.util.*
  */
 class FilePresenter : BaseViewModel() {
     val showProgress = SingleLiveEvent<String>()
-    val hideProgress = SingleLiveEvent<String>()
     val updateProgress = SingleLiveEvent<Int>()
 
     fun readTxtButtonClick(fileDescriptor: FileDescriptor) {
@@ -47,7 +46,7 @@ class FilePresenter : BaseViewModel() {
             try {
                 val fc = stream.channel
                 val bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size())
-                jsonStr = Charset.forName("Big5").decode(bb).toString()
+                jsonStr = Charset.forName("Big5").decode(bb).toString().replace("\n", "")
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -69,7 +68,7 @@ class FilePresenter : BaseViewModel() {
             AgentSingleton.getInstance().loadFromDB()
             LocationSingleton.getInstance().loadFromDB()
         } catch (e: Exception) {
-            hideProgress.postValue(null)
+            updateProgress.postValue(100)
             showToast.postValue("檔案格式錯誤")
             e.printStackTrace()
         }
@@ -81,7 +80,7 @@ class FilePresenter : BaseViewModel() {
         }
 
         override fun hideProgress() {
-            hideProgress.postValue(null)
+            updateProgress.postValue(100)
         }
 
         override fun updateProgress(value: Int) {
@@ -136,7 +135,7 @@ class FilePresenter : BaseViewModel() {
                 itemList.add(item)
                 updateProgress.postValue((i + 1) * 100 / size)
             }
-            hideProgress.postValue(null)
+            updateProgress.postValue(100)
             Singleton.log("itemList size : " + itemList.size)
         } catch (e: JSONException) {
             e.printStackTrace()
@@ -165,7 +164,7 @@ class FilePresenter : BaseViewModel() {
                 updateProgress.postValue((i + 1) * 100 / data.length())
             }
             Singleton.log("agentList size : " + agentList.size)
-            hideProgress.postValue(null)
+            updateProgress.postValue(100)
         } catch (e: JSONException) {
             e.printStackTrace()
         }
@@ -194,7 +193,7 @@ class FilePresenter : BaseViewModel() {
                 updateProgress.postValue((i + 1) * 100 / data.length())
             }
             Singleton.log("departmentList size : " + departmentList.size)
-            hideProgress.postValue(null)
+            updateProgress.postValue(100)
         } catch (e: JSONException) {
             e.printStackTrace()
         }
@@ -223,7 +222,7 @@ class FilePresenter : BaseViewModel() {
                 updateProgress.postValue((i + 1) * 100 / data.length())
             }
             Singleton.log("locationList size : " + locationList.size)
-            hideProgress.postValue(null)
+            updateProgress.postValue(100)
         } catch (e: JSONException) {
             e.printStackTrace()
         }
