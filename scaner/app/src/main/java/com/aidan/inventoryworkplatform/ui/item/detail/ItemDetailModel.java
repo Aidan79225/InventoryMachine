@@ -1,4 +1,4 @@
-package com.aidan.inventoryworkplatform.ItemDetailPage;
+package com.aidan.inventoryworkplatform.ui.item.detail;
 
 import com.aidan.inventoryworkplatform.Entity.Item;
 

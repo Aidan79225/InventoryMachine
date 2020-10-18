@@ -61,37 +61,6 @@
                 android:layout_height="1dp"
                 android:background="@color/bg_gray" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/bg_gray" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:text="財產名稱"
-                    android:textSize="20sp" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/bg_gray" />
-
-                <TextView
-                    android:id="@+id/nameTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:text="123"
-                    android:textSize="20sp" />
-            </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -147,7 +116,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
-                    android:text="@string/save_location"
+                    android:text="收受日期"
                     android:textSize="20sp" />
 
                 <View
@@ -156,7 +125,7 @@
                     android:background="@color/bg_gray" />
 
                 <TextView
-                    android:id="@+id/locationTextView"
+                    android:id="@+id/dateTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
@@ -183,7 +152,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
-                    android:text="@string/save_department"
+                    android:text="股別"
                     android:textSize="20sp" />
 
                 <View
@@ -192,7 +161,7 @@
                     android:background="@color/bg_gray" />
 
                 <TextView
-                    android:id="@+id/custodyGroupTextView"
+                    android:id="@+id/stockTypeTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
@@ -219,7 +188,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
-                    android:text="@string/save_agent"
+                    android:text="案號"
                     android:textSize="20sp" />
 
                 <View
@@ -228,7 +197,7 @@
                     android:background="@color/bg_gray" />
 
                 <TextView
-                    android:id="@+id/custodianTextView"
+                    android:id="@+id/eventNumberTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
@@ -255,7 +224,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
-                    android:text="@string/use_department"
+                    android:text="案由"
                     android:textSize="20sp" />
 
                 <View
@@ -264,7 +233,7 @@
                     android:background="@color/bg_gray" />
 
                 <TextView
-                    android:id="@+id/useGroupTextView"
+                    android:id="@+id/eventReasonTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
@@ -291,7 +260,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
-                    android:text="@string/use_agent"
+                    android:text="姓名"
                     android:textSize="20sp" />
 
                 <View
@@ -316,7 +285,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <View
                     android:layout_width="1dp"
@@ -347,6 +317,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:visibility="gone"
                 android:background="@color/bg_gray" />
 
             <LinearLayout
@@ -363,7 +334,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
-                    android:text="@string/type"
+                    android:text="移送機關"
                     android:textSize="20sp" />
 
                 <View
@@ -372,7 +343,7 @@
                     android:background="@color/bg_gray" />
 
                 <TextView
-                    android:id="@+id/typeTextView"
+                    android:id="@+id/moveDepartmentTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
@@ -399,7 +370,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
-                    android:text="@string/brand"
+                    android:text="位置"
                     android:textSize="20sp" />
 
                 <View

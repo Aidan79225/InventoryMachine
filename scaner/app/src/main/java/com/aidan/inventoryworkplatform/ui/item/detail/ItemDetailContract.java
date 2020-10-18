@@ -1,7 +1,6 @@
-package com.aidan.inventoryworkplatform.ItemDetailPage;
+package com.aidan.inventoryworkplatform.ui.item.detail;
 
 import android.content.DialogInterface;
-import android.widget.TextView;
 
 import com.aidan.inventoryworkplatform.Dialog.SearchItemAdapter;
 import com.aidan.inventoryworkplatform.Dialog.SearchableItem;
@@ -14,7 +13,6 @@ import java.util.List;
  */
 public interface ItemDetailContract {
     interface view{
-        void findView();
         void setViewValue(Item item);
         void setViewClick();
         void showSetDialog(DialogInterface.OnClickListener clickListener, String title, final String[] temp);

@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aidan.inventoryworkplatform.Entity.Item;
-import com.aidan.inventoryworkplatform.ItemDetailPage.ItemDetailFragment;
+import com.aidan.inventoryworkplatform.ui.item.detail.ItemDetailFragment;
 import com.aidan.inventoryworkplatform.R;
 import com.aidan.inventoryworkplatform.SettingPage.SettingFragment;
 import com.aidan.inventoryworkplatform.Singleton;
