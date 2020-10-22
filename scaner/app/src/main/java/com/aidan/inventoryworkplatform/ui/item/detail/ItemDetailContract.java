@@ -15,7 +15,7 @@ public interface ItemDetailContract {
     interface view{
         void setViewValue(Item item);
         void setViewClick();
-        void showSetDialog(DialogInterface.OnClickListener clickListener, String title, final String[] temp);
+        void showSetDialog(DialogInterface.OnClickListener clickListener, String title, final List<String> temp);
         void showSetDialog(SearchItemAdapter.OnClickListener clickListener, String title, List<SearchableItem> dataList);
         void showPrintDialog(Item item);
         void showLittlePrintDialog(Item item);

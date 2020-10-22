@@ -42,13 +42,7 @@ class ItemDetailFragment : DialogFragment(), ItemDetailContract.view {
             yearsTextView.text = item.years
             buyDateTextView!!.text = item.ADtoCal() + ", " + item.purchaseDate
             brandTextView!!.text = item.brand
-            typeTextView!!.text = item.type
-            custodianTextView!!.text = item.custodian.name
-            custodyGroupTextView!!.text = item.custodyGroup.name
             userTextView!!.text = item.user.name
-            useGroupTextView!!.text = item.useGroup.name
-            locationTextView!!.text = item.location.name
-            nameTextView!!.text = item.name
             nickNameTextView!!.text = item.nickName
             itemIdTextView!!.text = item.number
             deleteTextView!!.text = if (item.isDelete) "Y" else "N"
@@ -80,32 +74,31 @@ class ItemDetailFragment : DialogFragment(), ItemDetailContract.view {
     }
 
     override fun setViewClick() {
-        confirmButton!!.setOnClickListener { v: View? ->
-            presenter!!.saveItemToChecked(true)
-            refreshItems!!.refresh()
-            dismiss()
+        view?.apply {
+
+            confirmButton!!.setOnClickListener { v: View? ->
+                presenter!!.saveItemToChecked(true)
+                refreshItems!!.refresh()
+                dismiss()
+            }
+            cancelButton!!.setOnClickListener { v: View? ->
+                presenter!!.saveItemToChecked(false)
+                refreshItems!!.refresh()
+                dismiss()
+            }
+            userTextView!!.setOnClickListener { v: View? -> presenter!!.userTextViewClick() }
+            deleteTextView!!.setOnClickListener { v: View? -> presenter!!.deleteTextViewClick() }
+            printTextView!!.setOnClickListener { v: View? -> presenter!!.printTextViewClick() }
+            printButton!!.setOnClickListener { v: View? -> presenter!!.printButtonClick() }
+            printLittleButton!!.setOnClickListener { v: View? -> presenter!!.printLittleButtonClick() }
+            tagContentTextView!!.setOnClickListener { v: View? -> presenter!!.tagContentTextViewClick() }
         }
-        cancelButton!!.setOnClickListener { v: View? ->
-            presenter!!.saveItemToChecked(false)
-            refreshItems!!.refresh()
-            dismiss()
-        }
-        locationTextView!!.setOnClickListener { v: View? -> presenter!!.locationTextViewClick() }
-        custodianTextView!!.setOnClickListener { v: View? -> presenter!!.agentTextViewClick() }
-        custodyGroupTextView!!.setOnClickListener { v: View? -> presenter!!.departmentTextViewClick() }
-        userTextView!!.setOnClickListener { v: View? -> presenter!!.userTextViewClick() }
-        useGroupTextView!!.setOnClickListener { v: View? -> presenter!!.useGroupTextViewClick() }
-        deleteTextView!!.setOnClickListener { v: View? -> presenter!!.deleteTextViewClick() }
-        printTextView!!.setOnClickListener { v: View? -> presenter!!.printTextViewClick() }
-        printButton!!.setOnClickListener { v: View? -> presenter!!.printButtonClick() }
-        printLittleButton!!.setOnClickListener { v: View? -> presenter!!.printLittleButtonClick() }
-        tagContentTextView!!.setOnClickListener { v: View? -> presenter!!.tagContentTextViewClick() }
     }
 
-    override fun showSetDialog(clickListener: DialogInterface.OnClickListener, title: String, temp: Array<String>) {
+    override fun showSetDialog(clickListener: DialogInterface.OnClickListener, title: String, temp: List<String>) {
         val dialog = AlertDialog.Builder(activity!!)
         dialog.setTitle(title)
-        dialog.setItems(temp, clickListener)
+        dialog.setItems(temp.toTypedArray(), clickListener)
         dialog.create().show()
     }
 

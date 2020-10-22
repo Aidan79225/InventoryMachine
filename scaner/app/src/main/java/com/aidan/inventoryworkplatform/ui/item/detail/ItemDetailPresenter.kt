@@ -92,14 +92,14 @@ class ItemDetailPresenter(private val view: ItemDetailContract.view, item: Item?
         view.showSetDialog({ dialog: DialogInterface?, position: Int ->
             model.getItem().setDelete(deleteStrings[position])
             view.setViewValue(model.getItem())
-        }, "報廢", deleteStrings)
+        }, "報廢", deleteStrings.toList())
     }
 
     override fun printTextViewClick() {
         view.showSetDialog({ dialog: DialogInterface?, position: Int ->
             model.getItem().setPrint(printStrings[position])
             view.setViewValue(model.getItem())
-        }, "補印", printStrings)
+        }, "補印", printStrings.toList())
     }
 
     override fun printButtonClick() {
