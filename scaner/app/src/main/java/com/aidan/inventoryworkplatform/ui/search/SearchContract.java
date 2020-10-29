@@ -18,8 +18,6 @@ import java.util.List;
 
 public interface SearchContract {
     interface view{
-        void findView();
-        void setViewClick();
         void showSetDialog(SearchItemAdapter.OnClickListener clickListener, String title, List<SearchableItem> dataList);
         void showFragmentWithResult(List<Item> items);
         void clearViews();
@@ -32,7 +30,6 @@ public interface SearchContract {
         Context getContext();
     }
     interface presenter{
-        void start();
         void locationTextViewClick(TextView locationTextView);
         void departmentTextViewClick(TextView departmentTextView);
         void agentTextViewClick(TextView agentTextView);

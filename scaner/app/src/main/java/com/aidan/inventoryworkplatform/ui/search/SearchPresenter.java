@@ -26,6 +26,7 @@ import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 import com.aidan.inventoryworkplatform.Model.LocationSingleton;
 import com.aidan.inventoryworkplatform.Printer.LittleTagCreator;
 import com.aidan.inventoryworkplatform.Printer.TagCreator;
+import com.aidan.inventoryworkplatform.base.BaseViewModel;
 import com.brother.ptouch.sdk.LabelInfo;
 import com.brother.ptouch.sdk.NetPrinter;
 import com.brother.ptouch.sdk.Printer;
@@ -49,7 +50,7 @@ import androidx.appcompat.app.AlertDialog;
  * Created by Aidan on 2017/1/8.
  */
 
-public class SearchPresenter implements SearchContract.presenter {
+public class SearchPresenter extends BaseViewModel implements SearchContract.presenter {
     private SearchContract.view view;
     private Location location;
     private Agent agent;
@@ -71,12 +72,6 @@ public class SearchPresenter implements SearchContract.presenter {
         maxCalendar = Calendar.getInstance();
         maxCalendar.set(Calendar.HOUR_OF_DAY, 23);
         maxCalendar.set(Calendar.MINUTE, 59);
-    }
-
-    @Override
-    public void start() {
-        view.findView();
-        view.setViewClick();
     }
 
     @Override
@@ -199,16 +194,6 @@ public class SearchPresenter implements SearchContract.presenter {
         },activity);
     }
 
-//    public void showDatePicker(final Calendar c, final Runnable callback) {
-//        DatePickerDialog d = new DatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
-//            @Override
-//            public void onDateSet(DatePicker view, int year, int month, int day) {
-//                c.set(year, month, day);
-//                callback.run();
-//            }
-//        }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
-//        d.show();
-//    }
     public void showDatePicker(final Calendar c, final Runnable callback,Context context) {
         TimePickerView pvTime = new TimePickerView.Builder(context, new TimePickerView.OnTimeSelectListener() {
             @Override

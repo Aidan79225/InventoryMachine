@@ -26,6 +26,7 @@ import com.aidan.inventoryworkplatform.R;
 import java.util.Calendar;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
@@ -38,7 +39,6 @@ import androidx.lifecycle.ViewModelProviders;
 
 public class SearchFragment extends DialogFragment implements SearchContract.view {
     SearchContract.presenter presenter;
-    ViewGroup rootView;
     EditText serialMinNumberEditText, serialMaxNumberEditText;
     TextView locationTextView, agentTextView, departmentTextView;
     TextView searchTextView, clearTextView, printTextView;
@@ -56,15 +56,24 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        rootView = (ViewGroup) inflater.inflate(R.layout.fragment_search, container, false);
-        if (presenter == null) presenter = new SearchPresenter(this);
-        presenter.start();
-        return rootView;
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        presenter = ViewModelProviders.of(this).get(SearchPresenter.class);
     }
 
     @Override
-    public void findView() {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_search, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        findView(view);
+        setViewClick();
+    }
+
+    public void findView(View rootView) {
         c1EditText = (EditText) rootView.findViewById(R.id.c1EditText);
         c2EditText = (EditText) rootView.findViewById(R.id.c2EditText);
         c3EditText = (EditText) rootView.findViewById(R.id.c3EditText);
@@ -89,110 +98,50 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
         nicknameEditText = (EditText) rootView.findViewById(R.id.nicknameEditText);
     }
 
-    @Override
     public void setViewClick() {
-        locationTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.locationTextViewClick(locationTextView);
-            }
-        });
-        agentTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.agentTextViewClick(agentTextView);
-            }
-        });
-        departmentTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.departmentTextViewClick(departmentTextView);
-            }
-        });
-        userTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.userTextViewClick(userTextView);
-            }
-        });
-        useGroupTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.useGroupTextViewClick(useGroupTextView);
-            }
-        });
-        tagContentTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.tagContentTextViewClick(tagContentTextView);
-            }
-        });
-        sortTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.sortTextViewClick(sortTextView);
-            }
-        });
-        minDateTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.minDateTextViewClick(getActivity());
-            }
-        });
-        maxDateTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.maxDateTextViewClick(getActivity());
-            }
-        });
-        clearTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.clearAll();
-            }
-        });
-        searchTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String id = "";
-                id += c1EditText.getText().toString();
-                id += c2EditText.getText().toString();
-                id += c3EditText.getText().toString();
-                id += c4EditText.getText().toString();
-                id += c5EditText.getText().toString();
-                String name = nameEditText.getText().toString();
-                String nickname = nicknameEditText.getText().toString();
-                presenter.searchTextViewClick(name, nickname, id, serialMinNumberEditText.getText().toString(), serialMaxNumberEditText.getText().toString());
-            }
+        locationTextView.setOnClickListener(v -> presenter.locationTextViewClick(locationTextView));
+        agentTextView.setOnClickListener(v -> presenter.agentTextViewClick(agentTextView));
+        departmentTextView.setOnClickListener(v -> presenter.departmentTextViewClick(departmentTextView));
+        userTextView.setOnClickListener(v -> presenter.userTextViewClick(userTextView));
+        useGroupTextView.setOnClickListener(v -> presenter.useGroupTextViewClick(useGroupTextView));
+        tagContentTextView.setOnClickListener(v -> presenter.tagContentTextViewClick(tagContentTextView));
+        sortTextView.setOnClickListener(v -> presenter.sortTextViewClick(sortTextView));
+        minDateTextView.setOnClickListener(v -> presenter.minDateTextViewClick(getActivity()));
+        maxDateTextView.setOnClickListener(v -> presenter.maxDateTextViewClick(getActivity()));
+        clearTextView.setOnClickListener(v -> presenter.clearAll());
+        searchTextView.setOnClickListener(v -> {
+            String id = "";
+            id += c1EditText.getText().toString();
+            id += c2EditText.getText().toString();
+            id += c3EditText.getText().toString();
+            id += c4EditText.getText().toString();
+            id += c5EditText.getText().toString();
+            String name = nameEditText.getText().toString();
+            String nickname = nicknameEditText.getText().toString();
+            presenter.searchTextViewClick(name, nickname, id, serialMinNumberEditText.getText().toString(), serialMaxNumberEditText.getText().toString());
         });
 
-        printTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String id = "";
-                id += c1EditText.getText().toString();
-                id += c2EditText.getText().toString();
-                id += c3EditText.getText().toString();
-                id += c4EditText.getText().toString();
-                id += c5EditText.getText().toString();
-                String name = nameEditText.getText().toString();
-                String nickname = nicknameEditText.getText().toString();
-                presenter.printTextViewClick(rootView.getContext(), name, nickname, id, serialMinNumberEditText.getText().toString(), serialMaxNumberEditText.getText().toString());
-            }
+        printTextView.setOnClickListener(v -> {
+            String id = "";
+            id += c1EditText.getText().toString();
+            id += c2EditText.getText().toString();
+            id += c3EditText.getText().toString();
+            id += c4EditText.getText().toString();
+            id += c5EditText.getText().toString();
+            String name = nameEditText.getText().toString();
+            String nickname = nicknameEditText.getText().toString();
+            presenter.printTextViewClick(getContext(), name, nickname, id, serialMinNumberEditText.getText().toString(), serialMaxNumberEditText.getText().toString());
         });
-        printLittleTagTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String id = "";
-                id += c1EditText.getText().toString();
-                id += c2EditText.getText().toString();
-                id += c3EditText.getText().toString();
-                id += c4EditText.getText().toString();
-                id += c5EditText.getText().toString();
-                String name = nameEditText.getText().toString();
-                String nickname = nicknameEditText.getText().toString();
-                presenter.printLittleTextViewClick(rootView.getContext(), name, nickname, id, serialMinNumberEditText.getText().toString(), serialMaxNumberEditText.getText().toString());
-            }
+        printLittleTagTextView.setOnClickListener(v -> {
+            String id = "";
+            id += c1EditText.getText().toString();
+            id += c2EditText.getText().toString();
+            id += c3EditText.getText().toString();
+            id += c4EditText.getText().toString();
+            id += c5EditText.getText().toString();
+            String name = nameEditText.getText().toString();
+            String nickname = nicknameEditText.getText().toString();
+            presenter.printLittleTextViewClick(getContext(), name, nickname, id, serialMinNumberEditText.getText().toString(), serialMaxNumberEditText.getText().toString());
         });
 
         c1EditText.addTextChangedListener(getNextTextWatcher(1, c2EditText));
@@ -248,7 +197,7 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
 
     @Override
     public void showToast(final String msg) {
-        rootView.post(() -> Toast.makeText(rootView.getContext(), msg, Toast.LENGTH_SHORT).show());
+        getView().post(() -> Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show());
     }
 
     @Override
@@ -269,8 +218,8 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
 
     @Override
     public void showProgress(final String title) {
-        rootView.post(() -> {
-            mProgressDialog = new ProgressDialog(rootView.getContext());
+        getView().post(() -> {
+            mProgressDialog = new ProgressDialog(getContext());
             mProgressDialog.setCancelable(false);
             mProgressDialog.setTitle(title);
             mProgressDialog.setMessage("正在處理請稍後...");
@@ -282,22 +231,12 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
 
     @Override
     public void hideProgress() {
-        rootView.post(new Runnable() {
-            @Override
-            public void run() {
-                mProgressDialog.dismiss();
-            }
-        });
+        getView().post(() -> mProgressDialog.dismiss());
     }
 
     @Override
     public void updateProgress(final int value) {
-        rootView.post(new Runnable() {
-            @Override
-            public void run() {
-                mProgressDialog.setProgress(value);
-            }
-        });
+        getView().post(() -> mProgressDialog.setProgress(value));
     }
 
     @Override
