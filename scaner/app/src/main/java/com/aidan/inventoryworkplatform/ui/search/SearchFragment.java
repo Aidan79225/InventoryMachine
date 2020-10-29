@@ -1,4 +1,4 @@
-package com.aidan.inventoryworkplatform.SearchPage;
+package com.aidan.inventoryworkplatform.ui.search;
 
 
 
@@ -21,7 +21,6 @@ import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListPresenter;
 import com.aidan.inventoryworkplatform.KeyConstants;
-import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 import com.aidan.inventoryworkplatform.R;
 
 import java.util.Calendar;

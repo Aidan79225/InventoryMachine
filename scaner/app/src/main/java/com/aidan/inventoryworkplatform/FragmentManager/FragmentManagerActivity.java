@@ -24,7 +24,7 @@ import com.aidan.inventoryworkplatform.KeyConstants;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 import com.aidan.inventoryworkplatform.R;
 import com.aidan.inventoryworkplatform.ScannerPage.ScannerFragment;
-import com.aidan.inventoryworkplatform.SearchPage.SearchFragment;
+import com.aidan.inventoryworkplatform.ui.search.SearchFragment;
 import com.aidan.inventoryworkplatform.Singleton;
 
 import java.util.Timer;

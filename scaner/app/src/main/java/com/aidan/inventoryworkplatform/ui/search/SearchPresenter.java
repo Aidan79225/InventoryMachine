@@ -1,4 +1,4 @@
-package com.aidan.inventoryworkplatform.SearchPage;
+package com.aidan.inventoryworkplatform.ui.search;
 
 import android.app.Activity;
 
