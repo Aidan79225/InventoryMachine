@@ -31,7 +31,7 @@ import java.io.File
  * Created by s352431 on 2016/11/22.
  */
 class ItemDetailFragment : DialogFragment() {
-    lateinit var presenter: ItemDetailPresenter
+    lateinit var viewModel: ItemDetailViewModel
 
     var refreshItems: RefreshItems? = null
 
@@ -42,8 +42,8 @@ class ItemDetailFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter = ViewModelProviders.of(requireActivity()).get(ItemDetailPresenter::class.java)
-        presenter.apply {
+        viewModel = ViewModelProviders.of(requireActivity()).get(ItemDetailViewModel::class.java)
+        viewModel.apply {
             setViewValue(view, item)
             setViewClick(view)
             showSetDialog.observe(this@ItemDetailFragment, Observer {
@@ -105,21 +105,21 @@ class ItemDetailFragment : DialogFragment() {
     private fun setViewClick(view: View) {
         view.apply {
             confirmButton.setOnClickListener { v: View? ->
-                presenter.saveItemToChecked(true)
+                viewModel.saveItemToChecked(true)
                 refreshItems!!.refresh()
                 dismiss()
             }
             cancelButton.setOnClickListener { v: View? ->
-                presenter.saveItemToChecked(false)
+                viewModel.saveItemToChecked(false)
                 refreshItems!!.refresh()
                 dismiss()
             }
-            userTextView.setOnClickListener { v: View? -> presenter.userTextViewClick() }
-            deleteTextView.setOnClickListener { v: View? -> presenter.deleteTextViewClick() }
-            printTextView.setOnClickListener { v: View? -> presenter.printTextViewClick() }
-            printButton.setOnClickListener { v: View? -> showPrintDialog(presenter.item) }
-            printLittleButton.setOnClickListener { v: View? -> showLittlePrintDialog(presenter.item) }
-            tagContentTextView.setOnClickListener { v: View? -> presenter.tagContentTextViewClick() }
+            userTextView.setOnClickListener { v: View? -> viewModel.userTextViewClick() }
+            deleteTextView.setOnClickListener { v: View? -> viewModel.deleteTextViewClick() }
+            printTextView.setOnClickListener { v: View? -> viewModel.printTextViewClick() }
+            printButton.setOnClickListener { v: View? -> showPrintDialog(viewModel.item) }
+            printLittleButton.setOnClickListener { v: View? -> showLittlePrintDialog(viewModel.item) }
+            tagContentTextView.setOnClickListener { v: View? -> viewModel.tagContentTextViewClick() }
             resultEditText.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
@@ -130,8 +130,8 @@ class ItemDetailFragment : DialogFragment() {
                 }
 
                 override fun afterTextChanged(s: Editable?) {
-                    presenter.item.PA3UR = s?.toString() ?: ""
-                    presenter.save()
+                    viewModel.item.PA3UR = s?.toString() ?: ""
+                    viewModel.save()
                 }
             })
         }
@@ -171,7 +171,7 @@ class ItemDetailFragment : DialogFragment() {
         @JvmStatic
         fun newInstance(fragmentActivity: FragmentActivity, item: Item, refreshItems: RefreshItems?): ItemDetailFragment {
             val fragment = ItemDetailFragment()
-            val presenter = ViewModelProviders.of(fragmentActivity).get(ItemDetailPresenter::class.java)
+            val presenter = ViewModelProviders.of(fragmentActivity).get(ItemDetailViewModel::class.java)
             presenter.item = item
             fragment.refreshItems = refreshItems
             return fragment

@@ -16,7 +16,7 @@ import java.util.*
 /**
  * Created by s352431 on 2016/11/22.
  */
-class ItemDetailPresenter : BaseViewModel() {
+class ItemDetailViewModel : BaseViewModel() {
     private val deleteStrings = arrayOf("Y", "N")
     private val printStrings = arrayOf("Y", "N")
     private val tagContentStrings: List<String>
