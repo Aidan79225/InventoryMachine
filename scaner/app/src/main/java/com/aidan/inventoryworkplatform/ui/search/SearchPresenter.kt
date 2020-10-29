@@ -38,6 +38,7 @@ class SearchPresenter internal constructor(private val view: SearchContract.view
     private var maxCalendar: Calendar
     private var minDate: Date? = null
     private var maxDate: Date? = null
+
     override fun locationTextViewClick(locationTextView: TextView) {
         val temp: MutableList<SearchableItem> = ArrayList()
         temp.addAll(LocationSingleton.getInstance().locationList)
@@ -105,7 +106,7 @@ class SearchPresenter internal constructor(private val view: SearchContract.view
         }, "排序條件", temp)
     }
 
-    override fun minDateTextViewClick(activity: Activity) {
+    override fun minDateTextViewClick(activity: Activity?) {
         showDatePicker(minCalendar, Runnable {
             minDate = minCalendar.time
             maxCalendar[minCalendar[Calendar.YEAR], minCalendar[Calendar.MONTH]] = minCalendar[Calendar.DAY_OF_MONTH]
@@ -115,7 +116,7 @@ class SearchPresenter internal constructor(private val view: SearchContract.view
         }, activity)
     }
 
-    override fun maxDateTextViewClick(activity: Activity) {
+    override fun maxDateTextViewClick(activity: Activity?) {
         showDatePicker(maxCalendar, Runnable {
             maxDate = maxCalendar.time
             view.setMaxDateTextView(maxCalendar)
@@ -159,7 +160,7 @@ class SearchPresenter internal constructor(private val view: SearchContract.view
         val builder = AlertDialog.Builder(context)
         builder.setTitle("列印").setMessage("將會列印 " + itemList.size + " 個項目，您確定要列印嗎？").setPositiveButton("確定") { dialog, which ->
             printLittleTags(itemList)
-            view.showToast("列印中請稍後")
+            showToast("列印中請稍後")
             dialog.dismiss()
         }.setNegativeButton("取消") { dialog, which -> dialog.dismiss() }.show()
     }
@@ -243,7 +244,7 @@ class SearchPresenter internal constructor(private val view: SearchContract.view
 
     fun print(itemList: List<Item>) {
         val trd = Thread(Runnable {
-            view.showProgress("製造標籤中")
+            showToast("製造標籤中")
             val dir = Environment.getExternalStorageDirectory().absolutePath + "/欣華盤點系統/圖片暫存"
             val fileList: MutableList<File> = ArrayList()
             val dirFile = File(dir)
@@ -273,15 +274,12 @@ class SearchPresenter internal constructor(private val view: SearchContract.view
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-                view.updateProgress((i + 1) * 100 / itemList.size)
             }
-            view.hideProgress()
-            view.showProgress("列印中")
+            showToast("列印中")
             val printer = Printer()
             val netPrinters = printer.getNetPrinters("PT-P900W")
             if (netPrinters == null || netPrinters.size == 0) {
-                view.hideProgress()
-                view.showToast("列印失敗,找不到機器")
+                showToast("列印失敗,找不到機器")
             } else {
                 val printInfo = PrinterInfo()
                 printInfo.printerModel = PrinterInfo.Model.PT_P900W
@@ -300,16 +298,13 @@ class SearchPresenter internal constructor(private val view: SearchContract.view
                     val file = fileList[i]
                     val status = printer.printFile(file.absolutePath)
                     if (status.errorCode != PrinterInfo.ErrorCode.ERROR_NONE) {
-                        view.hideProgress()
-                        view.showToast("列印失敗,找不到機器")
+                        showToast("列印失敗,找不到機器")
                         printer.endCommunication()
                         return@Runnable
                     }
-                    view.updateProgress((i + 1) * 100 / fileList.size)
                 }
                 printer.endCommunication()
-                view.hideProgress()
-                view.showToast("列印成功")
+                showToast("列印成功")
             }
         })
         trd.start()
@@ -317,7 +312,7 @@ class SearchPresenter internal constructor(private val view: SearchContract.view
 
     fun printLittleTags(itemList: List<Item>) {
         val trd = Thread(Runnable {
-            view.showProgress("製造標籤中")
+            showToast("製造標籤中")
             val dir = Environment.getExternalStorageDirectory().absolutePath + "/欣華盤點系統/圖片暫存"
             val fileList: MutableList<File> = ArrayList()
             val dirFile = File(dir)
@@ -346,15 +341,13 @@ class SearchPresenter internal constructor(private val view: SearchContract.view
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-                view.updateProgress((i + 1) * 100 / itemList.size)
             }
-            view.hideProgress()
-            view.showProgress("列印中")
+
+            showToast("列印中")
             val printer = Printer()
             val netPrinters = printer.getNetPrinters("PT-P900W")
             if (netPrinters == null || netPrinters.size == 0) {
-                view.hideProgress()
-                view.showToast("列印失敗,找不到機器")
+                showToast("列印失敗,找不到機器")
             } else {
                 val printInfo = PrinterInfo()
                 printInfo.printerModel = PrinterInfo.Model.PT_P900W
@@ -373,16 +366,13 @@ class SearchPresenter internal constructor(private val view: SearchContract.view
                     val file = fileList[i]
                     val status = printer.printFile(file.absolutePath)
                     if (status.errorCode != PrinterInfo.ErrorCode.ERROR_NONE) {
-                        view.hideProgress()
-                        view.showToast("列印失敗,找不到機器")
+                        showToast("列印失敗,找不到機器")
                         printer.endCommunication()
                         return@Runnable
                     }
-                    view.updateProgress((i + 1) * 100 / fileList.size)
                 }
                 printer.endCommunication()
-                view.hideProgress()
-                view.showToast("列印成功")
+                showToast("列印成功")
             }
         })
         trd.start()

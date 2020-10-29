@@ -22,12 +22,8 @@ public interface SearchContract {
         void showFragmentWithResult(List<Item> items);
         void clearViews();
         void showToast(String msg);
-        void showProgress(String msg);
-        void hideProgress();
-        void updateProgress(int value);
         void setMinDateTextView(Calendar c);
         void setMaxDateTextView(Calendar c);
-        Context getContext();
     }
     interface presenter{
         void locationTextViewClick(TextView locationTextView);
