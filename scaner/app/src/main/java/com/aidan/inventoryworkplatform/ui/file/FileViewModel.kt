@@ -19,12 +19,11 @@ import org.json.JSONObject
 import java.io.*
 import java.nio.channels.FileChannel
 import java.nio.charset.Charset
-import java.util.*
 
 /**
  * Created by Aidan on 2016/11/20.
  */
-class FilePresenter : BaseViewModel() {
+class FileViewModel : BaseViewModel() {
     val showProgress = SingleLiveEvent<String>()
     val updateProgress = SingleLiveEvent<Int>()
 

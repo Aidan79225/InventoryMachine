@@ -14,14 +14,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
 import com.aidan.inventoryworkplatform.Constants
-import com.aidan.inventoryworkplatform.KeyConstants
 import com.aidan.inventoryworkplatform.R
 import com.aidan.inventoryworkplatform.Singleton
 import kotlinx.android.synthetic.main.fragment_input_file.view.*
@@ -36,7 +34,7 @@ import java.util.*
  * Created by Aidan on 2016/11/20.
  */
 class FileFragment : DialogFragment() {
-    lateinit var presenter: FilePresenter
+    lateinit var viewModel: FileViewModel
     var fileRunnable: Runnable? = null
     var mProgressDialog: ProgressDialog? = null
     var type = 0
@@ -80,8 +78,8 @@ class FileFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter = ViewModelProviders.of(this).get(FilePresenter::class.java)
-        ViewModelProviders.of(this).get(FilePresenter::class.java).apply {
+        viewModel = ViewModelProviders.of(this).get(FileViewModel::class.java)
+        ViewModelProviders.of(this).get(FileViewModel::class.java).apply {
             showProgress.observe(this@FileFragment, androidx.lifecycle.Observer {
                 showProgress(it)
             })
@@ -111,7 +109,7 @@ class FileFragment : DialogFragment() {
         view.clearTextView.setOnClickListener {
             val builder = AlertDialog.Builder(context!!)
             builder.setTitle(R.string.clear_data).setMessage(R.string.clear_data_msg).setNegativeButton(R.string.cancel) { dialog: DialogInterface, which: Int -> dialog.dismiss() }.setPositiveButton(R.string.confirm) { dialog: DialogInterface, which: Int ->
-                presenter.clearData()
+                viewModel.clearData()
                 dialog.dismiss()
             }.show()
         }
@@ -167,7 +165,7 @@ class FileFragment : DialogFragment() {
 
         // do something when the button is clicked
         editDialog.setPositiveButton("OK") { arg0: DialogInterface, arg1: Int ->
-            presenter.saveFile(editText.text.toString(), preferencesKey)
+            viewModel.saveFile(editText.text.toString(), preferencesKey)
             arg0.dismiss()
         }
         // do something when the button is clicked
@@ -187,7 +185,7 @@ class FileFragment : DialogFragment() {
             FILE_SELECT_CODE -> if (resultCode == Activity.RESULT_OK) {
                 val uri = data!!.data
                 try {
-                    presenter.readTxtButtonClick(readTextFromUri(uri))
+                    viewModel.readTxtButtonClick(readTextFromUri(uri))
                 } catch (e: Exception) {
                 }
             }
@@ -195,7 +193,7 @@ class FileFragment : DialogFragment() {
             FILE_SELECT_WORD -> if (resultCode == Activity.RESULT_OK) {
                 val uri = data!!.data
                 try {
-                    presenter.readWordTextViewClick(readTextFromUri(uri))
+                    viewModel.readWordTextViewClick(readTextFromUri(uri))
                 } catch (e: Exception) {
                 }
             }
