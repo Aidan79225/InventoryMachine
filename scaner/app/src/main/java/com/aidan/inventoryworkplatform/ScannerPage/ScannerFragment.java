@@ -163,7 +163,7 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
     }
 
     private void gotoDetailFragment(Item item, RefreshItems refreshItems) {
-        DialogFragment fragment = ItemDetailFragment.newInstance(item, refreshItems);
+        DialogFragment fragment = ItemDetailFragment.newInstance(requireActivity(), item, refreshItems);
         fragment.show(getFragmentManager(), ItemDetailFragment.class.getName());
     }
 

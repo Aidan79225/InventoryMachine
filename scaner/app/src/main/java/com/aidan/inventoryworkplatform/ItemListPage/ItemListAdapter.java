@@ -69,7 +69,7 @@ public class ItemListAdapter extends BaseAdapter {
             viewHolder.waterTextView.setText(item.getSerialNumber());
 
             viewHolder.nameTextView.setText(item.getNickName());
-            viewHolder.statusTextView.setText(item.isConfirm()?"Y":"N");
+            viewHolder.statusTextView.setText(item.PA308);
         }
         return convertView;
     }
@@ -91,6 +91,7 @@ public class ItemListAdapter extends BaseAdapter {
         super.notifyDataSetChanged();
 
     }
+
     private int countChecked(){
         int ans = 0;
         for(Item i : itemList){
@@ -100,6 +101,7 @@ public class ItemListAdapter extends BaseAdapter {
         }
         return ans;
     }
+
     class ViewHolder{
         TextView idTextView;
         TextView waterTextView;

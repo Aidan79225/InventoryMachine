@@ -34,7 +34,7 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
  * Created by Aidan on 2016/11/20.
  */
 
-public class ItemListFragment extends DialogFragment implements ItemListContract.view {
+public class ItemListFragment extends DialogFragment {
     private ItemListPresenter presenter;
     private ItemListAdapter adapter;
     private ListView itemListView;
@@ -75,7 +75,6 @@ public class ItemListFragment extends DialogFragment implements ItemListContract
         presenter.getShowToast().observe(this, this::showToast);
     }
 
-    @Override
     public void setListView(List<Item> itemList) {
         adapter = new ItemListAdapter(itemList);
         adapter.setContentInformationTextView(contentTextView);
@@ -129,23 +128,20 @@ public class ItemListFragment extends DialogFragment implements ItemListContract
         });
     }
 
-    @Override
     public void showToast(String msg) {
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
     public void refreshList() {
         adapter.notifyDataSetChanged();
     }
 
-    @Override
     public void showItem(Item item) {
         gotoDetailFragment(item, () -> adapter.notifyDataSetChanged());
     }
 
     private void gotoDetailFragment(Item item, ItemListFragment.RefreshItems refreshItems) {
-        DialogFragment fragment = ItemDetailFragment.newInstance(item, refreshItems);
+        DialogFragment fragment = ItemDetailFragment.newInstance(requireActivity(), item, refreshItems);
         fragment.show(getFragmentManager(), ItemDetailFragment.class.getName());
     }
 
