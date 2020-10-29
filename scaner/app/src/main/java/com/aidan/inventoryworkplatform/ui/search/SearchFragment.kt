@@ -14,6 +14,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.aidan.inventoryworkplatform.BaseFragmentManager
+import com.aidan.inventoryworkplatform.DatePicker.TimePickerView
 import com.aidan.inventoryworkplatform.Dialog.SearchItemAdapter
 import com.aidan.inventoryworkplatform.Dialog.SearchItemDialog
 import com.aidan.inventoryworkplatform.Dialog.SearchableItem
@@ -28,7 +29,7 @@ import java.util.*
 /**
  * Created by Aidan on 2017/1/8.
  */
-class SearchFragment : DialogFragment(), SearchContract.view {
+class SearchFragment : DialogFragment() {
     lateinit var presenter: SearchPresenter
     var baseFragmentManager: BaseFragmentManager? = null
 
@@ -44,20 +45,19 @@ class SearchFragment : DialogFragment(), SearchContract.view {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setViewClick(view)
+        presenter.searchResultLiveEvent.observe(this, androidx.lifecycle.Observer {
+            showFragmentWithResult(it)
+        })
     }
 
     fun setViewClick(view: View) {
         view.apply {
-            locationTextView.setOnClickListener { v: View? -> presenter.locationTextViewClick(locationTextView) }
-            agentTextView.setOnClickListener { v: View? -> presenter.agentTextViewClick(agentTextView) }
-            departmentTextView.setOnClickListener { v: View? -> presenter.departmentTextViewClick(departmentTextView) }
-            userTextView.setOnClickListener { v: View? -> presenter.userTextViewClick(userTextView) }
-            useGroupTextView.setOnClickListener { v: View? -> presenter.useGroupTextViewClick(useGroupTextView) }
-            tagContentTextView.setOnClickListener { v: View? -> presenter.tagContentTextViewClick(tagContentTextView) }
-            sortTextView.setOnClickListener { v: View? -> presenter.sortTextViewClick(sortTextView) }
-            minDateTextView.setOnClickListener { v: View? -> presenter.minDateTextViewClick(activity) }
-            maxDateTextView.setOnClickListener { v: View? -> presenter.maxDateTextViewClick(activity) }
-            clearTextView.setOnClickListener { v: View? -> presenter.clearAll() }
+            minDateTextView.setOnClickListener { v: View? -> minDateTextViewClick() }
+            maxDateTextView.setOnClickListener { v: View? -> maxDateTextViewClick() }
+            clearTextView.setOnClickListener { v: View? ->
+                presenter.clearAll()
+                clearViews()
+            }
             searchTextView.setOnClickListener { v: View? ->
                 var id = ""
                 id += c1EditText.text.toString()
@@ -66,30 +66,7 @@ class SearchFragment : DialogFragment(), SearchContract.view {
                 id += c4EditText.text.toString()
                 id += c5EditText.text.toString()
                 val name = nameEditText.text.toString()
-                val nickname = nicknameEditText.text.toString()
-                presenter.searchTextViewClick(name, nickname, id, serialMinNumberEditText.text.toString(), serialMaxNumberEditText.text.toString())
-            }
-            printTextView.setOnClickListener { v: View? ->
-                var id = ""
-                id += c1EditText.text.toString()
-                id += c2EditText.text.toString()
-                id += c3EditText.text.toString()
-                id += c4EditText.text.toString()
-                id += c5EditText.text.toString()
-                val name = nameEditText.text.toString()
-                val nickname = nicknameEditText.text.toString()
-                presenter.printTextViewClick(context, name, nickname, id, serialMinNumberEditText.text.toString(), serialMaxNumberEditText.text.toString())
-            }
-            printLittleTagTextView.setOnClickListener { v: View? ->
-                var id = ""
-                id += c1EditText.text.toString()
-                id += c2EditText.text.toString()
-                id += c3EditText.text.toString()
-                id += c4EditText.text.toString()
-                id += c5EditText.text.toString()
-                val name = nameEditText.text.toString()
-                val nickname = nicknameEditText.text.toString()
-                presenter.printLittleTextViewClick(context, name, nickname, id, serialMinNumberEditText.text.toString(), serialMaxNumberEditText.text.toString())
+                presenter.searchTextViewClick(name, id, serialMinNumberEditText.text.toString(), serialMaxNumberEditText.text.toString())
             }
             c1EditText.addTextChangedListener(getNextTextWatcher(1, c2EditText))
             c2EditText.addTextChangedListener(getNextTextWatcher(2, c3EditText))
@@ -97,9 +74,35 @@ class SearchFragment : DialogFragment(), SearchContract.view {
             c4EditText.addTextChangedListener(getNextTextWatcher(2, c5EditText))
             c5EditText.addTextChangedListener(getNextTextWatcher(4, serialMinNumberEditText))
             serialMinNumberEditText.addTextChangedListener(getNextTextWatcher(7, serialMaxNumberEditText))
-            printTextView.visibility = if (KeyConstants.showPrint) View.VISIBLE else View.GONE
-            printLittleTagTextView.visibility = if (KeyConstants.showPrintLittleTag) View.VISIBLE else View.GONE
         }
+    }
+
+    fun minDateTextViewClick() {
+        val minCalendar = presenter.minCalendar
+        val maxCalendar = presenter.maxCalendar
+        showDatePicker(minCalendar, Runnable {
+            maxCalendar[minCalendar[Calendar.YEAR], minCalendar[Calendar.MONTH]] = minCalendar[Calendar.DAY_OF_MONTH]
+            setMinDateTextView(minCalendar)
+            setMaxDateTextView(maxCalendar)
+        })
+    }
+
+    fun maxDateTextViewClick() {
+        val maxCalendar = presenter.maxCalendar
+        showDatePicker(maxCalendar, Runnable {
+            setMaxDateTextView(maxCalendar)
+        })
+    }
+
+    fun showDatePicker(c: Calendar, callback: Runnable) {
+        val pvTime = TimePickerView.Builder(context) { date, v -> //选中事件回调
+            val temp = Calendar.getInstance()
+            temp.time = date
+            c[temp[Calendar.YEAR], temp[Calendar.MONTH]] = temp[Calendar.DAY_OF_MONTH]
+            callback.run()
+        }.setType(booleanArrayOf(true, true, true, false, false, false)).build()
+        pvTime.setDate(c)
+        pvTime.show()
     }
 
     private fun getNextTextWatcher(length: Int, next: EditText): TextWatcher {
@@ -114,7 +117,7 @@ class SearchFragment : DialogFragment(), SearchContract.view {
         }
     }
 
-    override fun clearViews() {
+    fun clearViews() {
         c1EditText.setText("")
         c2EditText.setText("")
         c3EditText.setText("")
@@ -122,40 +125,27 @@ class SearchFragment : DialogFragment(), SearchContract.view {
         c5EditText.setText("")
         serialMinNumberEditText.setText("")
         serialMaxNumberEditText.setText("")
-        locationTextView.text = "請點選存置地點"
-        agentTextView.text = "請點選保管人"
-        departmentTextView.text = "請點選保管單位"
-        tagContentTextView.text = "請點選標籤內容"
-        sortTextView.text = "請點選排序條件"
         minDateTextView.text = "請點選起始日期"
         maxDateTextView.text = "請點選最後日期"
         nameEditText.setText("")
-        nicknameEditText.setText("")
     }
 
-    override fun showToast(msg: String) {
+    fun showToast(msg: String) {
         view?.post { Toast.makeText(context, msg, Toast.LENGTH_SHORT).show() }
     }
 
-    override fun showSetDialog(clickListener: SearchItemAdapter.OnClickListener, title: String, dataList: List<SearchableItem>) {
-        val dialog = SearchItemDialog(activity, dataList)
-        dialog.setTitle(title)
-        dialog.setOnClickListener(clickListener)
-        dialog.show()
-    }
-
-    override fun showFragmentWithResult(items: List<Item>) {
+    fun showFragmentWithResult(items: List<Item>) {
         val presenter = ViewModelProviders.of(this).get(ItemListPresenter::class.java)
         presenter.itemList = items
         val fragment: Fragment = ItemListFragment.newInstance(true)
         baseFragmentManager?.loadFragment(fragment)
     }
 
-    override fun setMinDateTextView(c: Calendar) {
+    fun setMinDateTextView(c: Calendar) {
         minDateTextView.text = (c[Calendar.YEAR] - 1911).toString() + "/" + (c[Calendar.MONTH] + 1).toString() + "/" + c[Calendar.DAY_OF_MONTH].toString()
     }
 
-    override fun setMaxDateTextView(c: Calendar) {
+    fun setMaxDateTextView(c: Calendar) {
         maxDateTextView.text = (c[Calendar.YEAR] - 1911).toString() + "/" + (c[Calendar.MONTH] + 1).toString() + "/" + c[Calendar.DAY_OF_MONTH].toString()
     }
 
