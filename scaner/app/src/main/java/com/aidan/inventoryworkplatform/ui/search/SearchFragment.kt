@@ -64,15 +64,13 @@ class SearchFragment : DialogFragment() {
                 id += c2EditText.text.toString()
                 id += c3EditText.text.toString()
                 id += c4EditText.text.toString()
-                id += c5EditText.text.toString()
                 val name = nameEditText.text.toString()
                 presenter.searchTextViewClick(name, id, serialMinNumberEditText.text.toString(), serialMaxNumberEditText.text.toString())
             }
-            c1EditText.addTextChangedListener(getNextTextWatcher(1, c2EditText))
-            c2EditText.addTextChangedListener(getNextTextWatcher(2, c3EditText))
-            c3EditText.addTextChangedListener(getNextTextWatcher(2, c4EditText))
-            c4EditText.addTextChangedListener(getNextTextWatcher(2, c5EditText))
-            c5EditText.addTextChangedListener(getNextTextWatcher(4, serialMinNumberEditText))
+            c1EditText.addTextChangedListener(getNextTextWatcher(3, c2EditText))
+            c2EditText.addTextChangedListener(getNextTextWatcher(4, c3EditText))
+            c3EditText.addTextChangedListener(getNextTextWatcher(6, c4EditText))
+            c4EditText.addTextChangedListener(getNextTextWatcher(3, serialMinNumberEditText))
             serialMinNumberEditText.addTextChangedListener(getNextTextWatcher(7, serialMaxNumberEditText))
         }
     }
@@ -122,7 +120,6 @@ class SearchFragment : DialogFragment() {
         c2EditText.setText("")
         c3EditText.setText("")
         c4EditText.setText("")
-        c5EditText.setText("")
         serialMinNumberEditText.setText("")
         serialMaxNumberEditText.setText("")
         minDateTextView.text = "請點選起始日期"
@@ -137,7 +134,7 @@ class SearchFragment : DialogFragment() {
     fun showFragmentWithResult(items: List<Item>) {
         val presenter = ViewModelProviders.of(this).get(ItemListPresenter::class.java)
         presenter.itemList = items
-        val fragment: Fragment = ItemListFragment.newInstance(true)
+        val fragment: Fragment = ItemListFragment.newInstance(false)
         baseFragmentManager?.loadFragment(fragment)
     }
 

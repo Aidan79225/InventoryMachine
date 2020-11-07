@@ -152,11 +152,7 @@ public class Item {
         } catch (Exception e) {
         }
         try {
-            if (PA3OUN.length() > 0) {
-                PA308 = "D";
-            } else {
-                PA308 = jsonObject.getString(ItemConstants.PA308);
-            }
+            PA308 = jsonObject.getString(ItemConstants.PA308);
         } catch (Exception e) {
         }
         try {
@@ -322,6 +318,10 @@ public class Item {
 
     public String getNumber() {
         return PA3C1 + "-" + PA3C2 + "-" + PA3C3 + "-" + PA3C4;
+    }
+
+    public String getTotalNumber() {
+        return PA3C1 + PA3C2 + PA3C3 + PA3C4;
     }
 
     public String getSerialNumber() {

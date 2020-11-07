@@ -694,10 +694,11 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/buttonLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:orientation="horizontal"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <Button
                     android:id="@+id/confirmButton"
@@ -713,7 +714,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="@string/photo_it"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:visibility="gone"/>
 
                 <Button
                     android:id="@+id/cancelButton"

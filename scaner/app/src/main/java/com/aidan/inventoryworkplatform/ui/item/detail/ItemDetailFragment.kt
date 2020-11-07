@@ -72,7 +72,7 @@ class ItemDetailFragment : DialogFragment() {
             resultEditText.setText(item.PA3UR)
             nickNameTextView.text = item.PA3P3
             itemIdTextView.text = item.number
-
+            buttonLinearLayout.visibility = if (item.PA308 == "D") View.GONE else View.VISIBLE
 
             deleteTextView.text = if (item.isDelete) "Y" else "N"
             printTextView.text = if (item.isPrint) "Y" else "N"

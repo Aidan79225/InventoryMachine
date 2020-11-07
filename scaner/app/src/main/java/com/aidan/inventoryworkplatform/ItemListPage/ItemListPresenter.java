@@ -22,32 +22,37 @@ public class ItemListPresenter extends BaseViewModel {
 
     public void scan(String key) {
         if(key == null )return;
+        key = trim(key, '*');
         key = key.replace("\n","");
         if(key.length() == 0 )return;
         Singleton.log(key);
-        String[] temps = key.split("-");
-        if (temps.length < 3) return;
-        if(temps[0].length()<7){
-            firstTypeScan(key,temps);
-        } else{
-            secondTypeScan(key,temps);
-        }
+
+        firstTypeScan(key);
     }
 
-    public void firstTypeScan(String key, String[] temps){
-        temps[2] = temps[2].substring(2);
-        int serialNumber = Integer.valueOf(temps[2]);
+    public String trim(String key, char c) {
+        int len = key.length();
+        int st = 0;
 
+        while ((st < len) && (key.charAt(st) == c)) {
+            st++;
+        }
+        while ((st < len) && (key.charAt(len - 1) == c)) {
+            len--;
+        }
+        return ((st > 0) || (len < key.length())) ? key.substring(st, len) : key;
+    }
 
+    public void firstTypeScan(String key){
         for (Item item : scaned) {
-            if (item.getNumber().equals(temps[1]) && serialNumber == Integer.valueOf(item.getSerialNumber().substring(2))) {
+            if (item.getTotalNumber().equals(key)) {
                 showToast("已重複盤點 : " + key);
                 return;
             }
         }
 
         for (Item item : itemList) {
-            if (item.getNumber().equals(temps[1]) && serialNumber == Integer.valueOf(item.getSerialNumber().substring(2))) {
+            if (item.getTotalNumber().equals(key)) {
                 item.setConfirm(true);
                 if (Singleton.preferences.getBoolean(SettingConstants.PRINT_IN_SCANNER, false)) {
                     item.setPrint(true);
