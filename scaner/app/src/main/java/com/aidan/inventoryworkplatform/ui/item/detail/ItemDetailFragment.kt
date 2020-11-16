@@ -19,7 +19,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.aidan.inventoryworkplatform.Dialog.SearchItemDialog
 import com.aidan.inventoryworkplatform.Dialog.SearchableItem
 import com.aidan.inventoryworkplatform.Entity.Item
-import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment.RefreshItems
+import com.aidan.inventoryworkplatform.ui.item.list.ItemListFragment.RefreshItems
 import com.aidan.inventoryworkplatform.KeyConstants
 import com.aidan.inventoryworkplatform.Printer.PrintItemLittleTagDialog
 import com.aidan.inventoryworkplatform.Printer.PrinterItemDialog

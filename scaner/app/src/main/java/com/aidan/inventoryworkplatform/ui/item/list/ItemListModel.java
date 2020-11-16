@@ -1,4 +1,4 @@
-package com.aidan.inventoryworkplatform.ItemListPage;
+package com.aidan.inventoryworkplatform.ui.item.list;
 
 import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;

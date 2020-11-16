@@ -1,4 +1,4 @@
-package com.aidan.inventoryworkplatform.ItemListPage;
+package com.aidan.inventoryworkplatform.ui.item.list;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.R;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 

@@ -14,8 +14,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.aidan.inventoryworkplatform.BaseFragmentManager
 import com.aidan.inventoryworkplatform.DatePicker.TimePickerView
 import com.aidan.inventoryworkplatform.Entity.Item
-import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment
-import com.aidan.inventoryworkplatform.ItemListPage.ItemListPresenter
+import com.aidan.inventoryworkplatform.ui.item.list.ItemListFragment
+import com.aidan.inventoryworkplatform.ui.item.list.ItemListPresenter
 import com.aidan.inventoryworkplatform.R
 import kotlinx.android.synthetic.main.fragment_search.*
 import java.util.*
