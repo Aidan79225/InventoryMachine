@@ -1,6 +1,5 @@
 package com.aidan.inventoryworkplatform.ui.search
 
-import android.app.ProgressDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,20 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.aidan.inventoryworkplatform.BaseFragmentManager
 import com.aidan.inventoryworkplatform.DatePicker.TimePickerView
-import com.aidan.inventoryworkplatform.Dialog.SearchItemAdapter
-import com.aidan.inventoryworkplatform.Dialog.SearchItemDialog
-import com.aidan.inventoryworkplatform.Dialog.SearchableItem
 import com.aidan.inventoryworkplatform.Entity.Item
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListPresenter
-import com.aidan.inventoryworkplatform.KeyConstants
 import com.aidan.inventoryworkplatform.R
 import kotlinx.android.synthetic.main.fragment_search.*
 import java.util.*

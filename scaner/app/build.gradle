@@ -7,7 +7,7 @@ android {
     compileSdkVersion 30
     buildToolsVersion '28.0.3'
     defaultConfig {
-        applicationId "com.aidan.inventoryworkplatform"
+        applicationId "com.crazystudio.inventoryworkplatform"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
