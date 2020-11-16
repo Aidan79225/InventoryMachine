@@ -247,70 +247,7 @@
                     android:background="@color/bg_white"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="取得日期"
-                    android:textColor="@color/text_black"
-                    android:textSize="18sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/minDateTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="10dp"
-                        android:gravity="center"
-                        android:text="請點選起始日期"
-                        android:textColor="@color/text_black"
-                        android:textSize="18sp"
-                        android:background="@color/bg_gray"/>
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:text="~"
-                        android:textColor="@color/text_black"
-                        android:textSize="18sp"/>
-
-
-                    <TextView
-                        android:id="@+id/maxDateTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="10dp"
-                        android:gravity="center"
-                        android:text="請點選最後日期"
-                        android:textColor="@color/text_black"
-                        android:textSize="18sp"
-                        android:background="@color/bg_gray"/>
-
-                </LinearLayout>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/bg_gray" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/bg_white"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="改保管字號分號"
+                    android:text="保管字號分物號"
                     android:textColor="@color/text_black"
                     android:textSize="18sp" />
 
@@ -407,7 +344,7 @@
                     android:background="@color/bg_white"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="流水號"
+                    android:text="起至止"
                     android:textColor="@color/text_black"
                     android:textSize="18sp" />
 
@@ -415,14 +352,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/bg_white"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingEnd="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingStart="10dp">
 
                     <EditText
-                        android:id="@+id/serialMinNumberEditText"
-                        android:layout_width="match_parent"
+                        android:id="@+id/c11EditText"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="1dp"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:gravity="center"
                         android:inputType="numberDecimal"
                         android:maxLength="11"
@@ -433,22 +374,125 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="~"
+                        android:text="-"
                         android:textColor="@color/bg_dark_gray" />
 
                     <EditText
-                        android:id="@+id/serialMaxNumberEditText"
-                        android:layout_width="match_parent"
+                        android:id="@+id/c12EditText"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="1dp"
-                        android:layout_weight="1"
+                        android:layout_weight="4"
                         android:gravity="center"
                         android:inputType="numberDecimal"
                         android:maxLength="11"
                         android:padding="10dp"
                         android:textColor="@color/text_black"
                         android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        android:textColor="@color/bg_dark_gray" />
+
+                    <EditText
+                        android:id="@+id/c13EditText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:layout_weight="6"
+                        android:gravity="center"
+                        android:inputType="numberDecimal"
+                        android:maxLength="11"
+                        android:padding="10dp"
+                        android:textColor="@color/text_black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        android:textColor="@color/bg_dark_gray" />
+
+                    <EditText
+                        android:id="@+id/c14EditText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:layout_weight="3"
+                        android:gravity="center"
+                        android:inputType="numberDecimal"
+                        android:maxLength="11"
+                        android:padding="10dp"
+                        android:textColor="@color/text_black"
+                        android:textSize="18sp" />
+
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/bg_gray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/bg_white"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="收受起始日期"
+                        android:textColor="@color/text_black"
+                        android:textSize="18sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/minDateTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:padding="10dp"
+                            android:gravity="center"
+                            android:text="請點選起始日期"
+                            android:textColor="@color/text_black"
+                            android:textSize="18sp"
+                            android:background="@color/bg_gray"/>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="~"
+                            android:textColor="@color/text_black"
+                            android:textSize="18sp"/>
+
+
+                        <TextView
+                            android:id="@+id/maxDateTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:padding="10dp"
+                            android:gravity="center"
+                            android:text="請點選最後日期"
+                            android:textColor="@color/text_black"
+                            android:textSize="18sp"
+                            android:background="@color/bg_gray"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
 
 
             </LinearLayout>

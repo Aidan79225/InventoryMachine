@@ -6,6 +6,8 @@ import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -361,10 +363,12 @@ public class Item {
     }
 
     public Date getDate() {
-        String PA3BD = this.PA3BD.replace("/", "");
-        Calendar c = Calendar.getInstance();
-        c.set(Integer.valueOf(PA3BD.substring(0, PA3BD.length() - 4)), Integer.valueOf(PA3BD.substring(PA3BD.length() - 4, PA3BD.length() - 2)) - 1, Integer.valueOf(PA3BD.substring(PA3BD.length() - 2)));
-        return c.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        try {
+            return sdf.parse(PA3BD);
+        } catch (Throwable t) {
+            return null;
+        }
     }
 
     public String getPA3BD() {

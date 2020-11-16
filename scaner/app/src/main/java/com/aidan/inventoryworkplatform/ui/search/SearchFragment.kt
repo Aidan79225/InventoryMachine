@@ -24,12 +24,12 @@ import java.util.*
  * Created by Aidan on 2017/1/8.
  */
 class SearchFragment : DialogFragment() {
-    lateinit var presenter: SearchPresenter
+    lateinit var viewModel: SearchViewModel
     var baseFragmentManager: BaseFragmentManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter = ViewModelProviders.of(this).get(SearchPresenter::class.java)
+        viewModel = ViewModelProviders.of(this).get(SearchViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -39,39 +39,68 @@ class SearchFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setViewClick(view)
-        presenter.searchResultLiveEvent.observe(this, androidx.lifecycle.Observer {
+        viewModel.searchResultLiveEvent.observe(this, androidx.lifecycle.Observer {
             showFragmentWithResult(it)
         })
     }
 
     fun setViewClick(view: View) {
+        fun getNumber(c1: String, c2: String, c3: String, c4: String): SearchViewModel.Number? {
+            return try {
+                SearchViewModel.Number(
+                        Integer.valueOf(c1),
+                        Integer.valueOf(c2),
+                        Integer.valueOf(c3),
+                        Integer.valueOf(c4)
+                )
+            } catch (t: Throwable) {
+                null
+            }
+        }
         view.apply {
             minDateTextView.setOnClickListener { v: View? -> minDateTextViewClick() }
             maxDateTextView.setOnClickListener { v: View? -> maxDateTextViewClick() }
             clearTextView.setOnClickListener { v: View? ->
-                presenter.clearAll()
+                viewModel.clearAll()
                 clearViews()
             }
             searchTextView.setOnClickListener { v: View? ->
-                var id = ""
-                id += c1EditText.text.toString()
-                id += c2EditText.text.toString()
-                id += c3EditText.text.toString()
-                id += c4EditText.text.toString()
-                val name = nameEditText.text.toString()
-                presenter.searchTextViewClick(name, id, serialMinNumberEditText.text.toString(), serialMaxNumberEditText.text.toString())
+                viewModel.searchTextViewClick(
+                        getNumber(
+                                c1EditText.text.toString(),
+                                c2EditText.text.toString(),
+                                c3EditText.text.toString(),
+                                c4EditText.text.toString()
+                        ),
+                        getNumber(
+                                c11EditText.text.toString(),
+                                c12EditText.text.toString(),
+                                c13EditText.text.toString(),
+                                c14EditText.text.toString()
+                        ),
+                        nameEditText.text.toString(),
+                        stockTypeEditText.text.toString(),
+                        eventNumberEditText.text.toString(),
+                        eventReasonEditText.text.toString(),
+                        userEditText.text.toString(),
+                        locationEditText.text.toString(),
+                        noteEditText.text.toString()
+                )
             }
             c1EditText.addTextChangedListener(getNextTextWatcher(3, c2EditText))
             c2EditText.addTextChangedListener(getNextTextWatcher(4, c3EditText))
             c3EditText.addTextChangedListener(getNextTextWatcher(6, c4EditText))
-            c4EditText.addTextChangedListener(getNextTextWatcher(3, serialMinNumberEditText))
-            serialMinNumberEditText.addTextChangedListener(getNextTextWatcher(7, serialMaxNumberEditText))
+            c4EditText.addTextChangedListener(getNextTextWatcher(3, c11EditText))
+            c11EditText.addTextChangedListener(getNextTextWatcher(3, c12EditText))
+            c12EditText.addTextChangedListener(getNextTextWatcher(4, c13EditText))
+            c13EditText.addTextChangedListener(getNextTextWatcher(6, c14EditText))
+            c14EditText.addTextChangedListener(getNextTextWatcher(3, c14EditText))
         }
     }
 
     fun minDateTextViewClick() {
-        val minCalendar = presenter.minCalendar
-        val maxCalendar = presenter.maxCalendar
+        val minCalendar = viewModel.minCalendar
+        val maxCalendar = viewModel.maxCalendar
         showDatePicker(minCalendar, Runnable {
             maxCalendar[minCalendar[Calendar.YEAR], minCalendar[Calendar.MONTH]] = minCalendar[Calendar.DAY_OF_MONTH]
             setMinDateTextView(minCalendar)
@@ -80,7 +109,7 @@ class SearchFragment : DialogFragment() {
     }
 
     fun maxDateTextViewClick() {
-        val maxCalendar = presenter.maxCalendar
+        val maxCalendar = viewModel.maxCalendar
         showDatePicker(maxCalendar, Runnable {
             setMaxDateTextView(maxCalendar)
         })
@@ -114,8 +143,6 @@ class SearchFragment : DialogFragment() {
         c2EditText.setText("")
         c3EditText.setText("")
         c4EditText.setText("")
-        serialMinNumberEditText.setText("")
-        serialMaxNumberEditText.setText("")
         minDateTextView.text = "請點選起始日期"
         maxDateTextView.text = "請點選最後日期"
         nameEditText.setText("")
@@ -126,7 +153,7 @@ class SearchFragment : DialogFragment() {
     }
 
     fun showFragmentWithResult(items: List<Item>) {
-        val presenter = ViewModelProviders.of(this).get(ItemListPresenter::class.java)
+        val presenter = ViewModelProviders.of(requireActivity()).get(ItemListPresenter::class.java)
         presenter.itemList = items
         val fragment: Fragment = ItemListFragment.newInstance(false)
         baseFragmentManager?.loadFragment(fragment)
