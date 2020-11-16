@@ -72,29 +72,4 @@ public class ItemListPresenter extends BaseViewModel {
         }
         showToast("找不到對應編號 : " + key);
     }
-
-    public void secondTypeScan(String key, String[] temps){
-        temps[1] = temps[0] + temps[1];
-        int serialNumber = Integer.valueOf(temps[2]);
-        for (Item item : scaned) {
-            if (item.getNumber().equals(temps[1]) && serialNumber == Integer.valueOf(item.getSerialNumber().substring(2))) {
-                showToast("已重複盤點 : " + key);
-                return;
-            }
-        }
-        for (Item item : ItemSingleton.getInstance().getItemList()) {
-            if (item.getNumber().equals(temps[1]) && serialNumber == Integer.valueOf(item.getSerialNumber().substring(2))) {
-                item.setConfirm(true);
-                scaned.add(0, item);
-                ItemSingleton.getInstance().saveItem(item);
-                refreshList.postValue("");
-                showToast("盤點到編號 : " + key);
-                if (Singleton.preferences.getBoolean(SettingConstants.SHOW_AFTER_SCAN, false)) {
-                    showItem.postValue(item);
-                }
-                return;
-            }
-        }
-        showToast("找不到對應編號 : " + key);
-    }
 }
