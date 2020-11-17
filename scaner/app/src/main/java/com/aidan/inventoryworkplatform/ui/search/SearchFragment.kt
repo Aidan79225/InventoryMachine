@@ -45,16 +45,11 @@ class SearchFragment : DialogFragment() {
     }
 
     fun setViewClick(view: View) {
-        fun getNumber(c1: String, c2: String, c3: String, c4: String): SearchViewModel.Number? {
+        fun getValue(string: String, default: Int): Int {
             return try {
-                SearchViewModel.Number(
-                        Integer.valueOf(c1),
-                        Integer.valueOf(c2),
-                        Integer.valueOf(c3),
-                        Integer.valueOf(c4)
-                )
+                Integer.valueOf(string)
             } catch (t: Throwable) {
-                null
+                default
             }
         }
         view.apply {
@@ -66,17 +61,17 @@ class SearchFragment : DialogFragment() {
             }
             searchTextView.setOnClickListener { v: View? ->
                 viewModel.searchTextViewClick(
-                        getNumber(
-                                c1EditText.text.toString(),
-                                c2EditText.text.toString(),
-                                c3EditText.text.toString(),
-                                c4EditText.text.toString()
+                        SearchViewModel.Number(
+                                getValue(c1EditText.text.toString(), 0),
+                                getValue(c2EditText.text.toString(), 0),
+                                getValue(c3EditText.text.toString(), 0),
+                                getValue(c4EditText.text.toString(), 0)
                         ),
-                        getNumber(
-                                c11EditText.text.toString(),
-                                c12EditText.text.toString(),
-                                c13EditText.text.toString(),
-                                c14EditText.text.toString()
+                        SearchViewModel.Number(
+                                getValue(c11EditText.text.toString(), 999999),
+                                getValue(c12EditText.text.toString(), 999999),
+                                getValue(c13EditText.text.toString(), 999999),
+                                getValue(c14EditText.text.toString(), 999999)
                         ),
                         nameEditText.text.toString(),
                         stockTypeEditText.text.toString(),

@@ -73,7 +73,7 @@ class SearchViewModel : BaseViewModel() {
                 continue
             }
 
-            if (location.isNotEmpty() && !item.PA3LOCN.contains(location)) {
+            if (location.isNotEmpty() && !item.PA3OUT.contains(location)) {
                 continue
             }
 

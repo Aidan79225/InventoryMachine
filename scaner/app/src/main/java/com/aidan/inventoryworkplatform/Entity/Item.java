@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Aidan on 2016/10/24.
@@ -363,9 +364,12 @@ public class Item {
     }
 
     public Date getDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         try {
-            return sdf.parse(PA3BD);
+            Calendar c = Calendar.getInstance();
+            c.setTime(sdf.parse(PA3BD));
+            c.set(Calendar.YEAR, c.get(Calendar.YEAR) + 1911);
+            return c.getTime();
         } catch (Throwable t) {
             return null;
         }
